@@ -1,0 +1,42 @@
+package ru.dvfu.mrcpk.develop.server.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.dvfu.mrcpk.develop.server.dao.UserDAO;
+import ru.dvfu.mrcpk.develop.server.dao.UserDAOInterface;
+import ru.dvfu.mrcpk.develop.server.model.User;
+
+import java.util.List;
+
+@Service
+public class UserService implements UserServiceInterface {
+
+    @Autowired
+    private UserDAOInterface userDAO;
+
+    @Transactional
+    public List<User> list() {
+        return this.userDAO.list();
+    }
+
+    @Transactional
+    public User getById(Number id) {
+        return this.userDAO.getById(id);
+    }
+
+    @Transactional
+    public void add(User user) {
+        this.userDAO.add(user);
+    }
+
+    @Transactional
+    public void update(User user) {
+        this.userDAO.update(user);
+    }
+
+    @Transactional
+    public void remove(Number id) {
+        this.userDAO.remove(id);
+    }
+}
