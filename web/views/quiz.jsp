@@ -8,11 +8,11 @@
 <p>Test system</p>
 
 <br>
-<%--Test: ${quiz.name}--%>
+Test: ${quiz.name}
 <br>
-Question numbers: ${questionList.size()}
+Question numbers: ${quiz.questions.size()}
 <br>
-<c:forEach var="question" items="${questionList}" varStatus="theCount1">
+<c:forEach var="question" items="${quiz.questions}" varStatus="theCount1">
     <c:out value="${theCount1.count}"/>)<c:out value="${question.getText()}"/>
     <br>
     <c:forEach var="opt" items="${question.options}" varStatus="theCount">

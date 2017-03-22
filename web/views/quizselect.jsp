@@ -10,7 +10,7 @@
 
 <p>Choose your name: </p>
 
-<select name="userId">
+<select name="userid">
     <c:forEach var="user" items="${users}" varStatus="theCount">
         <c:choose>
             <c:when test="${theCount.count ge 2}">
@@ -29,11 +29,11 @@
 <c:forEach var="quiz" items="${quizs}" varStatus="theCount1">
     <c:choose>
     <c:when test="${theCount1.count ge 2}">
-    <input type="radio" name="quizId" value=${quiz.id}>
+    <input type="radio" name="quizid" value=${quiz.id}>
     <c:out value="${theCount1.count}"/>)<c:out value="${quiz.name}"/><br>
     </c:when>
     <c:otherwise>
-        <input type="radio" checked name="quizId" value=${quiz.id}>
+        <input type="radio" checked name="quizid" value=${quiz.id}>
         <c:out value="${theCount1.count}"/>)<c:out value="${quiz.name}"/><br>
     </c:otherwise>
     </c:choose>

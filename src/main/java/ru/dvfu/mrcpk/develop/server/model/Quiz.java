@@ -25,8 +25,7 @@ public class Quiz implements QuizInterface {
     @JoinColumn(name = "quizid")
     private List<Question> questions;
 
-    public Quiz(){
-    }
+    public Quiz(){}
 
     public Quiz(String name){
         this.name = name;
@@ -68,4 +67,5 @@ public class Quiz implements QuizInterface {
     public void setPicture(String picture) {
         this.picture = picture;
     }
+
 }

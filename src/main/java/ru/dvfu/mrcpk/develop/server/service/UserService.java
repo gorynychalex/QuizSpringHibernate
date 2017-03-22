@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.dvfu.mrcpk.develop.server.dao.UserDAO;
 import ru.dvfu.mrcpk.develop.server.dao.UserDAOInterface;
 import ru.dvfu.mrcpk.develop.server.model.User;
+import ru.dvfu.mrcpk.develop.server.model.UserInterface;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Transactional
-    public void update(User user) {
+    public void update(UserInterface user) {
         this.userDAO.update(user);
     }
 

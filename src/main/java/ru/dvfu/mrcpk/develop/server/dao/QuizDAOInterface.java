@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface QuizDAOInterface {
     QuizInterface getQuizById(Number id);
+    QuizInterface getQuizByIdLazy(Number id);
     void addQuiz(QuizInterface quiz);
     List<QuizInterface> list();
     void remove(Number id);

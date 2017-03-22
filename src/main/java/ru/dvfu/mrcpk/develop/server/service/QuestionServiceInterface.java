@@ -9,4 +9,5 @@ public interface QuestionServiceInterface {
     void add(QuestionInterface question);
     void update(QuestionInterface question);
     void remove(Number id);
+    float getResult(Number questionid, List<Integer> userAnswers);
 }

@@ -40,7 +40,6 @@ public class QuestionDAO implements QuestionDAOInterface{
         return currentSession().createQuery("from Question ").list();
     }
 
-    //    }
 //        this.dataSource = dataSource;
 //    public void setDataSource(DataSource dataSource){
 //    @Autowired

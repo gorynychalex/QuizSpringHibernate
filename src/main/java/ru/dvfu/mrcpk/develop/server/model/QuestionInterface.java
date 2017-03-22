@@ -9,4 +9,5 @@ public interface QuestionInterface extends Serializable {
     Number getId();
     void setId(Number id);
     List<Option> getOptions();
+
 }

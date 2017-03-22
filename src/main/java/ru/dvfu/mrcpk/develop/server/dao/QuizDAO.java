@@ -27,32 +27,33 @@ public class QuizDAO implements QuizDAOInterface{
         return sessionFactory.getCurrentSession();
     }
 
-    @Transactional
     public QuizInterface getQuizById(Number id){
+        QuizInterface quiz = currentSession().get(Quiz.class,id);
+        quiz.getQuestions().size();
+        return quiz;
+    }
+
+    public QuizInterface getQuizByIdLazy(Number id) {
         return currentSession().get(Quiz.class,id);
     }
 
-    @Transactional
     public void addQuiz(QuizInterface quiz) {
         logger.info("addQuiz(quiz)");
         currentSession().persist(quiz);
     }
 
-    @Transactional
     public List<Question> list(Number id){
         logger.info("getQuestionList()");
         QuizInterface quiz = currentSession().get(Quiz.class, id);
         return quiz.getQuestions();
     }
 
-    @Transactional
     public List<QuizInterface> list() {
 
         logger.info("getQuizList()");
         return currentSession().createQuery("from Quiz").list();
     }
 
-    @Transactional
     public void remove(Number id) {
         currentSession().delete(currentSession().get(Quiz.class,id));
     }

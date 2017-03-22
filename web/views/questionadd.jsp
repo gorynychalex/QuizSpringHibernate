@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: gorynych
@@ -8,9 +9,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Add the question</title>
 </head>
 <body>
-
+<form:form modelAttribute="questionattr" method="post" action="/question/add">
+    <form:label path="name">Question Text:</form:label>
+    <form:input path="name" />
+    <br>
+    <form:label path="picture">picture url:</form:label>
+    <form:input path="picture" />
+    <br>
+    <input type="submit" value="Add"/>
+</form:form>
 </body>
 </html>

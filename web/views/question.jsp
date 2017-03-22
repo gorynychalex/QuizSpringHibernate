@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: gorynych
@@ -13,27 +14,36 @@
 </head>
 <body>
 
-<p>Quiz:</p>
-<p>Question #</p>
+<p>User: ${user.nickname}</p>
+<p>Quiz:${quiz.name}</p>
+<p>Question #${qnum+1} from ${qnums}</p>
 <p>${question.text}</p>
-<form action="/quiz/" method="post">
+<form action="/quiz" method="post">
+    <input type="hidden" name="quizid" value="${quiz.id}"/>
+    <input type="hidden" name="userid" value="${user.id}"/>
+    <input type="hidden" name="qnum" value="${qnum}"/>
+    <input type="hidden" name="sessionid" value="${sessionid}"/>
 <br>
-    <c:forEach var="opt" items="${question.options}" varStatus="theCount">
-        <input type="radio" name="option" value=${theCount.count-1}><c:out value="${opt.text}"/>
+    <c:forEach var="opt" items="${question.options}">
+        <input type="radio" name="option" value=${opt.id}><c:out value="${opt.text}"/>
         <br>
     </c:forEach>
     <p>
-        <c:if test="${not empty sessionScope.get('prevId')}">
-            <button type="submit" formaction="quiz?userId=${param.get('userId')}&quizId=${param.get('quizId')}&questionId=${sessionScope.get("prevId")}" name="action" value="prevQuestionButton">Предыдущий</button>
+        <c:if test="${qnum > 0}">
+            <button type="submit" formaction="/quiz?userid=${quiz.id}&quizid=${quiz.id}&questionid=${qnum-1}" name="button" value="prevQuestion">
+                <%--<button type="submit" name="questionid" value="${qnum-1}">--%>
+                        PREV</button>
             &nbsp;&nbsp;
         </c:if>
 
-        <c:if test="${not empty     sessionScope.get('nextId')}">
-            <button type="submit" formaction="quiz?userId=${param.get('userId')}&quizId=${param.get('quizId')}&questionId=${sessionScope.get('nextId')}" name="action" value="nextQuestionButton">Следующий</button>
+        <c:if test="${qnum < qnums-1}">
+            <button type="submit" formaction="/quiz?userid=${quiz.id}&quizid=${quiz.id}&questionid=${qnum+1}" name="button" value="nextQuestion">
+                <%--<button type="submit" name="questionid" value="${qnum+1}">--%>
+                NEXT</button>
             &nbsp;&nbsp;
         </c:if>
 
-        <button type="submit" name="action" value="finishQuiz">Закончить тест</button></p>
+        <button type="submit" name="button" value="finish">FINISH</button></p>
 </form>
 
 </body>

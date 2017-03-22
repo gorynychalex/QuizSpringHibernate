@@ -68,7 +68,7 @@ public class Question implements QuestionInterface {
     public void setPicture(String picture) {
         this.picture = picture;
     }
-
+//
 //    public float getMark() {
 //
 //        //mark = КВП/ОКП/(КВН + 1)

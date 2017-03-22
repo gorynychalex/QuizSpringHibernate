@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public class UserDAO implements UserDAOInterface{
 
-    protected static Logger logger = Logger.getLogger(UserDAO.class);
+    protected static final Logger logger = Logger.getLogger(UserDAO.class);
 
 
     @Autowired
@@ -44,14 +44,14 @@ public class UserDAO implements UserDAOInterface{
     }
 
     public void add(User user) {
-
+        currentSession().persist(user);
     }
 
-    public void update(User user) {
+    public void update(UserInterface user) {
 
     }
 
     public void remove(Number id) {
-
+        currentSession().delete(currentSession().get(User.class,id));
     }
 }

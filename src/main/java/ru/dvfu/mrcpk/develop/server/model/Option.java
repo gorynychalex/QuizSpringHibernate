@@ -4,16 +4,16 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "Options")
 @XmlRootElement
-public class Option implements Serializable {
+public class Option implements OptionInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Type(type = "org.hibernate.type.IntegerType")
+    private Number id;
 
     private String text;
 
@@ -26,11 +26,11 @@ public class Option implements Serializable {
         this.correct = correct;
     }
 
-    public long getId() {
+    public Number getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Number id) {
         this.id = id;
     }
 
