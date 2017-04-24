@@ -11,6 +11,6 @@ public interface UserDAOInterface {
     List<User> list();
     User getById(Number id);
     void add(User user);
-    void update(UserInterface user);
+    void update(User user) ;
     void remove(Number id);
 }

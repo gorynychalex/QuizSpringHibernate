@@ -32,7 +32,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Transactional
-    public void update(UserInterface user) {
+    public void update(User user) {
         this.userDAO.update(user);
     }
 

@@ -11,10 +11,14 @@ public interface QuizInterface extends Serializable {
 
     Number getId();
 
-    void setId(Number id);
+    void setId(int id);
 
     List<Question> getQuestions();
 
     void setQuestions(List<Question> question);
+
+    int getQnums();
+
+    void setQnums(int qnums);
 
 }

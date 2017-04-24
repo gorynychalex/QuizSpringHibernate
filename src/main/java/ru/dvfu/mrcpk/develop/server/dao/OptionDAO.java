@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.dvfu.mrcpk.develop.server.model.Option;
 import ru.dvfu.mrcpk.develop.server.model.OptionInterface;
+import ru.dvfu.mrcpk.develop.server.model.Question;
 
 import java.util.List;
 
@@ -31,15 +32,24 @@ public class OptionDAO implements OptionDAOInterface{
         return null;
     }
 
-    public void add(OptionInterface option) {
+    public void add(Number questionId, OptionInterface option) {
+
+        currentSession().save(option);
+
+        Question question = currentSession().get(Question.class, questionId);
+
+        question.getOptions().add((Option) option);
+
+        currentSession().save(question);
+
 
     }
 
     public void update(OptionInterface option) {
-
+        currentSession().update(option);
     }
 
     public void remove(Number id) {
-
+        currentSession().delete(currentSession().get(Option.class,id));
     }
 }

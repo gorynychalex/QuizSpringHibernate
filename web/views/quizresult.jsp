@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: gorynych
@@ -20,6 +21,15 @@
 </c:forEach>
 
 <p>Entirely: ${markfull}</p>
+
+<br>
+<form action="/quiz">
+    <input type="hidden" name="quizid" value="${quizId}"/>
+    <input type="hidden" name="userid" value="${userId}"/>
+    <button type="submit" >AGAIN THIS TEST</button>
+    &nbsp;&nbsp;
+    <button type="submit" name="quizlist" formaction="/start">START</button>
+</form>
 
 </body>
 </html>

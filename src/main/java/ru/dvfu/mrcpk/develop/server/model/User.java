@@ -12,7 +12,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Type(type = "org.hibernate.type.IntegerType")
-    private Number id;
+    private int id;
 
     private String firstname;
 
@@ -30,7 +30,7 @@ public class User implements Serializable {
 
     public User(){}
 
-    public User(Number id, String firstname, String lastname, String middlename, String nickname, String password, Usercategory usercategory) {
+    public User(int id, String firstname, String lastname, String middlename, String nickname, String password, Usercategory usercategory) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -40,11 +40,11 @@ public class User implements Serializable {
         this.usercategory = usercategory;
     }
 
-    public Number getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Number id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -73,11 +73,11 @@ public class User implements Serializable {
     }
 
     @Enumerated(value = EnumType.STRING)
-    public Usercategory getUserCategory() {
+    public Usercategory getUsercategory() {
         return usercategory;
     }
 
-    public void setUserCategory(Usercategory usercategory) {
+    public void setUsercategory(Usercategory usercategory) {
         this.usercategory = usercategory;
     }
 
@@ -97,9 +97,9 @@ public class User implements Serializable {
         this.nickname = nickname;
     }
 
-        enum Usercategory {
-        ADMIN,
+    public enum Usercategory {
+        STUDENT,
         TEACHER,
-        STUDENT;
+        ADMIN;
     }
 }

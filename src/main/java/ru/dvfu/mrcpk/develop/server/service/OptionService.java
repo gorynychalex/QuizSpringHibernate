@@ -25,17 +25,20 @@ public class OptionService implements OptionServiceInterface{
     }
 
     @Transactional
-    public void add(OptionInterface option) {
+    public void add(Number questionId, OptionInterface option) {
 
+        this.optionDAO.add(questionId, option);
     }
 
     @Transactional
     public void update(OptionInterface option) {
 
+        this.optionDAO.update(option);
     }
 
     @Transactional
     public void remove(Number id) {
 
+        this.optionDAO.remove(id);
     }
 }

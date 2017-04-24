@@ -7,10 +7,33 @@
 <body>
 
 <p>Students:</p>
-<c:forEach var="user" items="${userlist}" varStatus="theCount">
-    <c:out value="${theCount.count}"/> )&nbsp; <c:out value="${user.firstname}"/> &nbsp; ${user.lastname}
-    <br>
-</c:forEach>
+
+<table border="1">
+    <tr>
+        <th>N/N</th>
+        <th>Name</th>
+        <th>Group</th>
+        <th>Picture</th>
+        <th>Edit</th>
+        <th>Remove</th>
+    </tr>
+    <c:forEach var="user" items="${userlist}" varStatus="theCount">
+    <tr>
+        <td>${theCount.count}</td>
+        <td><a href="/user/${user.id}"><c:out value="${user.firstname}"/> &nbsp; ${user.lastname}</a> </td>
+        <td>Group</td>
+        <td>Picture</td>
+        <td><a href="/user/edit/${user.id}">Edit</a></td>
+        <td><a href="/user/delete/${user.id}">x</a></td>
+    </tr>
+    </c:forEach>
+</table>
+
+
+<form action="/user/add">
+    <button type="submit" name="quizadd" value="new">ADD</button>
+</form>
+
 
 </body>
 </html>

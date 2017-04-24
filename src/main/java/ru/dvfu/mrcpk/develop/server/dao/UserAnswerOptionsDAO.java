@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.dvfu.mrcpk.develop.server.model.Option;
 import ru.dvfu.mrcpk.develop.server.model.UserAnswerOptions;
 import ru.dvfu.mrcpk.develop.server.model.UserAnswerOptions1;
 
@@ -33,10 +34,7 @@ public class UserAnswerOptionsDAO implements UserAnswerOptionsDAOInterface {
 
     public List getUserAnswersBySessionId(int sessionId) {
         logger.info("getUserAnswersBySessionId(sessionId)");
-        Query query = sessionFactory.getCurrentSession().createQuery("from UserAnswerOptions as us WHERE us.sessionid = " + sessionId);
-
-        return query.list();
-
+        return sessionFactory.getCurrentSession().createQuery("from UserAnswerOptions as us WHERE us.sessionid = " + sessionId).list();
     }
 
     public void setAnswer(UserAnswerOptions userAnswerOptions) {
@@ -46,4 +44,18 @@ public class UserAnswerOptionsDAO implements UserAnswerOptionsDAOInterface {
     public void removeAnswerByQuiestionId(Number questionId, Number sessionId) {
         currentSession().createQuery("delete UserAnswerOptions as ua WHERE ua.questionid=" + questionId + " and ua.sessionid=" + sessionId).executeUpdate();
     }
+
+    public List<UserAnswerOptions> getByQuestionAndSession(Number questionId, Number sessionId) {
+        return currentSession().createQuery("from UserAnswerOptions as uao WHERE uao.questionid = " + questionId.intValue() + " and uao.sessionid = " + sessionId.intValue()).list();
+    }
+
+    public void updateByQuestionAndSession(Number questionId, Number optionId, Number userId, Number sessionId) {
+        currentSession().createQuery(
+                "update UserAnswerOptions as uao "
+                        + "SET uao.optionid = " + optionId
+                        + " WHERE uao.questionid = " + questionId
+                        + " and uao.sessionid = " + sessionId + " and  uao.userid = " + userId ).executeUpdate();
+    }
+
+
 }

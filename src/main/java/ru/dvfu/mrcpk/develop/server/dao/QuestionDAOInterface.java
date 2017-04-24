@@ -11,7 +11,7 @@ public interface QuestionDAOInterface {
     QuestionInterface getById(Number id);
     List<QuestionInterface> list();
     List<Question> list(Number quizid);
-    void add(QuestionInterface question);
+    void add(Number quizId, QuestionInterface question);
     void update(QuestionInterface question);
     void remove(Number id);
 }

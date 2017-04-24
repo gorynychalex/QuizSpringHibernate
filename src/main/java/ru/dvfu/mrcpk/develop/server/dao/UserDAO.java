@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.dvfu.mrcpk.develop.server.model.User;
 import ru.dvfu.mrcpk.develop.server.model.UserInterface;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 @Repository
@@ -47,8 +49,47 @@ public class UserDAO implements UserDAOInterface{
         currentSession().persist(user);
     }
 
-    public void update(UserInterface user) {
+    public void update(User user) {
+        currentSession().update(user);
+//        currentSession().merge(user);
+//
+//        String userClassName = user.getClass().getName();
+//
+//        Class<?> userClass = Class.forName(userClassName);
+//
+//        logger.info(user.getClass().getName());
 
+//        User existingUser = (User) currentSession().get(User.class, user.getId());
+
+//        User existingUser = (User) currentSession().get(userClass, user.getId());
+//
+//        Method[] methods=user.getClass().getMethods();
+//
+//        for(Method method: methods){
+//            if(!method.getName().matches("getClass(.*)") && method.getName().matches("^get(.*)"))
+//            {
+//                try {
+//                    if(user.getClass().getMethod(method.getName()).invoke(user) != null)
+//                    {
+//
+//                        String setMethodName = method.getName().replace("get","set");
+//                        Method setMethod = existingUser.getClass().getMethod(setMethodName, method.getReturnType());
+//
+//                        String getMethodName = method.getName();
+//                        Method getMethod = user.getClass().getMethod(getMethodName);
+//
+//                        setMethod.invoke(existingUser,getMethod.invoke(user));
+//                        user.getClass().getMethod(method.getName().replace("get","set"), method.getReturnType()).invoke(existingUser,user.getClass().getMethod(method.getName()).invoke(user));
+//                    }
+//                } catch (IllegalAccessException e) {
+//                    e.printStackTrace();
+//                } catch (InvocationTargetException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//
+//
     }
 
     public void remove(Number id) {

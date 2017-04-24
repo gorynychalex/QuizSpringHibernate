@@ -69,6 +69,10 @@ public class QuestionDAOSimpleJDBC implements QuestionDAOInterface {
         return null;
     }
 
+    public void add(Number quizId, QuestionInterface question) {
+
+    }
+
     public void add(QuestionInterface question) {
 
     }
@@ -77,7 +81,7 @@ public class QuestionDAOSimpleJDBC implements QuestionDAOInterface {
 
     }
 
-    public void add(QuizInterface question) {
+    public void add(Number quizId, QuizInterface question) {
 
     }
 

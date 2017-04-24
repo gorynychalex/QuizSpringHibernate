@@ -1,22 +1,34 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: gorynych
-  Date: 16.03.17
-  Time: 13:51
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>User </title>
 </head>
 <body>
 
-${user.id}
+<a href="/userlist">User list</a>
 <br>
-${user.firstname}
-<br>
-${user.nickname}
+
+<form:form modelAttribute="userattr" method="post" action="/user/edit/${userattr.id}">
+    
+    Firstname: ${userattr.firstname}
+    <br>
+    Lastname: ${userattr.lastname}
+    <br>
+    Middlename: ${userattr.middlename}
+    <br>
+    Nickname: ${userattr.nickname}
+    <br>
+    Password: ${userattr.password}
+    <br>
+    UserCategory: ${userattr.usercategory}
+    <br>
+    <input type="submit" value="Edit"/> &nbsp;
+    <input type="button" value="Next">
+    <br>
+
+</form:form>
 
 </body>
 </html>

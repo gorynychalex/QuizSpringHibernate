@@ -1,7 +1,5 @@
 package ru.dvfu.mrcpk.develop.server.model;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -12,10 +10,12 @@ public class Option implements OptionInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Type(type = "org.hibernate.type.IntegerType")
-    private Number id;
+//    @Type(type = "org.hibernate.type.IntegerType")
+    private int id;
 
     private String text;
+
+    private String picture;
 
     private boolean correct;
 
@@ -26,11 +26,11 @@ public class Option implements OptionInterface {
         this.correct = correct;
     }
 
-    public Number getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Number id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -50,4 +50,11 @@ public class Option implements OptionInterface {
         this.correct = correct;
     }
 
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 }

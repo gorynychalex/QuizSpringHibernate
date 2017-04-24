@@ -14,4 +14,6 @@ public interface UserAnswerOptionsDAOInterface {
     List getUserAnswersBySessionId(int sessionId);
     void setAnswer(UserAnswerOptions userAnswerOptions);
     void removeAnswerByQuiestionId(Number questionId, Number sessionId);
+    List<UserAnswerOptions> getByQuestionAndSession(Number questionId, Number sessionId);
+    void updateByQuestionAndSession(Number questionId, Number optionId, Number userId, Number sessionId);
 }

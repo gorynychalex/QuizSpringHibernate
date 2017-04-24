@@ -7,6 +7,8 @@ import ru.dvfu.mrcpk.develop.server.dao.UserAnswerOptionsDAO;
 import ru.dvfu.mrcpk.develop.server.model.UserAnswerOptions;
 import ru.dvfu.mrcpk.develop.server.model.UserAnswerOptions1;
 
+import java.util.List;
+
 /**
  * Created by gorynych on 18.03.17.
  */
@@ -24,5 +26,15 @@ public class UserAnswerService implements UserAnswerServiceInterface {
     @Transactional
     public void removeAnswerByQuestionId(Number questionId, Number sessionId) {
         this.userAnswerOptionsDAO.removeAnswerByQuiestionId(questionId,sessionId);
+    }
+
+    @Transactional
+    public List<UserAnswerOptions> getByQuestionAndSession(Number questionId, Number sessionId) {
+        return this.userAnswerOptionsDAO.getByQuestionAndSession(questionId,sessionId);
+    }
+
+    @Transactional
+    public void updateByQuestionAndSession(Number questionId, Number optionid, Number userId, Number sessionId) {
+        this.userAnswerOptionsDAO.updateByQuestionAndSession(questionId, optionid, userId, sessionId);
     }
 }

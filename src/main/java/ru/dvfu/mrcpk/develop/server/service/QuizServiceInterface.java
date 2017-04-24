@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public interface QuizServiceInterface extends Serializable{
-    QuizInterface getQuizById(Number id);
-    QuizInterface getQuizByIdLazy(Number id);
+    QuizInterface getById(Number id);
+    QuizInterface getByIdLazy(Number id);
     void addQuiz(QuizInterface quiz);
     List<QuizInterface> list();
     void removeById(Number id);

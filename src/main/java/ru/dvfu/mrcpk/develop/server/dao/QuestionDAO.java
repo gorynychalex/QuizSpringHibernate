@@ -58,11 +58,18 @@ public class QuestionDAO implements QuestionDAOInterface{
 //                });
 //    }
 
-    public void add(QuestionInterface question) {
+    public void add(Number quizId, QuestionInterface question) {
+
         currentSession().save(question);
-//        question = new QuestionTest();
-//        question.setText("New question");
-//        currentSession().persist(question);
+
+        Quiz currentQuiz = currentSession().get(Quiz.class, quizId);
+
+        currentQuiz.getQuestions().add((Question) question);
+
+        currentQuiz.setQnums(currentQuiz.getQuestions().size());
+
+        currentSession().save(currentQuiz);
+
     }
 
 
@@ -74,11 +81,11 @@ public class QuestionDAO implements QuestionDAOInterface{
     }
 
     public void update(QuestionInterface question) {
-
+        currentSession().update(question);
     }
 
     public void remove(Number id) {
-
+        currentSession().delete(currentSession().get(Question.class,id));
     }
 
 //    private DataSource dataSource;

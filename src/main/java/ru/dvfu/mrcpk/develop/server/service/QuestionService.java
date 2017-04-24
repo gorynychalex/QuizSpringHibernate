@@ -31,8 +31,8 @@ public class QuestionService implements QuestionServiceInterface {
     }
 
     @Transactional
-    public void add(QuestionInterface question) {
-
+    public void add(Number quizId, QuestionInterface question) {
+        this.questionDAO.add(quizId, question);
     }
 
     @Transactional
@@ -43,6 +43,7 @@ public class QuestionService implements QuestionServiceInterface {
     @Transactional
     public void remove(Number id) {
 
+        this.questionDAO.remove(id);
     }
 
     @Transactional
@@ -61,10 +62,12 @@ public class QuestionService implements QuestionServiceInterface {
             if (option.isCorrect()) sumOptionsTrue++;
             for(Integer userans: userAnswers) {
 //                logger.info("i = " + option.getId() + "; userans = " + userans);
-                if (option.isCorrect() & option.getId().equals(userans)) {
+//                if (option.isCorrect() & option.getId().equals(userans)) {
+                if (option.isCorrect() & option.getId() == userans) {
                     sumAnsTrue++;
                 }
-                if (!option.isCorrect() & option.getId().equals(userans)) {
+//                if (!option.isCorrect() & option.getId().equals(userans)) {
+                if (!option.isCorrect() & option.getId() == userans) {
                     sunAnsFalse++;
                 }
             }

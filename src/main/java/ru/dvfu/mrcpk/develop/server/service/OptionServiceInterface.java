@@ -7,7 +7,7 @@ import java.util.List;
 public interface OptionServiceInterface {
     OptionInterface getById(Number id);
     List<OptionInterface> list();
-    void add(OptionInterface option);
+    void add(Number questionId, OptionInterface option);
     void update(OptionInterface option);
     void remove(Number id);
 }

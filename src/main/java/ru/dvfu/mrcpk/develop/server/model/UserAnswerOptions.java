@@ -44,11 +44,11 @@ public class UserAnswerOptions implements UserAnswerOptionsInterface{
         this.id = id;
     }
 
-//    public Date getDate() {
+//    public Date getTimestamp() {
 //        return date;
 //    }
 //
-//    public void setDate(Date date) {
+//    public void setTimestamp(Date date) {
 //        this.date = date;
 //    }
 
