@@ -11,8 +11,10 @@ import java.io.Serializable;
  * Interface Statistic of Questions
  */
 public interface StatisticQuestionsInterface extends Serializable{
+    int getId();
     Question getQuestion();
     float getMark();
     void setQuestion(Question question);
     void setMark(float mark);
+    Float getResult();
 }

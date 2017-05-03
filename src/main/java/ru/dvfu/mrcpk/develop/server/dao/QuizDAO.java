@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.dvfu.mrcpk.develop.server.model.Question;
-import ru.dvfu.mrcpk.develop.server.model.QuestionInterface;
-import ru.dvfu.mrcpk.develop.server.model.Quiz;
-import ru.dvfu.mrcpk.develop.server.model.QuizInterface;
+import ru.dvfu.mrcpk.develop.server.model.*;
+import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticUserQuizSessions;
 
 import java.util.List;
 
@@ -56,5 +54,13 @@ public class QuizDAO implements QuizDAOInterface{
 
     public void remove(Number id) {
         currentSession().delete(currentSession().get(Quiz.class,id));
+    }
+
+
+    @Override
+    public void addStatistic(Number id, int sessionId, User user) {
+        Quiz quiz = currentSession().get(Quiz.class,id.intValue());
+//        quiz.addUserQuizSession(sessionId,user);
+//        currentSession().update(quiz);
     }
 }

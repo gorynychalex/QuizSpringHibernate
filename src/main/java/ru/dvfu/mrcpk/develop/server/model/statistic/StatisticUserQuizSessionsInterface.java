@@ -18,5 +18,7 @@ import java.util.List;
 public interface StatisticUserQuizSessionsInterface extends Serializable{
     float getMark();
     void setMark(float mark);
-    public List<StatisticQuestions> getStatisticQuestionsList();
+    List<StatisticQuestions> getStatisticQuestionsList();
+    List<Float> getResult();
+    Quiz getQuiz();
 }

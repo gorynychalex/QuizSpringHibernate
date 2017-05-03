@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by gorynych on 25.04.17.
  */
-public interface StatisticQuizInterface extends Serializable {
+public interface StatisticsInterface extends Serializable {
     float getMark();
     void setMark(float mark);
     public List<StatisticQuestions> getStatisticQuestions();

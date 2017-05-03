@@ -117,7 +117,15 @@ public class QuestionController {
         return "quizselect";
     }
 
-    //SHOW QUESTION
+    /**
+     * SHOW QUESTION and ADD STATISTICS
+     * @param userid
+     * @param sessionId
+     * @param quizid
+     * @param qnum
+     * @param modelMap
+     * @return
+     */
     @RequestMapping(value = "/quiz", method = RequestMethod.GET)
     public String getQuestionIdByQuiz(
             @RequestParam(value = "userid",defaultValue = "0") int userid,
@@ -214,7 +222,7 @@ public class QuestionController {
             statisticOptionService.addStatisticOption(
                     statisticQuestionService.getIdByQuestionAndSessionId(sessionid,questionid.intValue()),new StatisticOptions((Option) optionService.getById(opt.intValue())));
 
-            return "redirect:/quizresults?sessionid=" + sessionid + "&userid=" + userid + "&quizid=" + quizid;
+            return "redirect:/statistic/quiz?sessionid=" + sessionid + "&userid=" + userid + "&quizid=" + quizid;
         }
 
         // REDIRECT to quiz
@@ -249,7 +257,10 @@ public class QuestionController {
         modelMap.addAttribute("quizId",quizid);
         modelMap.addAttribute("userId",userid);
 
-        List<Float> marks = quizServiceInterface.getResultByQuizId(quizid,sessionId);
+
+        List<Float> marks = statisticQuestionService.getResultsBySessionId(sessionId);
+//
+//        List<Float> marks = quizServiceInterface.getResultByQuizId(quizid,sessionId);
 
         float summarks = 0;
         for(Float mark: marks) {
@@ -263,15 +274,6 @@ public class QuestionController {
         return "quizresult";
     }
 
-    @RequestMapping("/userstatistics")
-    public String getStatistics(@RequestParam(value = "userid") int userId,ModelMap modelMap){
-
-        modelMap.addAttribute("user",userServiceInterface.getById(userId));
-
-        modelMap.addAttribute("userstatisticlist",statisticUserQuizSessionServiceInterface.getStatisticByUser(userId));
-
-        return "userstatistics";
-    }
 
     @RequestMapping("/quizlist")
     public String quizList(ModelMap modelMap){

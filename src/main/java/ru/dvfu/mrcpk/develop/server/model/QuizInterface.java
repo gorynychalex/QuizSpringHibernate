@@ -21,4 +21,5 @@ public interface QuizInterface extends Serializable {
 
     void setQnums(int qnums);
 
+//    void addUserQuizSession(int sessionId, User user);
 }

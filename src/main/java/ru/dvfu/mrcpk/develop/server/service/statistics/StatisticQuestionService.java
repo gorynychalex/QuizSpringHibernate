@@ -9,6 +9,8 @@ import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticQuestions;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticQuestionsInterface;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticUserQuizSessions;
 
+import java.util.List;
+
 /**
  * Created by gorynych on 18.04.17.
  */
@@ -26,5 +28,17 @@ public class StatisticQuestionService implements StatisticQuestionServiceInterfa
     @Transactional
     public int getIdByQuestionAndSessionId(int sessionId, int questionId) {
         return suqsi.getIdByQuestionAndSessionId(sessionId,questionId);
+    }
+
+    @Transactional
+    @Override
+    public List<Float> getResultsBySessionId(int sessionId) {
+        return suqsi.getResultsBySessionId(sessionId);
+    }
+
+    @Transactional
+    @Override
+    public List<StatisticQuestions> getStatisticQuestionList() {
+        return suqsi.getStatisticQuestionList();
     }
 }

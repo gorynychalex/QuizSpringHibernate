@@ -3,6 +3,7 @@ package ru.dvfu.mrcpk.develop.server.dao.statistic;
 import ru.dvfu.mrcpk.develop.server.model.Quiz;
 import ru.dvfu.mrcpk.develop.server.model.QuizInterface;
 import ru.dvfu.mrcpk.develop.server.model.UserInterface;
+import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticQuestions;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticUserQuizSessions;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticUserQuizSessionsInterface;
 
@@ -19,7 +20,7 @@ public interface StatisticUserQuizSessionDAOInterface {
     StatisticUserQuizSessionsInterface getBySessionId(int sessionId);
 
     // Update session record
-//    void updateUserQuizSession(StatisticUserQuizSessionsInterface suqs);
+    void updateUserQuizSession(StatisticUserQuizSessionsInterface suqs);
 
     // Get record by sessionid
 //    StatisticUserQuizSessions getStatisticBySessionId(int sessionId);
@@ -34,4 +35,7 @@ public interface StatisticUserQuizSessionDAOInterface {
 //    UserInterface getUserBySessionId(int sessionId);
 //    QuizInterface getQuizBySessionId(int sessionId);
 
+    List<StatisticQuestions> getStatisticQuestionsBySessionId(int sessionId);
+
+    List<Float> getResult(int sessionId);
 }

@@ -2,6 +2,7 @@ package ru.dvfu.mrcpk.develop.server.model;
 
 import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.Type;
+import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticQuestions;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,13 +22,13 @@ public class Question implements QuestionInterface {
 
     private String picture;
 
-//    @ManyToOne
-//    @JoinColumn(name = "quizid")
-//    private Quiz quiz;
-
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "questionid")
     private List<Option> options;
+//
+//    @OneToMany
+//    @JoinColumn(name = "questionid")
+//    private List<StatisticQuestions> statisticQuestions;
 
     public Question(){}
 
@@ -68,8 +69,16 @@ public class Question implements QuestionInterface {
     public void setPicture(String picture) {
         this.picture = picture;
     }
+
+//    public List<StatisticQuestions> getStatisticQuestions() {
+//        return statisticQuestions;
+//    }
 //
-//    public float getMark() {
+//    public void setStatisticQuestions(List<StatisticQuestions> statisticQuestions) {
+//        this.statisticQuestions = statisticQuestions;
+//    }
+
+    //    public float getMark() {
 //
 //        //mark = КВП/ОКП/(КВН + 1)
 //        int sumOptionsTrue=0,sumAnsTrue=0,sunAnsFalse=0;
@@ -84,20 +93,4 @@ public class Question implements QuestionInterface {
 //        return mark;
 //    }
 
-//    public int getQuizid() {
-//        return quizid;
-//    }
-//
-//    public void setQuizid(int quizid) {
-//        this.quizid = quizid;
-//    }
-
-
-//    public Quiz getQuiz() {
-//        return quiz;
-//    }
-//
-//    public void setQuiz(Quiz quiz) {
-//        this.quiz = quiz;
-//    }
 }

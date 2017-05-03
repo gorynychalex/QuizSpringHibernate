@@ -23,7 +23,7 @@
     </c:forEach>
 </select>
     &nbsp;&nbsp;
-    <button type="submit" formaction="/userstatistics">STATISTICS</button>
+    <button type="submit" formaction="/statistic/user">STATISTICS</button>
 
 <p>List of tests:</p>
 <br>

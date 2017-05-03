@@ -48,11 +48,16 @@ public class QuizService implements QuizServiceInterface {
         this.quizDAO.remove(id);
     }
 
+    @Transactional
+    @Override
+    public void addStatistic(Number id, int sessionId, User user) {
+        this.quizDAO.addStatistic(id,sessionId,user);
+    }
 
     @Transactional
-    public List<Float> getResultByQuizId(Number id, Number sessionId) {
+    public List<Float> getResultByQuizId(Number quizId, Number sessionId) {
 
-        logger.info("getResultByQuizId ( " + id.intValue() + ", " + sessionId.intValue() + "); ");
+        logger.info("getResultByQuizId ( " + quizId.intValue() + ", " + sessionId.intValue() + "); ");
 
         // Create List of Marks of every Questions
         List<Float> marks = new ArrayList<Float>();
@@ -61,7 +66,7 @@ public class QuizService implements QuizServiceInterface {
         List userAnswerOptionss = userAnswerOptionsDAO.getUserAnswersBySessionId((Integer) sessionId);
 
         // Get Questions
-        List<Question> questions = this.quizDAO.getQuizById(id).getQuestions();
+        List<Question> questions = this.quizDAO.getQuizById(quizId).getQuestions();
 
 
         for(Question question: questions){

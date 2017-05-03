@@ -1,12 +1,10 @@
 package ru.dvfu.mrcpk.develop.server.model.statistic;
 
 import org.hibernate.annotations.Type;
-import ru.dvfu.mrcpk.develop.server.model.Quiz;
-import ru.dvfu.mrcpk.develop.server.model.QuizInterface;
-import ru.dvfu.mrcpk.develop.server.model.User;
-import ru.dvfu.mrcpk.develop.server.model.UserInterface;
+import ru.dvfu.mrcpk.develop.server.model.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -135,5 +133,80 @@ public class StatisticUserQuizSessions implements StatisticUserQuizSessionsInter
 
     public void setStatisticQuestionsList(List<StatisticQuestions> statisticQuestionsList) {
         this.statisticQuestionsList = statisticQuestionsList;
+    }
+
+    /**
+     * Method to estimate mark
+     * sumAnsTrue / sumOptionsTrue / (sunAnsFalse + 1)
+     * where
+     * sumAnsTrue - true user answers
+     * sumAnsFalse - false user answers
+     * sumOptionsTrue - true all options in questions
+     *
+     * @return
+     */
+    public List<Float> getResult(){
+
+        // Create List of Marks of every Questions
+        List<Float> marks = new ArrayList<Float>();
+
+        for(StatisticQuestions squestion : statisticQuestionsList){
+
+            if(squestion.getQuestion().getOptions().size() > 0) {
+                //mark = КВП/ОКП/(КВН + 1)
+                int sumOptionsTrue = 0, sumAnsTrue = 0, sumAnsFalse = 0;
+
+                for (StatisticOptions soption : squestion.getStatisticOptionsList()) {
+                    if (soption.getOption() != null && soption.getOption().isCorrect())
+                        { sumOptionsTrue++; }
+
+                    if (soption.getOption() != null && soption.getOption().isCorrect() && soption.getId() == soption.getOption().getId())
+                        { sumAnsTrue++; }
+
+                    if (soption.getOption() != null && !soption.getOption().isCorrect() && soption.getId() == soption.getOption().getId())
+                        { sumAnsFalse++; }
+                }
+//                logger.info("sumAnsTrue = " + sumAnsTrue + "; sumOptTrue = " + sumOptionsTrue + "; sumAnsFalse = " + sunAnsFalse);
+                float mark = sumOptionsTrue == 0 ? 0 : (float) sumAnsTrue / (float) sumOptionsTrue / ((float) sumAnsFalse + 1);
+//                logger.info("mark = " + mark);
+                marks.add(mark);
+
+            } else { marks.add((float) 0);}
+        }
+
+//        // Estimate mark for every questions
+//        for(Question question: quiz.getQuestions()){
+//
+//            if(question.getOptions().size() > 0) {
+//
+//                //mark = КВП/ОКП/(КВН + 1)
+//                int sumOptionsTrue = 0, sumAnsTrue = 0, sumAnsFalse = 0;
+//
+//                for (Option option : question.getOptions()) {
+//
+//                    if (option.isCorrect()) sumOptionsTrue++;
+//
+//                    for (UserAnswerOptions userAnswerOptions : userAnswerOptionss) {
+//                        //                logger.info("i = " + option.getId() + "; userans = " + userans);
+////                        if (option.isCorrect() & option.getId().equals(userAnswerOptions.getOptionid())) {
+//                        if (option.isCorrect() & option.getId() == userAnswerOptions.getOptionid()) {
+//                            sumAnsTrue++;
+//                        }
+//                        if (!option.isCorrect() & option.getId() == userAnswerOptions.getOptionid()) {
+//                            sumAnsFalse++;
+//                        }
+//
+//                    }
+//                }
+////                logger.info("sumAnsTrue = " + sumAnsTrue + "; sumOptTrue = " + sumOptionsTrue + "; sumAnsFalse = " + sunAnsFalse);
+//                float mark = sumOptionsTrue == 0 ? 0 : (float) sumAnsTrue / (float) sumOptionsTrue / ((float) sumAnsFalse + 1);
+////                logger.info("mark = " + mark);
+//                marks.add(mark);
+//            } else { marks.add((float) 0);}
+//        }
+
+        mark = (float) marks.stream().mapToDouble(x -> x.floatValue()).sum();
+
+        return marks;
     }
 }

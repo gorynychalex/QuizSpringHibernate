@@ -12,6 +12,7 @@ import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticQuestionsInterface;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticUserQuizSessions;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticUserQuizSessionsInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public class StatisticQuestionsDAO implements StatisticQuestionsDAOInterface{
 
     @Override
     public StatisticQuestionsInterface getById(int id) {
-        return null;
+        return currentSession().get(StatisticQuestions.class,id);
     }
 
     @Override
@@ -73,5 +74,30 @@ public class StatisticQuestionsDAO implements StatisticQuestionsDAOInterface{
     @Override
     public StatisticUserQuizSessionsInterface getStatisticsByQuestion(Question question) {
         return null;
+    }
+
+    @Override
+    public List<StatisticQuestions> getStatisticQuestionList() {
+        return currentSession().createQuery("from StatisticQuestions").list();
+    }
+
+    @Override
+    public List<StatisticQuestions> getStatisticQuestionListBySessionId(int sessionId) {
+
+        return null;
+    }
+
+    @Override
+    public List<Float> getResultsBySessionId(int sessionId) {
+
+        List<Float> marks = new ArrayList<>();
+
+        List<StatisticQuestionsInterface> statisticQuestionsList = currentSession().createQuery("from StatisticQuestions").list();
+
+        for(StatisticQuestionsInterface squestion : statisticQuestionsList){
+            marks.add(squestion.getResult());
+        }
+
+        return marks;
     }
 }

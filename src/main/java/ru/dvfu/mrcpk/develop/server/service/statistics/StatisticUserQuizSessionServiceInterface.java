@@ -4,6 +4,7 @@ import ru.dvfu.mrcpk.develop.server.model.Quiz;
 import ru.dvfu.mrcpk.develop.server.model.QuizInterface;
 import ru.dvfu.mrcpk.develop.server.model.User;
 import ru.dvfu.mrcpk.develop.server.model.UserInterface;
+import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticQuestions;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticUserQuizSessions;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticUserQuizSessionsInterface;
 
@@ -18,5 +19,12 @@ public interface StatisticUserQuizSessionServiceInterface {
 
     StatisticUserQuizSessionsInterface getBySessionId(int sessionId);
 
-    public List<StatisticUserQuizSessions> getStatisticByUser(int userId);
+    List<StatisticUserQuizSessions> getStatisticByUser(int userId);
+
+    List<Float> getResultBySessionId(int sessionId);
+
+    List<StatisticQuestions> getStatisticQuestionsBySessionId(int sessionId);
+
+    List<Float> getResult(int sessionId);
+
 }
