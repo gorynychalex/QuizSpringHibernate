@@ -36,7 +36,7 @@
             &nbsp;&nbsp;
         </c:if>
 
-        <c:if test="${qnum < qnums-1}">
+        <c:if test="${qnum < qnums-2}">
             <button type="submit" formaction="/quiz?userid=${quiz.id}&quizid=${quiz.id}&questionid=${qnum+1}" name="button" value="nextQuestion">
                 <%--<button type="submit" name="questionid" value="${qnum+1}">--%>
                 NEXT</button>
