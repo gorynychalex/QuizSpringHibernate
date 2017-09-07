@@ -1,9 +1,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Add Option for Question</title>
+    <spring:url value="/resources/theme1/css/bootstrap.min.css" var="maincss"/>
+    <link href="<c:url value="${maincss}"/>" rel=stylesheet >
 </head>
 <body>
 

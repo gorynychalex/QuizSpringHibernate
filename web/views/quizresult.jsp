@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: gorynych
@@ -11,6 +12,9 @@
 <html>
 <head>
     <title>Result of quiz</title>
+    <spring:url value="/resources/theme1/css/bootstrap.min.css" var="maincss"/>
+    <link href="<c:url value="${maincss}"/>" rel=stylesheet >
+
 </head>
 <body>
 

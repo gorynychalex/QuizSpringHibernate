@@ -12,14 +12,15 @@
              xmlns:j="http://xmlns.jcp.org/xml/ns/javaee"
              xmlns:beans1="http://java.sun.com/xml/ns/javaee">
 
-    <http>
+    <http auto-config="true">
 
+        <intercept-url pattern="/**" access="ROLE_USER"/>
         <intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/start" access="ROLE_USER"/>
         <intercept-url pattern="/quizlist*" access="ROLE_ADMIN"/>
         <intercept-url pattern="/index*" access="ROLE_USER,ROLE_ANONYMOUS"/>
         <intercept-url pattern="login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/**" access="ROLE_USER"/>
+
 
         <form-login login-page="/login.jsp"
                     default-target-url="/index"

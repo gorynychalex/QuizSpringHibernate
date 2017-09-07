@@ -25,6 +25,11 @@ public class QuizDAO implements QuizDAOInterface{
         return sessionFactory.getCurrentSession();
     }
 
+    public List<QuizInterface> list() {
+        logger.info("getQuizList()");
+        return currentSession().createQuery("from Quiz").list();
+    }
+
     public QuizInterface getQuizById(Number id){
         QuizInterface quiz = currentSession().get(Quiz.class,id);
         quiz.getQuestions().size();
@@ -40,23 +45,94 @@ public class QuizDAO implements QuizDAOInterface{
         currentSession().persist(quiz);
     }
 
-    public List<Question> list(Number id){
-        logger.info("getQuestionList()");
-        QuizInterface quiz = currentSession().get(Quiz.class, id);
-        return quiz.getQuestions();
-    }
+    @Override
+    public void editQuiz(QuizInterface quiz) {
 
-    public List<QuizInterface> list() {
-
-        logger.info("getQuizList()");
-        return currentSession().createQuery("from Quiz").list();
     }
 
     public void remove(Number id) {
         currentSession().delete(currentSession().get(Quiz.class,id));
     }
 
+    public List<QuestionInterface> listQuestions(){
+        return currentSession().createQuery("from Question ").list();
+    }
 
+    public List<Question> listQuestionByQuizId(Number quizId){
+        logger.info("getQuestionList()");
+        QuizInterface quiz = currentSession().get(Quiz.class, quizId);
+        return quiz.getQuestions();
+    }
+
+    public QuestionInterface getQuestionById(Number id){
+        logger.debug("Question getById(" + id +"):");
+        return currentSession().get(Question.class, id);
+    }
+
+    public void addQuestion(Number quizId, QuestionInterface question) {
+
+        currentSession().save(question);
+
+        Quiz currentQuiz = currentSession().get(Quiz.class, quizId);
+
+        currentQuiz.getQuestions().add((Question) question);
+
+        currentQuiz.setQnums(currentQuiz.getQuestions().size());
+
+        currentSession().save(currentQuiz);
+
+    }
+
+    public void updateQuestion(QuestionInterface question) {
+        currentSession().update(question);
+    }
+
+    public void removeQuestion(Number id) {
+        currentSession().delete(currentSession().get(Question.class,id));
+    }
+
+
+    //Option methods
+
+    public List<OptionInterface> listOptions() {
+        return null;
+    }
+
+    @Override
+    public List<OptionInterface> listOptionsByQuizId(QuizInterface quiz) {
+        return null;
+    }
+
+    @Override
+    public List<OptionInterface> listOptionsByQuestionId(QuestionInterface question) {
+        return null;
+    }
+
+    public OptionInterface getOptionById(Number id) {
+        return currentSession().get(Option.class,id);
+    }
+
+
+    public void addOption(Number questionId, OptionInterface option) {
+
+        currentSession().save(option);
+
+        Question question = currentSession().get(Question.class, questionId);
+
+        question.getOptions().add((Option) option);
+
+        currentSession().save(question);
+    }
+
+    public void updateOption(OptionInterface option) {
+        currentSession().update(option);
+    }
+
+    public void removeOption(Number id) {
+        currentSession().delete(currentSession().get(Option.class,id));
+    }
+
+    //SHOULD REMOVE METHOD!!! STATISTICS -> statistic folder
     @Override
     public void addStatistic(Number id, int sessionId, User user) {
         Quiz quiz = currentSession().get(Quiz.class,id.intValue());

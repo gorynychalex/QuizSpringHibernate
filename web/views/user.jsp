@@ -7,10 +7,10 @@
 </head>
 <body>
 
-<a href="/userlist">User list</a>
+<a href="/user/list">User list</a>
 <br>
 
-<form:form modelAttribute="userattr" method="post" action="/user/edit/${userattr.id}">
+<form:form modelAttribute="userattr" method="post" action="/user/${userattr.id}/edit">
     
     Firstname: ${userattr.firstname}
     <br>

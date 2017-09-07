@@ -9,7 +9,7 @@
 </head>
 <body>
 <c:if test="${not empty userattr.firstname}">
-    <c:url var="urlaction" value="/user/edit"/>
+    <c:url var="urlaction" value="/user/${userattr.id}/edit"/>
     <c:set var="buttonText" value="Edit"/>
 </c:if>
 <c:if test="${empty userattr.firstname}">

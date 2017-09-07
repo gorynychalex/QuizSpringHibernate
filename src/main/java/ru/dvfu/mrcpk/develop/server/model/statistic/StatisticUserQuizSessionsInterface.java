@@ -19,6 +19,6 @@ public interface StatisticUserQuizSessionsInterface extends Serializable{
     float getMark();
     void setMark(float mark);
     List<StatisticQuestions> getStatisticQuestionsList();
-    List<Float> getResult();
+//    List<Float> getResult();
     Quiz getQuiz();
 }

@@ -4,32 +4,83 @@
 <html>
 <head>
     <title>Add the question</title>
+    <meta charset="UTF-8">
+    <script src="<c:url value="/resources/theme1/js/main.js"/> "></script>
+    <link href="/resources/theme1/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/resources/theme1/css/main.css" rel="stylesheet">
 </head>
+
 <body>
 
-<p>Test: ${quiz.name}</p>
+<div class="header">
+    <div class="wrapper">
+        <p>Test: ${quiz.name}</p>
+        <p>Add the question:</p>
+    </div>
+</div>
 
-<p>Add the question:</p>
 <c:if test="${not empty questionattr.text}">
     <c:url var="urlaction" value="/quiz/${quiz.id}/question/edit"/>
     <c:set var="buttonText" value="Edit"/>
 </c:if>
 <c:if test="${empty questionattr.text}">
-    <c:url var="urlaction" value="/quiz/question/add"/>
+    <c:url var="urlaction" value="/quiz/${quiz.id}/question/add"/>
     <c:set var="buttonText" value="Add"/>
 </c:if>
 
-<form:form modelAttribute="questionattr" method="post" action="${urlaction}">
-    <form:hidden path="id"/>
-    <br>
-    <form:label path="text">Question Text:</form:label>
-    <form:input path="text" />
-    <br>
-    <form:label path="picture">picture url:</form:label>
-    <form:input path="picture" />
-    <br>
-    <input type="hidden" name="quizId" value="${quiz.id}"/>
-    <input type="submit" value="${buttonText}"/>
-</form:form>
+<c:if test="${not empty picurl}">
+    <c:url var="picurl" value="${picurl}"/>
+</c:if>
+
+<section id="content">
+
+    <div class="itemform">
+        <form:form id="formadd" modelAttribute="questionattr" method="post" action="${urlaction}" enctype="multipart/form-data">
+            <form:hidden path="id"/>
+            <br>
+            <form:label path="text">Question Text:</form:label>
+            <form:input id="inputtext" path="text" />
+            <br>
+            <%--<form:label path="picture">Picture url</form:label>--%>
+            <form:hidden id="fileurl" path="picture"/>
+            <%--<input type="hidden" id="filethumburl" name="thumburl"/>--%>
+            <br>
+            <%--<form:input path="picture" />--%>
+            <%--<form:label id="pictureurl" path="pic"></form:label>--%>
+            <input id="inputimgprev" type="file" name="file" onchange="previewFile()"/>
+            <br>
+            <input id="filethumb" type="hidden" name="thumb"/>
+            <br>
+            <input type="hidden" name="quizId" value="${quiz.id}"/>
+            <input type="submit" value="${buttonText}"/>
+        </form:form>
+
+        <%--<input type="file" id="fileupload">--%>
+
+    </div>
+    <%--<form:form id="formaddfile" method="post" action="/file/upload1" enctype="multipart/form-data">--%>
+        <%--<input type="hidden" name="quizId" value="${quiz.id}"/>--%>
+        <%--<input type="file" name="file" />--%>
+        <%--<input type="submit" value="Submit"/>--%>
+    <%--</form:form>--%>
+
+    <div class="itemform">
+        <div id="imageprevie">
+            <p>Question preview:</p>
+            <p>Question:  <span id="outtext"></span> </p>
+            <%--<img src="" id="imgprev" alt="Image preview ...">--%>
+            <br>
+            <img src="" id="imgprevsmall" alt="Image preview ...">
+            <%--<input type="file" id="inputimgprev" onchange="previewFile()">--%>
+        </div>
+
+    </div>
+</section>
+
+<div id="log">Load process</div>
+
+<script src="<c:url value="/resources/theme1/js/upload.js"/>"></script>
+<script src="<c:url value="/resources/theme1/js/main.js"/>"></script>
+
 </body>
 </html>

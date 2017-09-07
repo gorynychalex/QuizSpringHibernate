@@ -145,6 +145,8 @@ public class StatisticUserQuizSessions implements StatisticUserQuizSessionsInter
      *
      * @return
      */
+
+    /*
     public List<Float> getResult(){
 
         // Create List of Marks of every Questions
@@ -173,6 +175,7 @@ public class StatisticUserQuizSessions implements StatisticUserQuizSessionsInter
 
             } else { marks.add((float) 0);}
         }
+
 
 //        // Estimate mark for every questions
 //        for(Question question: quiz.getQuestions()){
@@ -209,4 +212,5 @@ public class StatisticUserQuizSessions implements StatisticUserQuizSessionsInter
 
         return marks;
     }
+    */
 }

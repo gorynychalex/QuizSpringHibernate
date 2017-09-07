@@ -23,8 +23,8 @@
         <td><a href="/user/${user.id}"><c:out value="${user.firstname}"/> &nbsp; ${user.lastname}</a> </td>
         <td>Group</td>
         <td>Picture</td>
-        <td><a href="/user/edit/${user.id}">Edit</a></td>
-        <td><a href="/user/delete/${user.id}">x</a></td>
+        <td><a href="/user/${user.id}/edit">Edit</a></td>
+        <td><a href="/user/${user.id}/delete">x</a></td>
     </tr>
     </c:forEach>
 </table>

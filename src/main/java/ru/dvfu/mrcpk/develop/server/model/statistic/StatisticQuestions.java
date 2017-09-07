@@ -85,27 +85,4 @@ public class StatisticQuestions implements StatisticQuestionsInterface {
 //        this.timestop = timestop;
 //    }
 
-     public Float getResult(){
-
-        if(question.getOptions().size() > 0){
-
-            int sumOptionsTrue = 0, sumAnsTrue = 0, sumAnsFalse = 0;
-
-            for(StatisticOptions soption : getStatisticOptionsList()){
-
-                if(soption.getOption().isCorrect()) sumOptionsTrue++;
-
-                if(soption.getOption().isCorrect() && soption.getId() == soption.getOption().getId())
-                    sumAnsTrue++;
-                if (!soption.getOption().isCorrect() && soption.getId() == soption.getOption().getId())
-                    sumAnsFalse++;
-            }
-
-            //                logger.info("sumAnsTrue = " + sumAnsTrue + "; sumOptTrue = " + sumOptionsTrue + "; sumAnsFalse = " + sunAnsFalse);
-            mark = sumOptionsTrue == 0 ? 0 : (float) sumAnsTrue / (float) sumOptionsTrue / ((float) sumAnsFalse + 1);
-
-        } else { return  0.0F;}
-
-        return mark;
-     }
 }
