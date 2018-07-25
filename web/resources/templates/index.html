@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">-->
+    <link rel="stylesheet" href="../dist/skeleton.min.css">
+</head>
+<body>
+
+
+<div id="root" class="container">
+    <div class="row">
+        <div class="twelve columns">
+            <h1>My answers and questions</h1>
+
+            <ol>
+                <li v-for="q_one in questions">
+                    <span style="font-size: large;">{{ q_one.text }}</span>
+                    <question1 v-bind:q="q_one" @pickedoption="pickchoicesadd($event)"></question1>
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="../dist/axios.min.js"></script>
+<script src="../dist/vue.js"></script>
+<script>
+
+    Vue.component('question1', {
+        props: ['q'],
+        data: function () {
+                return { picked: ''}
+        },
+        template: `
+            <div class="question-one">
+            <form action="/quiz" method="post">
+            <label v-for="option in q.options">
+            <input type="radio" name="option" v-bind:value="option.id" @change="$emit('pickedoption', { 'question': q.id, 'choice': option.id })" v-model="picked">
+                <span v-text="option.text"></span>
+            </input>
+            </label>
+            <br><span> Choose: {{ picked }} </span>
+            </form>
+            </div>
+            `
+    })
+
+    // new Vue({
+    //     el: '#questiononediv'
+    // });
+
+    var app = new Vue({
+        el: '#root',
+        data: { questions: [], pickchoices: [] },
+        mounted() {
+            this.fetchPosts();
+        },
+        methods: {
+            fetchPosts(){
+                axios
+                    .get("/rest/quiz/1")
+                    .then(function(res){
+                        this.questions = res.data;
+                    }
+                    .bind(this)
+                    );
+            },
+            pickchoicesadd (n) {
+                console.log(n)
+                this.pickchoices.push({n});
+            }
+        }
+    });
+
+
+
+</script>
+</html>
