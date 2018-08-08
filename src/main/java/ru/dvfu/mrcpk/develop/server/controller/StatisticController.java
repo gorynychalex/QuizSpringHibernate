@@ -34,6 +34,8 @@ public class StatisticController {
 
         modelMap.addAttribute("sessionId", sessionId);
 
+        modelMap.addAttribute("user",statisticUserQuizService.getUser());
+
         modelMap.addAttribute("userquizservice",statisticUserQuizService.getBySessionId(sessionId));
 
         modelMap.addAttribute("squestions",statisticUserQuizService.getStatisticQuestionsBySessionId(sessionId));
@@ -48,12 +50,21 @@ public class StatisticController {
     }
 
 
+    // Statistic by user
+
     @RequestMapping("/user")
-    public String getStatistics(@RequestParam(value = "userid") int userId,ModelMap modelMap){
+    public String getStatistics(
+            @RequestParam(value = "userid") int userId,
+                                ModelMap modelMap){
 
 //        modelMap.addAttribute("user",userServiceInterface.getById(userId));
 
+        if(statisticUserQuizService.getStatisticByUser(userId).isEmpty()){
+            return "redirect:/start";
+        }
+
         modelMap.addAttribute("userstatisticlist",statisticUserQuizService.getStatisticByUser(userId));
+
 
         return "statisticsbyuser";
     }

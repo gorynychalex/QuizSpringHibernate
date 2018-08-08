@@ -42,10 +42,14 @@ public class QuizService implements QuizServiceInterface {
         return this.quizDAO.list();
     }
 
-
     @Transactional
     public void removeById(Number id) {
         this.quizDAO.remove(id);
+    }
+
+    @Transactional
+    public List<Question> listQuestionByQuizId(Number quizId){
+        return this.quizDAO.listQuestionByQuizId(quizId);
     }
 
     @Transactional
@@ -69,7 +73,7 @@ public class QuizService implements QuizServiceInterface {
         List<Question> questions = this.quizDAO.getQuizById(quizId).getQuestions();
 
 
-        for(Question question: questions){
+        for(QuestionInterface question: questions){
 
             if(question.getOptions().size() > 0) {
                 //mark = КВП/ОКП/(КВН + 1)

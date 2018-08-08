@@ -1,7 +1,14 @@
 package ru.dvfu.mrcpk.develop.server.controller;
 
+/**
+ * Question Controller for start Main process
+ */
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +22,7 @@ import ru.dvfu.mrcpk.develop.server.service.statistics.StatisticQuestionServiceI
 import ru.dvfu.mrcpk.develop.server.service.statistics.StatisticUserQuizSessionServiceInterface;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +31,8 @@ import java.util.Random;
 @Controller
 public class QuestionController {
 
+
+    protected static final Logger logger = Logger.getLogger(QuestionController.class);
 
     @Autowired @Qualifier("userService")
     private UserServiceInterface userService;
@@ -66,11 +76,23 @@ public class QuestionController {
         return "question";
     }
 
+    @RequestMapping(value = "/loginds", method = RequestMethod.GET)
+    public String UserSession(ModelMap modelMap) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        modelMap.addAttribute("username", name);
+        return "hellos " + name;
+    }
+
     // START QUIZ
     @RequestMapping("/start")
-    public String listQuiz(ModelMap modelMap){
+    public String listQuiz(@RequestParam(value = "sessionid", defaultValue = "0") long sessionid, ModelMap modelMap){
         modelMap.addAttribute("users", userService.list());
         modelMap.addAttribute("quizs", quizService.list());
+
+        if(sessionid != 0)
+            modelMap.addAttribute("user", statisticUserQuizSessionService.getUser());
+
         return "quizselect";
     }
 
@@ -91,6 +113,12 @@ public class QuestionController {
             @RequestParam(value = "qnum",defaultValue = "0") int qnum,
             ModelMap modelMap)
     {
+        // If QUIZ is empty - return to page Quiz Select
+        if(quizService.getByIdLazy(quizid).getQnums() == 0) {
+            return "redirect:/start";
+        }
+
+
 
         // Verify that sessionId is not 0. If =0 that assign Random value.
         if(sessionId == 0) {
@@ -101,29 +129,43 @@ public class QuestionController {
                     sessionId,
                     userService.getById(userid),
                     (Quiz) quizService.getByIdLazy(quizid));
+
+
+//            //User by id
+//            modelMap.addAttribute("user", userService.getById(userid));
+//            logger.info("QuestionController.class: getQuestionId: userService.getById(userid): " + userService.getById(userid));
+
         }
+
+//        else {
+//            //User by id
+//            modelMap.addAttribute("user", statisticUserQuizSessionService.getUser());
+//            logger.info("QuestionController.class: getQuestionId: statisticUserQuizSessionService.getUser(): " + statisticUserQuizSessionService.getUser());
+//        }
 
 
         // Pass attribute to question form
         modelMap.addAttribute("sessionid",sessionId);
 
-        //User by id
-        modelMap.addAttribute("user", userService.getById(userid));
 
         //Number of questions
         modelMap.addAttribute("qnums", quizService.getByIdLazy(quizid).getQnums());
+
+        //User by id
+        modelMap.addAttribute("user", userService.getById(userid));
+        logger.info("QuestionController.class: getQuestionId: userid = " + userid);
+        logger.info("QuestionController.class: getQuestionId: userService.getById(userid): " + userService.getById(userid));
 
         //Quiz id, name
         modelMap.addAttribute("quiz", quizService.getByIdLazy(quizid));
 
         //Id of question
         modelMap.addAttribute("qnum",qnum);
-
         //QUESTION
         modelMap.addAttribute("question", quizService.getById(quizid).getQuestions().get(qnum));
 
         // Statistic QUESTION
-        statisticQuestionService.addStatisticQuestion(sessionId, (StatisticUserQuizSessions) statisticUserQuizSessionService.getBySessionId(sessionId),new StatisticQuestions(quizService.getById(quizid).getQuestions().get(qnum)));
+        statisticQuestionService.addStatisticQuestion(sessionId, (StatisticUserQuizSessions) statisticUserQuizSessionService.getBySessionId(sessionId), new StatisticQuestions(quizService.getById(quizid).getQuestions().get(qnum)));
 
         return "question";
     }
@@ -131,6 +173,12 @@ public class QuestionController {
     // POST REQUEST FROM question.jsp
     @RequestMapping(value = "/quiz",method = RequestMethod.POST)
     public String getQuiz(HttpServletRequest request){
+
+        logger.info("sessionId: " + request.getRequestedSessionId());
+
+        logger.info("session.getId(): " + request.getSession().getId());
+
+        logger.info("userid: " + request.getParameter("userid"));
 
         //Cast to Integer RequestParams
         int userid = Integer.parseInt(request.getParameter("userid"));

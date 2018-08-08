@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.Base64;
 
 /**
- * Quiz, Question, Option Controller
+ * Quiz, Question, Option Editor Controller
  * Created by gorynych on 30.04.17.
  */
 
@@ -54,7 +54,12 @@ public class QuizController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String quizAddPost(@ModelAttribute("quizattr") Quiz quiz){
+    public String quizAddPost(@ModelAttribute("quizattr") Quiz quiz,
+                              @RequestParam("file") MultipartFile file,
+                              @RequestParam("filesmall") String base64file,
+                              @RequestParam("thumb") String base64,
+                              HttpServletRequest httpServletRequest) throws IllegalStateException, IOException
+    {
         quizService.addQuiz(quiz);
         return "redirect:/quizlist";
     }
@@ -85,6 +90,7 @@ public class QuizController {
                                   @RequestParam("quizId") int quizId,
                                   @ModelAttribute("questionattr") Question question,
                                   @RequestParam("file") MultipartFile file,
+                                  @RequestParam("filesmall") String base64file,
                                   @RequestParam("thumb") String base64,
                                   HttpServletRequest httpServletRequest) throws IllegalStateException, IOException{
 
@@ -94,8 +100,12 @@ public class QuizController {
 
         FileUploadController fileUploadController = new FileUploadController();
 
-        if(!file.isEmpty())
-            fileUploadController.uploadFileHandler1(file,httpServletRequest);
+        if(!file.isEmpty()) {
+            if(base64file != null)
+                fileUploadController.uploadFileBase64(base64file,file.getOriginalFilename(),".",httpServletRequest);
+            else
+                fileUploadController.uploadFileHandler1(file, httpServletRequest);
+        }
 
 
         //stackoverflow 24218382 how to upload encoded base64 image to the server
@@ -132,7 +142,7 @@ public class QuizController {
     public String questionRemoveById(@PathVariable("quizId") int quizId,
                                      @PathVariable("questionid") int questionId){
         questionService.remove(questionId);
-        return "redirect:/quiz/"+quizId+"/question/list";
+        return "redirect:/quiz/" + quizId + "/question/list";
     }
 
     @RequestMapping("{quizId}/question/{questionId}/option/list")

@@ -27,4 +27,6 @@ public interface StatisticUserQuizSessionServiceInterface {
 
     List<Float> getResult(int sessionId);
 
+    User getUser();
+
 }

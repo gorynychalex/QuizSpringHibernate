@@ -2,6 +2,7 @@ package ru.dvfu.mrcpk.develop.server.model;
 
 import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.Type;
+import org.springframework.http.MediaType;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticQuestions;
 
 import javax.persistence.*;
@@ -10,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "Questions")
-@XmlRootElement
 public class Question implements QuestionInterface {
 
     @Id
@@ -69,28 +69,5 @@ public class Question implements QuestionInterface {
     public void setPicture(String picture) {
         this.picture = picture;
     }
-
-//    public List<StatisticQuestions> getStatisticQuestions() {
-//        return statisticQuestions;
-//    }
-//
-//    public void setStatisticQuestions(List<StatisticQuestions> statisticQuestions) {
-//        this.statisticQuestions = statisticQuestions;
-//    }
-
-    //    public float getMark() {
-//
-//        //mark = КВП/ОКП/(КВН + 1)
-//        int sumOptionsTrue=0,sumAnsTrue=0,sunAnsFalse=0;
-//        for(int i = 0; i < options.size(); i++) {
-//            if(options.get(i).isCorrect()) sumOptionsTrue++;
-//            if(options.get(i).isCorrect() & options.get(i).isUserAnswer()) sumAnsTrue++;
-//            if( (options.get(i).isCorrect() ^ options.get(i).isUserAnswer()) & !options.get(i).isUserAnswer()) {sunAnsFalse++; }
-//        }
-//
-//        float mark = (float)sumAnsTrue/(float)sumOptionsTrue/((float)sunAnsFalse+1);
-//
-//        return mark;
-//    }
 
 }

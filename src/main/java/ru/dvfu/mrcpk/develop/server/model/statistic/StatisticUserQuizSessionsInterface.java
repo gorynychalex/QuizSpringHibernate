@@ -21,4 +21,5 @@ public interface StatisticUserQuizSessionsInterface extends Serializable{
     List<StatisticQuestions> getStatisticQuestionsList();
 //    List<Float> getResult();
     Quiz getQuiz();
+    User getUser();
 }

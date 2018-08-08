@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 public interface StatisticQuestionsInterface extends Serializable{
     int getId();
-    Question getQuestion();
+    QuestionInterface getQuestion();
     void setQuestion(Question question);
     float getMark();
     void setMark(float mark);

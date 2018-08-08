@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="information_schema">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/.idea/dataSources/dcc754e0-8ed4-4ed9-81f8-216635e2181a/_src_/database/quiztestspring/schema/information_schema.zip!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

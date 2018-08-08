@@ -26,8 +26,13 @@ public class QuestionService implements QuestionServiceInterface {
     }
 
     @Transactional
-    public List<QuestionInterface> list(Number quizid) {
+    public List<QuestionInterface> list() {
         return this.questionDAO.list();
+    }
+
+    @Transactional
+    public List<QuestionInterface> list(Number quizid) {
+        return this.questionDAO.list(quizid);
     }
 
     @Transactional

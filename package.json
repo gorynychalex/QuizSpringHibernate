@@ -1,0 +1,26 @@
+{
+  "name": "quiztestspring",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "skeleton": "^0.1.2",
+    "vue": "^2.5.16",
+    "vue-cli": "^2.9.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gorynychalex/QuizSpringHibernate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gorynychalex/QuizSpringHibernate/issues"
+  },
+  "homepage": "https://github.com/gorynychalex/QuizSpringHibernate#readme"
+}

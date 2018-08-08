@@ -10,7 +10,7 @@ import java.util.List;
 public interface QuestionDAOInterface {
     QuestionInterface getById(Number id);
     List<QuestionInterface> list();
-    List<Question> list(Number quizid);
+    List<QuestionInterface> list(Number quizid);
     void add(Number quizId, QuestionInterface question);
     void update(QuestionInterface question);
     void remove(Number id);

@@ -1,6 +1,7 @@
 package ru.dvfu.mrcpk.develop.server.model.statistic;
 
 import ru.dvfu.mrcpk.develop.server.model.Question;
+import ru.dvfu.mrcpk.develop.server.model.QuestionInterface;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -53,7 +54,7 @@ public class StatisticQuestions implements StatisticQuestionsInterface {
         this.mark = mark;
     }
 
-    public Question getQuestion() {
+    public QuestionInterface getQuestion() {
         return question;
     }
 

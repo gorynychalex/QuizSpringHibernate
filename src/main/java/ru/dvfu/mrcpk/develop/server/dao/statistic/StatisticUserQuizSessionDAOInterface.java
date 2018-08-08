@@ -2,6 +2,7 @@ package ru.dvfu.mrcpk.develop.server.dao.statistic;
 
 import ru.dvfu.mrcpk.develop.server.model.Quiz;
 import ru.dvfu.mrcpk.develop.server.model.QuizInterface;
+import ru.dvfu.mrcpk.develop.server.model.User;
 import ru.dvfu.mrcpk.develop.server.model.UserInterface;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticQuestions;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticUserQuizSessions;
@@ -38,4 +39,6 @@ public interface StatisticUserQuizSessionDAOInterface {
     List<StatisticQuestions> getStatisticQuestionsBySessionId(int sessionId);
 
     List<Float> getResult(int sessionId);
+
+    User getUser();
 }

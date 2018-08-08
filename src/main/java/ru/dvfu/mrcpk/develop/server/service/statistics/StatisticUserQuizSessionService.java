@@ -55,6 +55,11 @@ public class StatisticUserQuizSessionService implements StatisticUserQuizSession
         return suqsDAO.getResult(sessionId);
     }
 
+    @Override
+    public User getUser() {
+        return suqsDAO.getUser();
+    }
+
     @Transactional
     public List<Float> getResultBySessionId(int sessionId){
 
@@ -101,6 +106,7 @@ public class StatisticUserQuizSessionService implements StatisticUserQuizSession
     public List<StatisticQuestions> getStatisticQuestionsBySessionId(int sessionId) {
         return suqsDAO.getStatisticQuestionsBySessionId(sessionId);
     }
+
 
 
 }

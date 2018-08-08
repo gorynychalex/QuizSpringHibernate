@@ -65,7 +65,7 @@ public class QuestionDAOSimpleJDBC implements QuestionDAOInterface {
         return null;
     }
 
-    public List<Question> list(Number id) {
+    public List<QuestionInterface> list(Number id) {
         return null;
     }
 

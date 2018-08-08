@@ -26,7 +26,7 @@ public class QuizDAO implements QuizDAOInterface{
     }
 
     public List<QuizInterface> list() {
-        logger.info("getQuizList()");
+//        logger.info("getQuizList()");
         return currentSession().createQuery("from Quiz").list();
     }
 
@@ -58,10 +58,9 @@ public class QuizDAO implements QuizDAOInterface{
         return currentSession().createQuery("from Question ").list();
     }
 
-    public List<Question> listQuestionByQuizId(Number quizId){
-        logger.info("getQuestionList()");
-        QuizInterface quiz = currentSession().get(Quiz.class, quizId);
-        return quiz.getQuestions();
+    @Override
+    public List<Question> listQuestionByQuizId(Number quizId) {
+        return null;
     }
 
     public QuestionInterface getQuestionById(Number id){

@@ -40,6 +40,7 @@ public class QuestionDAO implements QuestionDAOInterface{
         return currentSession().createQuery("from Question ").list();
     }
 
+
 //        this.dataSource = dataSource;
 //    public void setDataSource(DataSource dataSource){
 //    @Autowired
@@ -73,11 +74,13 @@ public class QuestionDAO implements QuestionDAOInterface{
     }
 
 
-    public List<Question> list(Number quizid){
+    public List<QuestionInterface> list(Number quizid){
         logger.info("get list(quizid)");
-        QuizInterface quiz = currentSession().get(Quiz.class,quizid);
+        QuizInterface quiz = currentSession().get(Quiz.class, quizid);
         logger.info(quiz.getQuestions().size());
-        return quiz.getQuestions();
+        List<QuestionInterface> list = new ArrayList<>();
+        quiz.getQuestions().stream().forEach(q -> list.add(q));
+        return list;
     }
 
     public void update(QuestionInterface question) {

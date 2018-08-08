@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.dvfu.mrcpk.develop.server.dao.QuizDAO;
 import ru.dvfu.mrcpk.develop.server.model.QuizInterface;
+import ru.dvfu.mrcpk.develop.server.model.User;
 import ru.dvfu.mrcpk.develop.server.model.UserInterface;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticOptions;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticQuestions;
@@ -65,6 +66,11 @@ public class StatisticUserQuizSessionDAO implements StatisticUserQuizSessionDAOI
     public List<Float> getResult(int sessionId) {
 //        return currentSession().get(StatisticUserQuizSessions.class,sessionId).getResult();
         return new ArrayList<>();
+    }
+
+    @Override
+    public User getUser() {
+        return null;
     }
 
     @Override

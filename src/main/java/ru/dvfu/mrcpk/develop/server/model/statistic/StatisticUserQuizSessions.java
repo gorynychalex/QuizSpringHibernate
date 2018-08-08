@@ -83,6 +83,7 @@ public class StatisticUserQuizSessions implements StatisticUserQuizSessionsInter
 //        this.quizId = quizId;
 //    }
 
+    @Override
     public User getUser() {
         return user;
     }

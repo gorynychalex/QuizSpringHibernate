@@ -8,7 +8,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "Options")
-@XmlRootElement
 public class Option implements OptionInterface {
 
     @Id
