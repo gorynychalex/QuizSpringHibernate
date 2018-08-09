@@ -6,7 +6,8 @@ Vue.component('quiz-list',{
         return {
             quizlist: [],
             endpoint: '/rest/quiz/list',
-            picked: ''
+            picked: '',
+            ok: false
         }
     },
     mounted(){
@@ -21,6 +22,7 @@ Vue.component('quiz-list',{
         showitem(item){
             // console.log(item.id);
             this.picked = item;
+            this.ok = item.qnums > 0 ? true : false;
         }
     },
     template: `<div><ol>
@@ -28,7 +30,7 @@ Vue.component('quiz-list',{
                 </ol>
                 <!--<span>choosed: {{ picked.qnums }}</span>-->
                 <br>
-                <quiz-selected :quizPicked='picked'></quiz-selected>
+                <quiz-selected v-show="ok" :quizPicked='picked'></quiz-selected>
                 </div>`
 });
 
