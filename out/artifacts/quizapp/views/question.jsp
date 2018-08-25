@@ -13,6 +13,9 @@
 <head>
     <title>Question </title>
 
+    <%--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">--%>
+    <%--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>--%>
+
     <spring:url value="/resources/theme1/css/bootstrap.min.css" var="bootstrapcss"/>
     <link href="<c:url value="${bootstrapcss}"/>" rel=stylesheet >
 
@@ -31,15 +34,38 @@
     </div>
 </nav>
 
-    <div class="container" style="background-color: darkcyan; color: white">
-        <h2>Quiz:${quiz.name}</h2>
-        <p>Question #${qnum+1} from ${qnums}</p>
-    </div>
+<div class="container">
+<div class="row">
 
+    <div class="col-md-2">
+        <div class="container-fluid right-container bg-info" style="border-radius: 10px;">
 
-<div class="container" style="background-color: white; color: darkcyan">
-        <h4>${question.text}</h4>
+            <p class="card-title">Question</p>
+
+            <div class="card-text">#${qnum+1} from ${qnums}</div>
+        </div>
     </div>
+    <div class="col-md-10" style="">
+        <div class="container-fluid" style="background-color: darkcyan; color: white; border-radius: 10px;">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="container-fluid"><h3>Quiz:${quiz.name}</h3></div>
+                </div>
+
+                <div class="col-md-4 col-md-offset-4">
+                    <div  class="container-fluid" style="background: white; width: 10rem;">
+                        <c:if test="${not empty quiz.picture}">
+                            <img src="/resources/images/thumb/quiz/${quiz.id}/${quiz.picture}">
+                        </c:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
 
 
 <form action="/quiz" method="post">
@@ -48,18 +74,43 @@
     <input type="hidden" name="qnum" value="${qnum}"/>
     <input type="hidden" name="sessionid" value="${sessionid}"/>
 <br>
-    <div class="container" style="background-color: white; color: darkcyan; ">
 
+    <div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-6">
+            <div class="container-fluid bg-info" style="border-radius: 10px;">
+                <h4 class="card-title">${question.text}</h4>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="container-fluid" >
+                <c:if test="${not empty question.picture}">
+                    <a href="/resources/images/quiz/${quiz.id}/questions/${question.id}/${question.picture}"> <img style="border-radius: 10px;" src="/resources/images/thumb/quiz/${quiz.id}/questions/${question.id}/${question.picture}"></a>
+                </c:if>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-offset-2 col-md-10">
+            <div class="container-fluid" style="background-color: white; color: darkcyan; border-radius: 10px;">
             <c:forEach var="opt" items="${question.options}">
-                <div class="radio">
+                <div class="list-group list-group-flush">
                     <label>
-                <input type="radio" name="option" value=${opt.id}><c:out value="${opt.text}"/>
+                        <input class="list-group-item-info" type="radio" name="option" value=${opt.id}><c:out value="${opt.text}"/>
                     </label>
                 </div>
-
             </c:forEach>
-
+            </div>
+            </div>
+        </div>
     </div>
+
     <p>
 
     <div class="container" style="background-color: darkcyan; padding-top: 10px; text-align: right;">
@@ -73,7 +124,7 @@
         </c:if>
 
 
-        <c:if test="${qnum < qnums-2}">
+        <c:if test="${qnum < qnums-1}">
             <button class="btn btn-default" style="color: darkcyan" type="submit" formaction="/quiz?userid=${user.id}&quizid=${quiz.id}&questionid=${qnum+1}" name="button" value="nextQuestion">
                 <%--<button type="submit" name="questionid" value="${qnum+1}">--%>
                 NEXT</button>

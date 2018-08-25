@@ -11,7 +11,7 @@ import java.util.List;
  * Created by gorynych on 10.04.17.
  */
 @Entity
-@Table(name = "StatisticQuestions")
+@Table(name = "statisticquestion")
 public class StatisticQuestions implements StatisticQuestionsInterface {
 
     @Id

@@ -7,6 +7,7 @@
     <title>Add Option for Question</title>
     <spring:url value="/resources/theme1/css/bootstrap.min.css" var="maincss"/>
     <link href="<c:url value="${maincss}"/>" rel=stylesheet >
+    <link href="/resources/theme1/css/main.css" rel="stylesheet">
 </head>
 <body>
 
@@ -36,11 +37,36 @@
         <form:option value="false"/>
     </form:select>
     <br>
-    <form:label path="picture">picture url:</form:label>
-    <form:input path="picture" />
+    <form:hidden id="fileurl" path="picture"/>
+    <br>
+    <input id="fileupload" type="hidden" name="filesmall"/>
+    <br>
+    <input id="filethumb" type="hidden" name="thumb"/>
     <br>
     <input type="submit" value="${buttonText}"/>
 </form:form>
+
+
+<input id="inputimgprev" type="file" name="file" onchange="previewFile()"/>
+
+<br>
+
+<div class="itemform">
+    <div id="imageprevie">
+        <p>Question preview:</p>
+        <p>Question:  <span id="outtext"></span> </p>
+        <br>
+
+        <img src="" id="previewthumb" alt="Image thumb preview ">
+        <%--<br>--%>
+        <%--<img src="" id="preview" width="150" alt="Image preview">--%>
+        <%--<input type="file" id="inputimgprev" onchange="previewFile()">--%>
+    </div>
+
+</div>
+
+
+<script src="<c:url value="/resources/theme1/js/upload.js"/>"></script>
 
 
 

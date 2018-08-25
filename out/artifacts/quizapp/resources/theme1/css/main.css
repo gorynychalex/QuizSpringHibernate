@@ -69,7 +69,7 @@ h1{
     float: left;
 }
 
-img:hover{
-    z-index: -1;
-    position: relative;
-}
+/*img:hover{*/
+    /*z-index: -1;*/
+    /*position: relative;*/
+/*}*/

@@ -6,13 +6,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Users")
-public class User implements Serializable {
+@Table(name = "users")
+public class User implements UserIf {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Type(type = "org.hibernate.type.IntegerType")
-    private int id;
+    private Number id;
 
     private String firstname;
 
@@ -30,7 +30,7 @@ public class User implements Serializable {
 
     public User(){}
 
-    public User(int id, String firstname, String lastname, String middlename, String nickname, String password, Usercategory usercategory) {
+    public User(Number id, String firstname, String lastname, String middlename, String nickname, String password, Usercategory usercategory) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -40,11 +40,11 @@ public class User implements Serializable {
         this.usercategory = usercategory;
     }
 
-    public int getId() {
+    public Number getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Number id) {
         this.id = id;
     }
 

@@ -109,46 +109,42 @@ function previewFile() {
 
     //FileUpload image
     var fileupload = document.getElementById('fileupload');
-    // var fileupl = document.getElementById('fileupl');
+    // var preview = document.getElementById('preview');
 
     //Var for IMAGE SMALL
-    var previewsmall = document.getElementById('imgprevsmall');
     var filethumb = document.getElementById('filethumb');
+    var previewthumb = document.getElementById('previewthumb');
 
     //Var for READER
     var reader = new FileReader;
 
-    reader.onloadend = function (event1) {
+    reader.onloadend = function (event) {
         //Result to Preview window
         // preview.src = reader.result;
 
-        console.log(file.valueOf().type);
-        console.log(file.valueOf().size);
+        console.log("file.name = " + file.name);
+        console.log("file.valueOf().type = " + file.valueOf().type);
+        console.log("file.valueOf().size = " + file.valueOf().size);
 
         fileurl.value = file.name;
-        // filethumbname.value = "thumb_" + file.name;
 
         //Get less Image
-        convertBase64(event1, 800, function (dat) {
-            // fileupload.src = dat;
+        // var img1=new Image();
+        convertBase64(event, 640, function (dat) {
             fileupload.value = dat;
+            // preview.src=dat;
         },file.valueOf().type);
-
 
         //Get Thumb
-        var max = 150;
-        // var img = new Image();
-        convertBase64(event1, max, function (dat) {
-            previewsmall.src = dat;
+        // var imgthumb = new Image();
+        convertBase64(event, 150, function (dat) {
             filethumb.value = dat;
+            previewthumb.src = dat;
         },file.valueOf().type);
-        // img.src = event1.target.result;
     };
 
     if(file){
-        // fileup.onchange = reader.readAsDataURL(file);
         reader.readAsDataURL(file);
-
     } else {
         preview.src = "";
     }
@@ -156,32 +152,29 @@ function previewFile() {
 
 function convertBase64(event, max, cb, imagetype) {
 
+        console.log("New image prepare")
         var image = new Image();
+
         image.onload = function () {
 
-            var oc = document.createElement('canvas');
-            var octx = oc.getContext('2d');
+            var canvas = document.createElement('canvas');
+            var octx = canvas.getContext('2d');
 
-            if(image.width > max){
+            if(image.width > max || image.height > max){
 
-
-                // oc.width = image.width;
-                // oc.height = image.height;
-
-                // octx.drawImage(image, 0, 0);
 
                 if(image.width > image.height){
-                    oc.height = (image.height/image.width) * max;
-                    oc.width = max;
+                    canvas.height = (image.height/image.width) * max;
+                    canvas.width = max;
                 } else {
-                    oc.width = (image.width/image.height) * max;
-                    oc.height = max;
+                    canvas.width = (image.width/image.height) * max;
+                    canvas.height = max;
                 }
 
-                // octx.drawImage(oc, 0, 0, oc.width, oc.height);
-                octx.drawImage(image, 0, 0, oc.width, oc.height);
+                // octx.drawImage(image, 0, 0);
+                octx.drawImage(image, 0, 0, canvas.width, canvas.height);
             }
-            cb(oc.toDataURL(imagetype));
+            cb(canvas.toDataURL(imagetype));
         };
 
         image.src = event.target.result;

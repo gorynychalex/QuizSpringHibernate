@@ -33,6 +33,7 @@
 
             <section id="user">
 
+                <div class="container">
                 <div class="radio" style="color: darkcyan;">
 
                     <div id="select_user" class="input-group-prepend">
@@ -54,6 +55,7 @@
 
                     </div>
                 </div>
+                </div>
                 <button class="btn btn-info pull-right" type="submit" formaction="/statistic/user">USER STATISTICS</button>
             </section>
         </div>
@@ -73,7 +75,8 @@
 
 
             <div id="select_quiz" class="radio">
-            <br>
+
+            <div class="container">
                 <c:forEach var="quiz" items="${quizs}" varStatus="theCount1">
                     <%--<c:out value="${theCount1.count}"/>--%>
                     <c:choose>
@@ -88,6 +91,7 @@
                     </c:choose>
 
                 </c:forEach>
+            </div>
             </div>
         </div>
     </section>

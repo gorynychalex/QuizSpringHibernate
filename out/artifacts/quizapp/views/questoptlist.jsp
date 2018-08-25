@@ -28,7 +28,7 @@
             <td>${Count.count}</td>
             <td>${option.text}</td>
             <td>${option.correct}</td>
-            <td></td>
+            <td><img src="/resources/images/thumb/quiz/${quiz.id}/questions/${question.id}/options/${option.id}/${option.picture}"/></td>
             <td><a href="/quiz/${quiz.id}/question/${question.id}/option/${option.id}/edit">Edit</a></td>
             <td><a href="/quiz/${quiz.id}/question/${question.id}/option/${option.id}/delete">x</a></td>
             <td></td>
@@ -38,12 +38,21 @@
 
 <br>
 <form action="/quiz/${quiz.id}/question/${question.id}/option/add">
+
+    <button type="submit" name="option" value="new">Add Option</button>
+    &nbsp;&nbsp;
     <button type="submit" formaction="/quiz/list" value="quizlist">Quiz List</button>
     &nbsp;&nbsp;
     <button type="submit" formaction="/quiz/${quiz.id}/question/list">Question list of ${quiz.name}</button>
     &nbsp;&nbsp;
-    <button type="submit" name="option" value="new">ADD</button>
 </form>
+
+    <br>
+    <a href="/quiz/${quiz.id}/question/${question.id}/edit">Edit</a>
+    &nbsp;&nbsp;
+    <a href="/quiz/${quiz.id}/question/${question.id}/delete">Delete</a>
+    &nbsp;&nbsp;
+
 </div>
 
 <script src="/resources/theme1/js/main.js"></script>

@@ -25,7 +25,11 @@
             <td>${Count.count}</td>
             <td><a href="/quiz/${quiz.id}/question/list">${quiz.name} </a></td>
             <td>${quiz.qnums}</td>
-            <td></td>
+            <td>
+                <c:if test="${not empty quiz.picture}">
+                    <img src="/resources/images/thumb/quiz/${quiz.id}/${quiz.picture}" width="100px">
+                </c:if>
+            </td>
             <td><a href="/quiz/${quiz.id}/edit">Edit</a></td>
             <td><a href="/quiz/${quiz.id}/remove">x</a></td>
             <td></td>

@@ -5,6 +5,8 @@
 <head>
     <title>Add the question</title>
     <meta charset="UTF-8">
+    <spring:url value="/resources/theme1/css/bootstrap.min.css" var="bootstrapcss"/>
+    <link href="<c:url value="${bootstrapcss}"/>" rel=stylesheet >
     <%--<script src="<c:url value="/resources/theme1/js/main.js"/> "></script>--%>
     <link href="/resources/theme1/css/main.css" rel="stylesheet">
 </head>
@@ -47,7 +49,7 @@
             <br>
             <%--<form:input path="picture" />--%>
             <%--<form:label id="pictureurl" path="pic"></form:label>--%>
-            <input id="inputimgprev" type="file" name="file" onchange="previewFile()"/>
+
             <br>
             <input id="fileupload" type="hidden" name="filesmall"/>
             <br>
@@ -60,6 +62,8 @@
         <%--<input type="file" id="fileupload">--%>
 
     </div>
+        <input id="inputimgprev" type="file" name="file" onchange="previewFile()"/>
+
     <%--<form:form id="formaddfile" method="post" action="/file/upload1" enctype="multipart/form-data">--%>
         <%--<input type="hidden" name="quizId" value="${quiz.id}"/>--%>
         <%--<input type="file" name="file" />--%>
@@ -72,7 +76,7 @@
             <p>Question:  <span id="outtext"></span> </p>
             <%--<img src="" id="imgprev" alt="Image preview ...">--%>
             <br>
-            <img src="" id="imgprevsmall" alt="Image preview ...">
+            <img src="" id="previewthumb" alt="Image preview ...">
             <%--<br>--%>
             <%--<img src="" id="fileupload" alt="Image upload ">--%>
             <%--<input type="file" id="inputimgprev" onchange="previewFile()">--%>

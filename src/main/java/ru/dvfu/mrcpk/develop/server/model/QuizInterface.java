@@ -21,5 +21,9 @@ public interface QuizInterface extends Serializable {
 
     void setQnums(int qnums);
 
+    String getPicture();
+
+    void setPicture(String picture);
+
 //    void addUserQuizSession(int sessionId, User user);
 }

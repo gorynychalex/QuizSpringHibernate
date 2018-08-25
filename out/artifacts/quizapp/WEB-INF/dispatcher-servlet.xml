@@ -16,7 +16,6 @@
         </property>
     </bean>
 
-
     <context:component-scan base-package="ru.dvfu.mrcpk.develop.server"/>
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -31,15 +30,18 @@
         <!--<propenamename="password" value="123456"/>-->
     <!--</bean>-->
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.sqlite.JDBC"/>
-        <property name="url" value="jdbc:sqlite:/home/gorynych/IdeaProjects/quiztestspring/identifier.sqlite"/>
-    </bean>
-
-    <!--<bean id="dataSourcePsql" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
-        <!--<property name="driverClassName" value="org.postgresql.Driver"/>-->
-        <!--<property name="url" value="jdbc:postgresql://localhost:5432/quiztestspring"/>-->
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+        <!--<property name="driverClassName" value="org.sqlite.JDBC"/>-->
+        <!--<property name="url" value="jdbc:sqlite:/home/gorynych/IdeaProjects/quiztestspring/identifier.sqlite"/>-->
     <!--</bean>-->
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/quiztest"/>
+        <property name="schema" value="quiz"/>
+        <property name="username" value="gorynych"/>
+        <property name="password" value="abp7pvp"/>
+    </bean>
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <property name="dataSource" ref="dataSource"/>
@@ -66,8 +68,10 @@
         </property>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>-->
                 <!--<prop key="hibernate.dialect">org.hibernate.dialect.SQLiteDialect</prop>-->
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL94Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.dvfu.mrcpk.develop.server.model.User;
+import ru.dvfu.mrcpk.develop.server.model.UserIf;
 import ru.dvfu.mrcpk.develop.server.model.UserInterface;
 
 import java.lang.reflect.InvocationTargetException;
@@ -30,8 +31,8 @@ public class UserDAO implements UserDAOInterface{
     public List<User> list() {
         logger.info("list users()");
         Query query = currentSession().createQuery("from User ");
-        List<User> users = query.list();
-        for(User user: users)
+        List<User> users = query.getResultList();
+        for(UserIf user: users)
             logger.info("user id = " + user.getId() + ", name = " + user.getFirstname());
         return users;
     }

@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "StatisticQuiz")
+@Table(name = "statisticsuiz")
 public class Statistics implements StatisticsInterface {
 
     /**

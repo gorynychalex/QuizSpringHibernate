@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @Entity
-@Table(name = "Options")
+@Table(name = "option")
 public class Option implements OptionInterface {
 
     @Id

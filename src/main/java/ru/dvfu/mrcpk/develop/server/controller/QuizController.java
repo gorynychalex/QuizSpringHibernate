@@ -53,15 +53,87 @@ public class QuizController {
         return "quizadd";
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.POST)
+    @RequestMapping(value = "add1", method = RequestMethod.POST)
     public String quizAddPost(@ModelAttribute("quizattr") Quiz quiz,
                               @RequestParam("file") MultipartFile file,
-                              @RequestParam("filesmall") String base64file,
-                              @RequestParam("thumb") String base64,
+                              @RequestParam("filesmall") String base64img,
+                              @RequestParam("thumb") String base64thumb,
                               HttpServletRequest httpServletRequest) throws IllegalStateException, IOException
     {
+
+        logger.info("Quiz_add: this is question and file upload");
+
+
+        // New instance file upload controller
+        FileUploadController fileUploadController = new FileUploadController();
+
+        logger.info("Save file is empty!");
+
+        // Save base64 file to the root project folder
+        if(!file.isEmpty()) {
+            if(base64img != null) {
+                logger.info("Save base64 image file!");
+                fileUploadController.uploadFileBase64(base64img, file.getOriginalFilename(), ".", httpServletRequest);
+            } else {
+                logger.info("base64 image file is empty! Save original file!");
+                fileUploadController.uploadFileHandler1(file, httpServletRequest);
+            }
+        }
+
+
+        // Save base64 file thumb to the thumb's directory
+
+        //stackoverflow 24218382 how to upload encoded base64 image to the server
+        logger.info("File thumb length is : " + base64thumb.length());
+        if(base64thumb != null){
+            logger.info("Question_add Thumb file is ");
+            fileUploadController.uploadFileBase64(base64thumb,file.getOriginalFilename(),"thumb",httpServletRequest);
+        }
+
+
         quizService.addQuiz(quiz);
-        return "redirect:/quizlist";
+        return "redirect:/quiz/list";
+    }
+
+
+    @RequestMapping(value = "add", method = RequestMethod.POST)
+    public String quizAddPost(@ModelAttribute("quizattr") Quiz quiz,
+                              @RequestParam("filesmall") String base64img,
+                              @RequestParam("thumb") String base64thumb,
+                              HttpServletRequest httpServletRequest) throws IllegalStateException, IOException
+    {
+        // Object model of quiz would save
+        quizService.addQuiz(quiz);
+
+//        logger.info("Quiz_add: this is question and file upload");
+//        logger.info("quiz.getPicture()= " + quiz.getPicture());
+//        logger.info("quiz.getId() = " + quiz.getId());
+
+        // New instance file upload controller
+        FileUploadController fileUploadController = new FileUploadController();
+
+//        logger.info("File thumb length is : " + base64thumb.length());
+
+        // Save base64 file to the root project folder
+
+        if(base64img != null) {
+            logger.info("Save base64 image file!");
+            fileUploadController.uploadFileBase64(base64img, quiz.getPicture(), "quiz/"+quiz.getId(), httpServletRequest);
+        }
+
+
+        // Save base64 file thumb to the thumb's directory
+
+        //stackoverflow 24218382 how to upload encoded base64 image to the server
+        logger.info("File thumb length is : " + base64thumb.length());
+        if(base64thumb != null){
+            logger.info("Question_add Thumb file is ");
+            fileUploadController.uploadFileBase64(base64thumb,quiz.getPicture(),
+                    "thumb/"+"quiz/"+quiz.getId(),
+                    httpServletRequest);
+        }
+
+        return "redirect:/quiz/list";
     }
 
     @RequestMapping(value = "{id}/remove", method = RequestMethod.GET)
@@ -89,32 +161,75 @@ public class QuizController {
     public String questionAddPost(@PathVariable("id") int id,
                                   @RequestParam("quizId") int quizId,
                                   @ModelAttribute("questionattr") Question question,
+                                  @RequestParam("filesmall") String base64img,
+                                  @RequestParam("thumb") String base64thumb,
+                                  HttpServletRequest httpServletRequest) throws IllegalStateException, IOException{
+
+        // Save question
+
+        questionService.add(quizId, question);
+
+        logger.info("Question_add: this is question and file upload");
+
+        logger.info("Question_add: qestion getId()" + question.getId());
+
+        // New instance file upload controller
+        FileUploadController fileUploadController = new FileUploadController();
+
+        // Save base64 file to the root project folder
+
+            if(base64img != null)
+                fileUploadController.uploadFileBase64(base64img,question.getPicture(),"quiz/" + quizId + "/" + "questions/" + question.getId(),httpServletRequest);
+
+
+        // Save base64 file thumb to the thumb's directory
+
+        //stackoverflow 24218382 how to upload encoded base64 image to the server
+        logger.info("File thumb length is : " + base64thumb.length());
+        if(base64thumb != null){
+            logger.info("Question_add Thumb file is ");
+            fileUploadController.uploadFileBase64(base64thumb,question.getPicture(),"thumb/" + "quiz/" + quizId + "/" + "questions/" + question.getId(),httpServletRequest);
+        }
+
+
+        return "redirect:/quiz/" + id + "/question/list";
+    }
+
+    @RequestMapping(value = "{id}/question/add1", method = RequestMethod.POST)
+    public String questionAddPost(@PathVariable("id") int id,
+                                  @RequestParam("quizId") int quizId,
+                                  @ModelAttribute("questionattr") Question question,
                                   @RequestParam("file") MultipartFile file,
-                                  @RequestParam("filesmall") String base64file,
-                                  @RequestParam("thumb") String base64,
+                                  @RequestParam("filesmall") String base64img,
+                                  @RequestParam("thumb") String base64thumb,
                                   HttpServletRequest httpServletRequest) throws IllegalStateException, IOException{
 
         logger.info("Question_add: this is question and file upload");
 
         logger.info("Question_add: qestion getId()" + question.getId());
 
+        // New instance file upload controller
         FileUploadController fileUploadController = new FileUploadController();
 
+        // Save base64 file to the root project folder
         if(!file.isEmpty()) {
-            if(base64file != null)
-                fileUploadController.uploadFileBase64(base64file,file.getOriginalFilename(),".",httpServletRequest);
+            if(base64img != null)
+                fileUploadController.uploadFileBase64(base64img,file.getOriginalFilename(),".",httpServletRequest);
             else
                 fileUploadController.uploadFileHandler1(file, httpServletRequest);
         }
 
 
+        // Save base64 file thumb to the thumb's directory
+
         //stackoverflow 24218382 how to upload encoded base64 image to the server
-        logger.info("File thumb length is : " + base64.length());
-        if(base64 != null){
+        logger.info("File thumb length is : " + base64thumb.length());
+        if(base64thumb != null){
             logger.info("Question_add Thumb file is ");
-            fileUploadController.uploadFileBase64(base64,file.getOriginalFilename(),"thumb",httpServletRequest);
+            fileUploadController.uploadFileBase64(base64thumb,file.getOriginalFilename(),"thumb",httpServletRequest);
         }
 
+        // Save question
 
         questionService.add(quizId, question);
 
@@ -175,9 +290,28 @@ public class QuizController {
     @RequestMapping(value = "{quizId}/question/{questionId}/option/add", method = RequestMethod.POST)
     public String optionAddPost(@PathVariable("quizId") int quizId,
                                 @PathVariable("questionId") int questionId,
-                                @ModelAttribute("optionattr") Option option){
+                                @RequestParam("filesmall") String base64img,
+                                @RequestParam("thumb") String base64thumb,
+                                @ModelAttribute("optionattr") Option option, HttpServletRequest httpServletRequest) throws IOException
+    {
 
         optionService.add(questionId, option);
+
+        // New instance file upload controller
+        FileUploadController fileUploadController = new FileUploadController();
+
+        // Save base64 file to the root project folder
+        if(base64img != null)
+            fileUploadController.uploadFileBase64(base64img,option.getPicture(),"quiz/" + quizId + "/" + "questions/" + questionId + "/options/" + option.getId(),httpServletRequest);
+
+        // Save base64 file thumb to the thumb's directory
+
+        //stackoverflow 24218382 how to upload encoded base64 image to the server
+        logger.info("File thumb length is : " + base64thumb.length());
+        if(base64thumb != null){
+            logger.info("Question_add Thumb file is ");
+            fileUploadController.uploadFileBase64(base64thumb,option.getPicture(),"thumb/" + "quiz/" + quizId + "/" + "questions/" + questionId + "/options/" + option.getId(),httpServletRequest);
+        }
 
         return "redirect:/questoptlist?quizid=" + quizId + "&questionid=" + questionId;
     }

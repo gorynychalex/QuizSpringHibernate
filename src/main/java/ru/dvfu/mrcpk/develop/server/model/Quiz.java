@@ -17,14 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Quizs")
+@Table(name = "quiz")
 public class Quiz implements QuizInterface {
 
     /**
      * Quiz id
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Type(type = "org.hibernate.type.IntegerType")
     private Number id;
 

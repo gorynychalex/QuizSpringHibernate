@@ -30,7 +30,7 @@ Vue.component('quiz-list',{
                 </ol>
                 <!--<span>choosed: {{ picked.qnums }}</span>-->
                 <br>
-                <quiz-selected v-show="ok" :quizPicked='picked'></quiz-selected>
+                <quiz-selected v-show="ok" :quizPicked='picked'><span class="fa fa-user"></span>Choosed test: </quiz-selected>
                 </div>`
 });
 
@@ -51,49 +51,73 @@ Vue.component('choose-item',{
 
 // List Questions with Options!!!
 Vue.component('quiz-selected',{
-    props: ['quizPicked', 'pickchoices1'],
+    props: ['quizPicked'],
     data: function () {
         return {
             questions: [],
+            answers: [],
             answersend: [],
             pickchoices: [],
             quiz: 0,
-            url: '/rest/quiz/'
+            urlget: '/rest/quiz/',
+            urlpostresult: '/rest/quiz/',
+            errors: []
         }
     },
     watch: {
         quizPicked: function (newVal, oldVal) {
             // console.log("newVal" + newVal)
             this.quiz = newVal;
-            this.fetchPosts(newVal.id);
+            this.getQuestions(newVal.id);
         }
     },
     methods: {
-        fetchPosts(id){
+        getQuestions(id){
             axios
-                .get(this.url + id)
+                .get(this.urlget + id)
                 .then(function(res){
                         this.questions = res.data;
                     }
                         .bind(this)
                 );
         },
+        postAnswers(bodytosend){
+            axios
+                .post(this.urlpostresult,{ body: bodytosend })
+                .then( function (r) {
+                    console.log(r);
+                })
+                .catch(function (e) {
+                    console.log(e);
+                })
+        },
         sendresult (){
-            this.pickchoices.forEach((el, i, x) => this.answersend.push({'q': i, 'c': el}))
+
+            // prepare data array ->
+            this.pickchoices.forEach((el, i, x) => i? this.answers.push({'q': i, 'c': el}) : null)
+
+            // console.log(this.answers)
+            // console.log("this.answers.length: " + this.answers.length)
+            // console.log(this.answersend)
+            // console.log(this.pickchoices)
+
+            // create json object
+            this.answersend = JSON.stringify(this.answers);
             console.log("Sending result to server:")
-            console.log("this.answersend: " + this.answersend)
-            console.log("pickchoices: " + this.pickchoices.length)
+            this.postAnswers(this.answersend)
 
         },
         pickchoicesadd(n){
-            console.log(n)
+            // console.log(n)
             this.pickchoices = n;
 
         }
     },
     template:   '<div class="container">' +
-                    '<div class="row"><div class="twelve columns">' +
-                        '<h3 style="color: #8c8c8c;"> Quiz: <span style="color: red">{{ quiz.name }}</span>  with <span style="color: #0FA0CE">{{ quiz.qnums }} </span>questions </h3>' +
+                    '<div class="row">' +
+                        '<slot></slot>' +
+                        '<div class="twelve columns">' +
+                        '<h3 style="color: #8c8c8c;"><span style="color: red">{{ quiz.name }}</span>  with <span style="color: #0FA0CE">{{ quiz.qnums }} </span>questions </h3>' +
                         '<question-list :questions="questions" :key="questions.id" @out="pickchoicesadd($event)"/>' +
                         '<button @click="sendresult">Закончить опрос</button>' +
                     '</div></div>'+
@@ -102,13 +126,13 @@ Vue.component('quiz-selected',{
 
 //Question list component
 Vue.component('question-list', {
-    props: ['questions','pickchoices1'],
+    props: ['questions'],
     data: function() { return { pickchoice: '', pickchoices: [] }},
     methods: {
         pickchoicesadd(n) {
             // console.log(n)
-            this.pickchoices[n.question - 1] = n.choice;
-            console.log("QUESTION-LIST: pickchoices[" + n.question + "] = " + this.pickchoices[n.question - 1]);
+            this.pickchoices[n.question] = n.choice;
+            // console.log("QUESTION-LIST: pickchoices[" + n.question + "] = " + this.pickchoices[n.question]);
             this.$emit('out',this.pickchoices)
         }
     },

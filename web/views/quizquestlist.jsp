@@ -33,7 +33,7 @@ Question numbers: ${quiz.questions.size()}
             <td>${question.options.size()}</td>
             <td>
                 <c:if test="${not empty question.picture}">
-                    <img src="/resources/images/thumb/${question.picture}" width="100px">
+                    <img src="/resources/images/thumb/quiz/${quiz.id}/questions/${question.id}/${question.picture}">
                 </c:if>
             </td>
             <td><a href="/quiz/${quiz.id}/question/${question.id}/edit">Edit</a> </td>
@@ -44,9 +44,8 @@ Question numbers: ${quiz.questions.size()}
 </table>
 <br>
 <form action="/quiz/${quiz.id}/question/add">
+    <button type="submit" name="question" value="add">Add Question</button>&nbsp;&nbsp;
     <button type="submit" formaction="/quiz/list" value="quizlist">Quiz List</button>
-    &nbsp;&nbsp;
-    <button type="submit" name="question" value="add">ADD</button>
 </form>
 </div>
 

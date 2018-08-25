@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @Entity
-@Table(name = "Questions")
+@Table(name = "question")
 public class Question implements QuestionInterface {
 
     @Id
