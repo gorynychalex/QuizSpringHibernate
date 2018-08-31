@@ -1,5 +1,47 @@
 //Vue JS app
 
+var imagepath = '/resources/images/';
+
+// register modal component
+// https://ru.vuejs.org/v2/examples/modal.html
+Vue.component('modal-win', {
+    props: ['imagethis'],
+    template: `            
+              <transition name="modal">
+                <div class="modal-mask">
+                  <div class="modal-wrapper">
+                    <div class="modal-container">
+            
+                      <div class="modal-header">
+                        <slot name="header">
+                          default header
+                        </slot>
+                      </div>
+            
+                      <div class="modal-body">
+                      <img :src="imagethis">
+                      <br>
+                        <slot name="body">
+                          default body
+                        </slot>
+                      </div>
+            
+                      <div class="modal-footer">
+                        <slot name="footer">
+                          default footer
+                          <button class="modal-default-button" @click="$emit('close')">
+                            OK
+                          </button>
+                        </slot>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </transition>
+    `
+});
+
+
 // Component List Quiz (show name quizs)
 Vue.component('quiz-list',{
     data: function () {
@@ -37,10 +79,20 @@ Vue.component('quiz-list',{
 // One item of Quiz list
 Vue.component('choose-item',{
     props: ['item'],
+    data: function(){
+        return {
+            imagepath: window.imagepath,
+            showModal: false
+        };
+    },
     template: `<div class="one-item">
                 <label>
                 <input type="radio" name="item.name" :value="item.id" @change="$emit('pickedoption', item)">
-                <span v-text="item.name"></span>
+                <span v-text="item.name"></span>&nbsp;&nbsp;
+                <span class="tooltip" v-if="(item.picture !== '')">
+                    <img v-bind:src="imagepath + 'thumb/quiz/' + item.id + '/' + item.picture" width="20">
+                    <img class="tooltiptext" :src="imagepath + 'thumb/quiz/' + item.id + '/' + item.picture">
+                </span>
                 </input>
                 </label>
                 </div>
@@ -61,7 +113,11 @@ Vue.component('quiz-selected',{
             quiz: 0,
             urlget: '/rest/quiz/',
             urlpostresult: '/rest/quiz/',
-            errors: []
+            errors: [],
+            imagepath: window.imagepath,
+            imagetest: window.imagepath + 'thumb/quiz/20/Java_programming_language_logo.svg.png',
+            img: '',
+            showModal: false
         }
     },
     watch: {
@@ -117,8 +173,19 @@ Vue.component('quiz-selected',{
                     '<div class="row">' +
                         '<slot></slot>' +
                         '<div class="twelve columns">' +
-                        '<h3 style="color: #8c8c8c;"><span style="color: red">{{ quiz.name }}</span>  with <span style="color: #0FA0CE">{{ quiz.qnums }} </span>questions </h3>' +
-                        '<question-list :questions="questions" :key="questions.id" @out="pickchoicesadd($event)"/>' +
+                        '<h3 style="color: #8c8c8c;">' +
+                            '<span class="tooltip" v-if="(quiz.picture !== null)">' +
+                                '<img @click="showModal = true" :src="imagepath + \'thumb/quiz/\' + quiz.id + \'/\' + quiz.picture" width="20">' +
+                                '<img class="tooltiptext" style="background: whitesmoke;" :src="imagepath + \'thumb/quiz/\' + quiz.id + \'/\' + quiz.picture">' +
+                            '</span>&nbsp;&nbsp;' +
+                            '<span style="color: red">{{ quiz.name }}</span>  with <span style="color: #0FA0CE">{{ quiz.qnums }} </span>questions ' +
+                        '</h3>' +
+
+                        '<modal-win :imagethis="imagetest" v-if="showModal" @close="showModal = false">' +
+                            '<h3 slot="header">{{ quiz.name }}</h3>' +
+                        '</modal-win>' +
+
+                        '<question-list :questions="questions" :key="questions.id" :quizid="quiz.id" @out="pickchoicesadd($event)"/>' +
                         '<button @click="sendresult">Закончить опрос</button>' +
                     '</div></div>'+
                 '</div>'
@@ -126,7 +193,7 @@ Vue.component('quiz-selected',{
 
 //Question list component
 Vue.component('question-list', {
-    props: ['questions'],
+    props: ['questions','quizid'],
     data: function() { return { pickchoice: '', pickchoices: [] }},
     methods: {
         pickchoicesadd(n) {
@@ -136,31 +203,36 @@ Vue.component('question-list', {
             this.$emit('out',this.pickchoices)
         }
     },
-    template: `<ol><li v-for="q_one in questions">
-                        <span style="font-size: large;">{{ q_one.text }}</span>
-                        <question-single v-bind:q="q_one" @pickedoption="pickchoicesadd($event)"></question-single>
+    template: `<ol><li v-for="q_one in questions"> 
+                        <question-single :q="q_one" :quizid="quizid" @pickedoption="pickchoicesadd($event)"></question-single>
                     </li></ol>`
 });
 
 
 //Show one question
 Vue.component('question-single', {
-    props: ['q'],
+    props: ['q', 'quizid'],
     data: function () {
-        return { picked: ''}
+        return { picked: '', imagepath: window.imagepath}
     },
     template: `
-            <div class="question-one">
+            <span class="question-one">
+                        <span style="font-size: large;">{{ q.text }}</span>
+                <span class="tooltip" v-if="(q.picture !== '' )">
+                    <img :src="imagepath + 'thumb/quiz/' + quizid + '/questions/' + q.id + '/' + q.picture" width="50" @click="showModal = true">
+                    <img class="tooltiptext" style="background: whitesmoke;" :src="imagepath + 'quiz/' + quizid + '/questions/' + q.id + '/' + q.picture">
+                </span>
+                       <br><br>
             <form action="/quiz" method="post">
-            <input type="hidden" name="sessionid" value="sessionid"/>
-            <label v-for="option in q.options">
-            <input type="radio" name="option" :value="option.text" @change="$emit('pickedoption', { 'question': q.id, 'choice': option.id })" v-model="picked">
-                <span v-text="option.text"></span>
-            </input>
-            </label>
-            <br><span> Selected answer: {{ picked }} </span>
+                <input type="hidden" name="sessionid" value="sessionid"/>
+                <label v-for="option in q.options">
+                <input type="radio" name="option" :value="option.text" @change="$emit('pickedoption', { 'question': q.id, 'choice': option.id })" v-model="picked">
+                    <span v-text="option.text"></span>
+                </input>
+                </label>
+                    <span> Selected answer: {{ picked }} </span>
             </form>
-            </div>
+            </span>
             `
 });
 

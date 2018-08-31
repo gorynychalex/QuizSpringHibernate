@@ -34,39 +34,22 @@
     </div>
 </nav>
 
-<div class="container">
-<div class="row">
 
-    <div class="col-md-2">
-        <div class="container-fluid right-container bg-info" style="border-radius: 10px;">
+    <div class="container" style="background-color: darkcyan; color: white; border-radius: 10px;">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="container-fluid"><h2>Quiz <span class="label label-info"> ${quiz.name}</span></h2></div>
+            </div>
 
-            <p class="card-title">Question</p>
-
-            <div class="card-text">#${qnum+1} from ${qnums}</div>
-        </div>
-    </div>
-    <div class="col-md-10" style="">
-        <div class="container-fluid" style="background-color: darkcyan; color: white; border-radius: 10px;">
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="container-fluid"><h3>Quiz:${quiz.name}</h3></div>
-                </div>
-
-                <div class="col-md-4 col-md-offset-4">
-                    <div  class="container-fluid" style="background: white; width: 10rem;">
-                        <c:if test="${not empty quiz.picture}">
-                            <img src="/resources/images/thumb/quiz/${quiz.id}/${quiz.picture}">
-                        </c:if>
-                    </div>
+            <div class="col-md-4 col-md-offset-4">
+                <div  class="container-fluid" style="background: white; border-radius: 10px;">
+                    <c:if test="${not empty quiz.picture}">
+                        <img src="/resources/images/thumb/quiz/${quiz.id}/${quiz.picture}" width="50">
+                    </c:if>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-</div>
-
 
 <form action="/quiz" method="post">
     <input type="hidden" name="quizid" value="${quiz.id}"/>
@@ -77,16 +60,23 @@
 
     <div class="container">
     <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-6">
-            <div class="container-fluid bg-info" style="border-radius: 10px;">
-                <h4 class="card-title">${question.text}</h4>
+        <div class="col-md-2">
+            <div class="container-fluid right-container bg-info" style="border-radius: 10px; color: darkcyan;">
+                <p class="card-title">Question</p>
+                <div class="card-text"><span class="badge"> #${qnum+1}</span> from ${qnums}</div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
+            <div class="jumbotron" style="background: white; border-radius: 10px; color: darkcyan;">
+                <h2>${question.text}</h2>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-4">
             <div class="container-fluid" >
                 <c:if test="${not empty question.picture}">
-                    <a href="/resources/images/quiz/${quiz.id}/questions/${question.id}/${question.picture}"> <img style="border-radius: 10px;" src="/resources/images/thumb/quiz/${quiz.id}/questions/${question.id}/${question.picture}"></a>
+                    <a class="thumbnail" href="/resources/images/quiz/${quiz.id}/questions/${question.id}/${question.picture}">
+                        <img style="border-radius: 10px;" src="/resources/images/thumb/quiz/${quiz.id}/questions/${question.id}/${question.picture}">
+                    </a>
                 </c:if>
             </div>
         </div>
@@ -96,11 +86,10 @@
 
     <div class="container">
         <div class="row">
-
             <div class="col-md-offset-2 col-md-10">
-            <div class="container-fluid" style="background-color: white; color: darkcyan; border-radius: 10px;">
+            <div class="container-fluid" style="background: white; color: darkcyan; border-radius: 20px;">
             <c:forEach var="opt" items="${question.options}">
-                <div class="list-group list-group-flush">
+                <div class="list-group list-group-flush" style="border-radius: 20px;">
                     <label>
                         <input class="list-group-item-info" type="radio" name="option" value=${opt.id}><c:out value="${opt.text}"/>
                     </label>
