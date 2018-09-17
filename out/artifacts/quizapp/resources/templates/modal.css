@@ -78,7 +78,7 @@
 
 .tooltip .tooltiptext {
     visibility: hidden;
-    width: 120px;
+    width: 300%;
     background-color: black;
     color: #fff;
     text-align: center;
@@ -92,4 +92,30 @@
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
+}
+
+/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_js_lightbox */
+/* The Close Button */
+.close {
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #999;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.mySlides {
+    display: none;
+}
+
+.cursor {
+    cursor: pointer;
 }

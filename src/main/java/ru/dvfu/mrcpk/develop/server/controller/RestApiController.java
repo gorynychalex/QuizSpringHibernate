@@ -10,7 +10,7 @@ import ru.dvfu.mrcpk.develop.server.model.QuizInterface;
 import ru.dvfu.mrcpk.develop.server.service.QuestionServiceInterface;
 import ru.dvfu.mrcpk.develop.server.service.QuizServiceInterface;
 
-import javax.enterprise.inject.Produces;
+//import javax.enterprise.inject.Produces;
 import java.util.List;
 
 /**
