@@ -8,10 +8,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
 import ru.dvfu.mrcpk.develop.server.model.*;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticOptions;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticQuestions;
@@ -65,7 +69,8 @@ public class QuestionController {
         return "userlist";
     }
 
-
+    @GetMapping("/startvue")
+    public String getQuestionsVue(){ return "redirect:/templates/index.html"; }
 
     //Question request
     @RequestMapping("/question/{id}")
@@ -87,11 +92,36 @@ public class QuestionController {
     // START QUIZ
     @RequestMapping("/start")
     public String listQuiz(@RequestParam(value = "sessionid", defaultValue = "0") long sessionid, ModelMap modelMap){
+
+        logger.info("isAuth: " + SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
+
         modelMap.addAttribute("users", userService.list());
+
         modelMap.addAttribute("quizs", quizService.list());
 
         if(sessionid != 0)
             modelMap.addAttribute("user", statisticUserQuizSessionService.getUser());
+
+        return "quizselect";
+    }
+
+    // START QUIZ
+    @RequestMapping("/startauth")
+    public String startAuth(
+            HttpSession session,
+            ModelMap modelMap)
+    {
+        logger.info("isAuth: " + SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
+
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        modelMap.addAttribute("user_login", name);
+        modelMap.addAttribute("users", userService.list());
+        modelMap.addAttribute("quizs", quizService.list());
+
+        if(!session.getId().isEmpty())
+            modelMap.addAttribute("user",
+                    statisticUserQuizSessionService.getUser());
 
         return "quizselect";
     }
@@ -111,6 +141,7 @@ public class QuestionController {
             @RequestParam(value = "sessionid",defaultValue = "0") int sessionId,
             @RequestParam("quizid") int quizid,
             @RequestParam(value = "qnum",defaultValue = "0") int qnum,
+            HttpSession session,
             ModelMap modelMap)
     {
         // If QUIZ is empty - return to page Quiz Select
@@ -118,7 +149,7 @@ public class QuestionController {
             return "redirect:/start";
         }
 
-
+        logger.info("session.getId(): " + session.getId());
 
         // Verify that sessionId is not 0. If =0 that assign Random value.
         if(sessionId == 0) {
@@ -129,6 +160,7 @@ public class QuestionController {
                     sessionId,
                     userService.getById(userid),
                     (Quiz) quizService.getByIdLazy(quizid));
+
 
 
 //            //User by id
@@ -146,6 +178,7 @@ public class QuestionController {
 
         // Pass attribute to question form
         modelMap.addAttribute("sessionid",sessionId);
+        modelMap.addAttribute("sessionid1",session.getId());
 
 
         //Number of questions

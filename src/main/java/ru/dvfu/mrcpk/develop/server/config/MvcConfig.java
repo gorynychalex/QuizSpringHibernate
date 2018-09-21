@@ -13,14 +13,12 @@ import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.List;
 
-@Configuration
 public class MvcConfig implements WebMvcConfigurer {
-
 
     @Override
     public void addViewControllers(ViewControllerRegistry viewControllerRegistry) {
 
-        viewControllerRegistry.addViewController("/").setViewName("resources/templates/index.html");
+        viewControllerRegistry.addViewController("/vue").setViewName("/resources/templates/index.html");
 
     }
 

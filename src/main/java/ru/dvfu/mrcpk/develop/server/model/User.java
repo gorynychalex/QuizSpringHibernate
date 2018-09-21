@@ -23,6 +23,8 @@ public class User implements UserIf {
     private String nickname;
 
     private String password;
+//
+//    private boolean enabled;
 
 //    private String usercategory;
 
@@ -96,6 +98,14 @@ public class User implements UserIf {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+//    public boolean isEnabled() {
+//        return enabled;
+//    }
+//
+//    public void setEnabled(boolean enabled) {
+//        this.enabled = enabled;
+//    }
 
     public enum Usercategory {
         STUDENT,

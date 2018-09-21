@@ -7,10 +7,11 @@
     <title>login page</title>
 </head>
 <body>
-
-<form method="post" action="/j_spring_security_check">
-    Username: <input type="text" name="j_username"/><br>
-    Password: <input type="password" name="j_password" /><br>
+<%--<form method="post" action="j_spring_security_check">--%>
+<form method="post" action="/login">
+    Username: <input type="text" name="user_login"/><br>
+    Password: <input type="password" name="password_login" /><br>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     <input type="submit" value="login"/>
 </form>
 

@@ -56,6 +56,7 @@
     <input type="hidden" name="userid" value="${user.id}"/>
     <input type="hidden" name="qnum" value="${qnum}"/>
     <input type="hidden" name="sessionid" value="${sessionid}"/>
+    <input type="hidden" name="sessionid1" value="${sessionid1}"/>
 <br>
 
     <div class="container">

@@ -7,31 +7,39 @@
 >
 
     <!--<http/>-->
-    <http auto-config="true" use-expressions="true">
+    <http auto-config="true" use-expressions="false">
 
-        <intercept-url pattern="/**" access="ROLE_USER"/>
-        <intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/start" access="ROLE_USER"/>
-        <intercept-url pattern="/quiz**" access="ROLE_ADMIN"/>
-        <intercept-url pattern="/index*" access="ROLE_USER,ROLE_ANONYMOUS"/>
-        <intercept-url pattern="login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/res" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/user/**" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/quiz/**" access="ROLE_ADMIN,ROLE_USER"/>
+        <intercept-url pattern="/rest/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/start" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/startauth" access="ROLE_USER,ROLE_ADMIN"/>
+        <intercept-url pattern="/templates/**" access="ROLE_USER,ROLE_ADMIN"/>
+        <intercept-url pattern="/startvue" access="ROLE_USER,ROLE_ADMIN"/>
 
+        <csrf />
 
         <form-login login-page="/login.jsp"
-                    default-target-url="/index"
-                    authentication-failure-url="/login.jsp?error=true"
+                    default-target-url="/"
                     username-parameter="user_login"
-                    password-parameter="password_login"/>
+                    password-parameter="password_login"
+                    authentication-failure-url="/login.jsp?error=true"/>
 
-        <logout logout-url="/logout" logout-success-url="/index"/>
+        <!--https://www.mkyong.com/spring-security/spring-security-hibernate-xml-example/-->
+        <logout logout-url="login.jsp?logout" logout-success-url="/startauth" delete-cookies="JSESSIONID"/>
+
+        <remember-me/>
 
     </http>
 
+
     <authentication-manager>
         <authentication-provider>
+
             <user-service>
-                <user name="admin" password="123456" authorities="ROLE_ADMIN"/>
-                <user name="user" password="123456" authorities="ROLE_USER"/>
+                <user name="admin" password="1" authorities="ROLE_ADMIN"/>
+                <user name="user" password="1" authorities="ROLE_USER"/>
             </user-service>
         </authentication-provider>
     </authentication-manager>

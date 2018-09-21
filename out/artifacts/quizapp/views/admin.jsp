@@ -13,6 +13,7 @@
 <body>
 Admin page!
 <br>
-<a href="j_spring_security_logout">Logout</a>
+<a href="/start">Start Quiz</a>
+<br>
 </body>
 </html>

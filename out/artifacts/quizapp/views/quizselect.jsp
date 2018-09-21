@@ -19,8 +19,15 @@
             <a class="navbar-brand" href="/start">Quiz System</a>
         </div>
         <div class="nav navbar-nav" style="float: right;">
-            <li class="active"><a href="#">User: ${user.nickname}</a> </li>
-            <li><a href="#">Выйти</a> </li>
+
+            <c:if test="${not empty user_login}">
+                <li class="active"><a href="/statistic/user">User: ${user_login} </a> </li>
+            </c:if>
+            <c:if test="${empty user_login}">
+                <li class="active"><a href="/startauth">User: ${user_login} </a> </li>
+            </c:if>
+
+            <li><a href="/login.jsp?logout">Выйти</a> </li>
         </div>
     </div>
 </nav>

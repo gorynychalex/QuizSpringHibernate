@@ -83,7 +83,12 @@
         </property>
     </bean>
 
+    <!--MAPPINGS-->
+
     <mvc:resources mapping="/resources/**" location="/resources/" cache-period="31556926"/>
+    <mvc:resources mapping="/templates/**" location="/templates/" cache-period="31556926"/>
+    <mvc:resources mapping="/temp/**" location="/templates/" cache-period="31556926"/>
+    <mvc:view-controller path="/" view-name="admin"/>
     <mvc:annotation-driven />
 
 
