@@ -17,9 +17,18 @@
     <c:set var="buttonText" value="Add"/>
 </c:if>
 <form:form modelAttribute="userattr" method="post" action="${urlaction}">
-    <form:hidden path="id"/>
+    <%--<form:hidden path="id"/>--%>
     <%--<form:label path="id">id:</form:label>--%>
     <%--<form:input path="id" />--%>
+
+
+    <br>
+    <form:label path="username">Nickname:</form:label>
+    <form:input path="username" />
+    <br>
+    <form:label path="password">Password:</form:label>
+    <form:password path="password" />
+    <br>
 
     <form:label path="firstname">Firstname:</form:label>
     <form:input path="firstname" />
@@ -29,17 +38,9 @@
     <br>
     <form:label path="middlename">Middlename:</form:label>
     <form:input path="middlename" />
-    <br>
-    <form:label path="nickname">Nickname:</form:label>
-    <form:input path="nickname" />
-    <br>
-    <form:label path="password">Password:</form:label>
-    <form:password path="password" />
-    <br>
-    <form:select path="usercategory" >
-        <form:options/>
-    </form:select>
-    <br>
+
+
+
     <input type="submit" value="${buttonText}"/>
 </form:form>
 </body>

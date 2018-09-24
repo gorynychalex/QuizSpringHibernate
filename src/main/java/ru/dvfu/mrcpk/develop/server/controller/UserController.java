@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import ru.dvfu.mrcpk.develop.server.model.User;
+import ru.dvfu.mrcpk.develop.server.model.UserAuth;
 import ru.dvfu.mrcpk.develop.server.service.UserServiceInterface;
 
 /**
@@ -39,6 +37,12 @@ public class UserController {
     public String userAddGet(ModelMap modelMap){
         modelMap.addAttribute("userattr",new User());
         return "useradd";
+    }
+
+    @GetMapping(value = "addauth")
+    public String userAuthAddGet(ModelMap modelMap){
+        modelMap.addAttribute("userattr",new UserAuth());
+        return "userauthadd";
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
