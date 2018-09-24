@@ -20,8 +20,10 @@
         </div>
         <div class="nav navbar-nav" style="float: right;">
 
+            <%--<li>${pageContext.request.userPrincipal}</li>--%>
+
             <c:if test="${not empty user_login}">
-                <li class="active"><a href="/statistic/user">User: ${user_login} </a> </li>
+                <li class="active"><a href="/statistic/user">User: ${pageContext.request.userPrincipal.principal.username} </a> </li>
             </c:if>
             <c:if test="${empty user_login}">
                 <li class="active"><a href="/startauth">User: ${user_login} </a> </li>

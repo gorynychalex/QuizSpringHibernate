@@ -34,7 +34,7 @@
     <form:input path="nickname" />
     <br>
     <form:label path="password">Password:</form:label>
-    <form:input path="password" />
+    <form:password path="password" />
     <br>
     <form:select path="usercategory" >
         <form:options/>
