@@ -18,9 +18,9 @@ public class UserAnswerOptions implements UserAnswerOptionsInterface{
 //    @Type(type = "timestamp")
 //    private Date date;
 
-    private int sessionid;
+    private String sessionid;
 
-    private int userid;
+    private String userid;
 
     private int questionid;
 
@@ -28,7 +28,7 @@ public class UserAnswerOptions implements UserAnswerOptionsInterface{
 
     public UserAnswerOptions(){}
 
-    public UserAnswerOptions(int sessionid, int userid, int questionid, int optionid) {
+    public UserAnswerOptions(String sessionid, String userid, int questionid, int optionid) {
 //        this.date = new Date(System.currentTimeMillis());
         this.sessionid = sessionid;
         this.userid = userid;
@@ -52,11 +52,11 @@ public class UserAnswerOptions implements UserAnswerOptionsInterface{
 //        this.date = date;
 //    }
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 
@@ -68,11 +68,11 @@ public class UserAnswerOptions implements UserAnswerOptionsInterface{
         this.optionid = optionid;
     }
 
-    public int getSessionid() {
+    public String getSessionid() {
         return sessionid;
     }
 
-    public void setSessionid(int sessionid) {
+    public void setSessionid(String sessionid) {
         this.sessionid = sessionid;
     }
 

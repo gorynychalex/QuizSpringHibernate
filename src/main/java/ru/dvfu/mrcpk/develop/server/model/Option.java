@@ -4,6 +4,7 @@ import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticOptions;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,6 +17,10 @@ public class Option implements OptionInterface {
     private int id;
 
     private String text;
+
+    private Date timecreate;
+
+    private boolean enable;
 
     private String picture;
 
@@ -64,7 +69,24 @@ public class Option implements OptionInterface {
         this.picture = picture;
     }
 
-//    public List<StatisticOptions> getStatisticOptions() {
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getTimecreate() {
+        return timecreate;
+    }
+
+    public void setTimecreate(Date timecreate) {
+        this.timecreate = timecreate;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+    //    public List<StatisticOptions> getStatisticOptions() {
 //        return statisticOptions;
 //    }
 //

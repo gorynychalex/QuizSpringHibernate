@@ -12,6 +12,6 @@ public interface QuizServiceInterface extends Serializable{
     void addQuiz(QuizInterface quiz);
     List<QuizInterface> list();
     void removeById(Number id);
-    List<Float> getResultByQuizId(Number quizId, Number sessionId);
-    void addStatistic(Number id, int sessionId, User user);
+    List<Float> getResultByQuizId(Number quizId, String sessionId);
+    void addStatistic(Number id, String sessionId, User user);
 }

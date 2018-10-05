@@ -53,7 +53,7 @@ public class StatisticUserQuizSessionDAO implements StatisticUserQuizSessionDAOI
         currentSession().update(suqs);
     }
 
-    public StatisticUserQuizSessions getBySessionId(int sessionId) {
+    public StatisticUserQuizSessions getBySessionId(String sessionId) {
         return currentSession().get(StatisticUserQuizSessions.class, sessionId);
     }
 
@@ -63,7 +63,7 @@ public class StatisticUserQuizSessionDAO implements StatisticUserQuizSessionDAOI
     }
 
     @Override
-    public List<Float> getResult(int sessionId) {
+    public List<Float> getResult(String sessionId) {
 //        return currentSession().get(StatisticUserQuizSessions.class,sessionId).getResult();
         return new ArrayList<>();
     }
@@ -74,7 +74,7 @@ public class StatisticUserQuizSessionDAO implements StatisticUserQuizSessionDAOI
     }
 
     @Override
-    public List<StatisticQuestions> getStatisticQuestionsBySessionId(int sessionId) {
+    public List<StatisticQuestions> getStatisticQuestionsBySessionId(String sessionId) {
 
 //        StatisticUserQuizSessions statisticUserQuizSessions =
 //                currentSession().get(StatisticUserQuizSessions.class,sessionId);

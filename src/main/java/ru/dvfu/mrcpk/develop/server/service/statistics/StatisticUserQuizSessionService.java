@@ -34,13 +34,13 @@ public class StatisticUserQuizSessionService implements StatisticUserQuizSession
     private StatisticOptionsDAOInterface soptionsDAO;
 
     @Transactional
-    public void addUserQuizSession(int sessionId, User user, Quiz quiz) {
+    public void addUserQuizSession(String sessionId, User user, Quiz quiz) {
         StatisticUserQuizSessions suqs = new StatisticUserQuizSessions(sessionId,user,quiz);
         suqsDAO.addUserQuizSession(suqs);
     }
 
     @Transactional
-    public StatisticUserQuizSessionsInterface getBySessionId(int sessionId) {
+    public StatisticUserQuizSessionsInterface getBySessionId(String sessionId) {
         return suqsDAO.getBySessionId(sessionId);
     }
 
@@ -51,7 +51,7 @@ public class StatisticUserQuizSessionService implements StatisticUserQuizSession
     }
 
     @Transactional
-    public List<Float> getResult(int sessionId){
+    public List<Float> getResult(String sessionId){
         return suqsDAO.getResult(sessionId);
     }
 
@@ -61,7 +61,7 @@ public class StatisticUserQuizSessionService implements StatisticUserQuizSession
     }
 
     @Transactional
-    public List<Float> getResultBySessionId(int sessionId){
+    public List<Float> getResultBySessionId(String sessionId){
 
         List<Float> result = new ArrayList<>();
 
@@ -103,10 +103,7 @@ public class StatisticUserQuizSessionService implements StatisticUserQuizSession
 
     @Transactional
     @Override
-    public List<StatisticQuestions> getStatisticQuestionsBySessionId(int sessionId) {
+    public List<StatisticQuestions> getStatisticQuestionsBySessionId(String sessionId) {
         return suqsDAO.getStatisticQuestionsBySessionId(sessionId);
     }
-
-
-
 }

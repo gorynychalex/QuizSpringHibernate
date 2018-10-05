@@ -15,17 +15,17 @@ import java.util.List;
  */
 public interface StatisticUserQuizSessionServiceInterface {
 
-    void addUserQuizSession(int sessionId, User user, Quiz quiz);
+    void addUserQuizSession(String sessionId, User user, Quiz quiz);
 
-    StatisticUserQuizSessionsInterface getBySessionId(int sessionId);
+    StatisticUserQuizSessionsInterface getBySessionId(String sessionId);
 
     List<StatisticUserQuizSessions> getStatisticByUser(int userId);
 
-    List<Float> getResultBySessionId(int sessionId);
+    List<Float> getResultBySessionId(String sessionId);
 
-    List<StatisticQuestions> getStatisticQuestionsBySessionId(int sessionId);
+    List<StatisticQuestions> getStatisticQuestionsBySessionId(String sessionId);
 
-    List<Float> getResult(int sessionId);
+    List<Float> getResult(String sessionId);
 
     User getUser();
 

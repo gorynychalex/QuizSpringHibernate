@@ -1,8 +1,6 @@
 package ru.dvfu.mrcpk.develop.server.model.statistic;
 
-import ru.dvfu.mrcpk.develop.server.model.Quiz;
 import ru.dvfu.mrcpk.develop.server.model.QuizInterface;
-import ru.dvfu.mrcpk.develop.server.model.User;
 import ru.dvfu.mrcpk.develop.server.model.UserInterface;
 
 import javax.persistence.*;
@@ -12,13 +10,14 @@ import java.util.List;
 /**
  * Created by gorynych on 20.06.17.
  */
+
 public class StatisticQuiz implements StatisticQuizIf{
     /**
      * No need to generate Id, because sessionId is Id!
      */
     @Id
     @Column(name = "sessionid")
-    private int sessionId;
+    private String sessionId;
 
     //    @Type(type = "date")
     private Date timestart;
@@ -55,11 +54,11 @@ public class StatisticQuiz implements StatisticQuizIf{
         this.timestart = new Date();
     }
 
-    public int getSessionId() {
+    public String getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(int sessionId) {
+    public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
 

@@ -11,9 +11,9 @@ public interface UserAnswerOptionsDAOInterface {
 //    void setUser(User user);
 //    void setOption(Option option);
     UserAnswerOptions getUserAnswerById(int id);
-    List getUserAnswersBySessionId(int sessionId);
+    List getUserAnswersBySessionId(String sessionId);
     void setAnswer(UserAnswerOptions userAnswerOptions);
-    void removeAnswerByQuiestionId(Number questionId, Number sessionId);
-    List<UserAnswerOptions> getByQuestionAndSession(Number questionId, Number sessionId);
-    void updateByQuestionAndSession(Number questionId, Number optionId, Number userId, Number sessionId);
+    void removeAnswerByQuiestionId(Number questionId, String sessionId);
+    List<UserAnswerOptions> getByQuestionAndSession(Number questionId, String sessionId);
+    void updateByQuestionAndSession(Number questionId, Number optionId, String user, String sessionId);
 }

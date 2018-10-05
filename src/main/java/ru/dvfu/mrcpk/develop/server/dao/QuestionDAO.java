@@ -70,7 +70,6 @@ public class QuestionDAO implements QuestionDAOInterface{
         currentQuiz.setQnums(currentQuiz.getQuestions().size());
 
         currentSession().save(currentQuiz);
-
     }
 
 

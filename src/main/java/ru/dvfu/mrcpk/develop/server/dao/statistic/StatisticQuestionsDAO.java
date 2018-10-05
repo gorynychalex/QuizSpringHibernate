@@ -28,7 +28,7 @@ public class StatisticQuestionsDAO implements StatisticQuestionsDAOInterface{
         return sessionFactory.getCurrentSession();
     }
 
-    public void addStatisticQuestion(int sessionId, StatisticUserQuizSessions suqs, StatisticQuestions statisticQuestion) {
+    public void addStatisticQuestion(String sessionId, StatisticUserQuizSessions suqs, StatisticQuestions statisticQuestion) {
 
         currentSession().save(statisticQuestion);
 
@@ -49,7 +49,7 @@ public class StatisticQuestionsDAO implements StatisticQuestionsDAOInterface{
     }
 
     @Override
-    public int getIdByQuestionAndSessionId(int sessionId, int questionId) {
+    public int getIdByQuestionAndSessionId(String sessionId, int questionId) {
 
         StatisticUserQuizSessionsInterface statistics = currentSession().get(StatisticUserQuizSessions.class,sessionId);
 
@@ -82,13 +82,13 @@ public class StatisticQuestionsDAO implements StatisticQuestionsDAOInterface{
     }
 
     @Override
-    public List<StatisticQuestions> getStatisticQuestionListBySessionId(int sessionId) {
+    public List<StatisticQuestions> getStatisticQuestionListBySessionId(String sessionId) {
 
         return null;
     }
 
     @Override
-    public List<Float> getResultsBySessionId(int sessionId) {
+    public List<Float> getResultsBySessionId(String sessionId) {
 
         List<Float> marks = new ArrayList<>();
 

@@ -18,7 +18,7 @@ public interface StatisticUserQuizSessionDAOInterface {
     // Add session record
     void addUserQuizSession(StatisticUserQuizSessionsInterface suqs);
 
-    StatisticUserQuizSessionsInterface getBySessionId(int sessionId);
+    StatisticUserQuizSessionsInterface getBySessionId(String sessionId);
 
     // Update session record
     void updateUserQuizSession(StatisticUserQuizSessionsInterface suqs);
@@ -36,9 +36,9 @@ public interface StatisticUserQuizSessionDAOInterface {
 //    UserInterface getUserBySessionId(int sessionId);
 //    QuizInterface getQuizBySessionId(int sessionId);
 
-    List<StatisticQuestions> getStatisticQuestionsBySessionId(int sessionId);
+    List<StatisticQuestions> getStatisticQuestionsBySessionId(String sessionId);
 
-    List<Float> getResult(int sessionId);
+    List<Float> getResult(String sessionId);
 
     User getUser();
 }

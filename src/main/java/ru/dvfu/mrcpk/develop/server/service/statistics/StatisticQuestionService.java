@@ -21,18 +21,18 @@ public class StatisticQuestionService implements StatisticQuestionServiceInterfa
     private StatisticQuestionsDAOInterface suqsi;
 
     @Transactional
-    public void addStatisticQuestion(int sessionId, StatisticUserQuizSessions suqs, StatisticQuestions statisticQuestion){
+    public void addStatisticQuestion(String sessionId, StatisticUserQuizSessions suqs, StatisticQuestions statisticQuestion){
         suqsi.addStatisticQuestion(sessionId, suqs,statisticQuestion);
     }
 
     @Transactional
-    public int getIdByQuestionAndSessionId(int sessionId, int questionId) {
+    public int getIdByQuestionAndSessionId(String sessionId, int questionId) {
         return suqsi.getIdByQuestionAndSessionId(sessionId,questionId);
     }
 
     @Transactional
     @Override
-    public List<Float> getResultsBySessionId(int sessionId) {
+    public List<Float> getResultsBySessionId(String sessionId) {
         return suqsi.getResultsBySessionId(sessionId);
     }
 

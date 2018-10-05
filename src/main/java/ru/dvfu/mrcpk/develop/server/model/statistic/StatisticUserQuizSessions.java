@@ -11,16 +11,15 @@ import java.util.List;
 /**
  * Created by gorynych on 10.04.17.
  */
-@Entity
-@Table(name = "StatisticUserQuizSessions")
+
 public class StatisticUserQuizSessions implements StatisticUserQuizSessionsInterface {
 
     /**
-     * No need to generate Id, because sessionId is Id!
+     * No need to generate Id, sessionId is Id!
      */
     @Id
     @Column(name = "sessionid")
-    private int sessionId;
+    private String sessionId;
 
 //    @Type(type = "date")
     private Date timestart;
@@ -49,7 +48,7 @@ public class StatisticUserQuizSessions implements StatisticUserQuizSessionsInter
 
     public StatisticUserQuizSessions(){    }
 
-    public StatisticUserQuizSessions(int sessionId, User user, Quiz quiz) {
+    public StatisticUserQuizSessions(String sessionId, User user, Quiz quiz) {
         this.sessionId = sessionId;
 //        this.userId = userId;
         this.user = user;
@@ -58,11 +57,11 @@ public class StatisticUserQuizSessions implements StatisticUserQuizSessionsInter
         this.timestart=new Date();
     }
 
-    public int getSessionId() {
+    public String getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(int sessionId) {
+    public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
 

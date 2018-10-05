@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.dvfu.mrcpk.develop.server.model.User;
+import ru.dvfu.mrcpk.develop.server.model.UserAuth;
 import ru.dvfu.mrcpk.develop.server.model.UserIf;
 import ru.dvfu.mrcpk.develop.server.model.UserInterface;
 
@@ -28,29 +29,30 @@ public class UserDAO implements UserDAOInterface{
         return sessionFactory.getCurrentSession();
     }
 
-    public List<User> list() {
+    public List<UserAuth> list() {
         logger.info("list users()");
-        Query query = currentSession().createQuery("from User ");
-        List<User> users = query.getResultList();
-        for(UserIf user: users)
-            logger.info("user id = " + user.getId() + ", name = " + user.getFirstname());
+        Query query = currentSession().createQuery("from UserAuth ");
+        List<UserAuth> users = query.getResultList();
+        for(UserAuth user: users)
+            logger.info("user name = " + user.getUsername());
         return users;
     }
 
 
-    public User getById(Number id) {
-        logger.info("user getById");
-        User user = currentSession().get(User.class,id);
-        logger.info("user firstname: " + user.getFirstname());
-        logger.info("user id: " + user.getId());
+    public UserAuth getById(String username) {
+//        logger.info("user getById");
+        UserAuth user = currentSession().get(UserAuth.class,username);
+
+//        logger.info("user authorities: " + user.getAuthorities());
+//        logger.info("user firstname: " + user.getFirstname());
         return user;
     }
 
-    public void add(User user) {
+    public void add(UserAuth user) {
         currentSession().persist(user);
     }
 
-    public void update(User user) {
+    public void update(UserAuth user) {
         currentSession().update(user);
 //        currentSession().merge(user);
 //
@@ -93,7 +95,7 @@ public class UserDAO implements UserDAOInterface{
 //
     }
 
-    public void remove(Number id) {
-        currentSession().delete(currentSession().get(User.class,id));
+    public void remove(String username) {
+        currentSession().delete(currentSession().get(UserAuth.class,username));
     }
 }

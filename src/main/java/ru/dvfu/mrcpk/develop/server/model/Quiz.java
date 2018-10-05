@@ -14,6 +14,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -44,6 +45,11 @@ public class Quiz implements QuizInterface {
      */
 
     private int qnums;
+
+    private Date timecreate;
+
+    private boolean enable;
+
 
     /**
      * Connect One Quiz to Many Questions
@@ -121,4 +127,24 @@ public class Quiz implements QuizInterface {
         this.qnums = qnums;
     }
 
+    public void setId(Number id) {
+        this.id = id;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getTimecreate() {
+        return timecreate;
+    }
+
+    public void setTimecreate(Date timecreate) {
+        this.timecreate = timecreate;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
 }

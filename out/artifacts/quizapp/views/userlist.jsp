@@ -20,17 +20,17 @@
     <c:forEach var="user" items="${userlist}" varStatus="theCount">
     <tr>
         <td>${theCount.count}</td>
-        <td><a href="/user/${user.id}"><c:out value="${user.firstname}"/> &nbsp; ${user.lastname}</a> </td>
+        <td><a href="/admin/users/${user.username}"><c:out value="${user.username}"/> &nbsp; ${user.lastname}</a> </td>
         <td>Group</td>
         <td>Picture</td>
-        <td><a href="/user/${user.id}/edit">Edit</a></td>
-        <td><a href="/user/${user.id}/delete">x</a></td>
+        <td><a href="/admin/users/${user.username}/edit">Edit</a></td>
+        <td><a href="/admin/users/${user.username}/delete">x</a></td>
     </tr>
     </c:forEach>
 </table>
 
 
-<form action="/user/add">
+<form action="/admin/users/add">
     <button type="submit" name="quizadd" value="new">ADD</button>
 </form>
 

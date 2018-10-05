@@ -54,20 +54,20 @@ public class QuizService implements QuizServiceInterface {
 
     @Transactional
     @Override
-    public void addStatistic(Number id, int sessionId, User user) {
+    public void addStatistic(Number id, String sessionId, User user) {
         this.quizDAO.addStatistic(id,sessionId,user);
     }
 
     @Transactional
-    public List<Float> getResultByQuizId(Number quizId, Number sessionId) {
+    public List<Float> getResultByQuizId(Number quizId, String sessionId) {
 
-        logger.info("getResultByQuizId ( " + quizId.intValue() + ", " + sessionId.intValue() + "); ");
+        logger.info("getResultByQuizId ( " + quizId.intValue() + ", " + sessionId + "); ");
 
         // Create List of Marks of every Questions
         List<Float> marks = new ArrayList<Float>();
 
         // Get List UserAnswers
-        List userAnswerOptionss = userAnswerOptionsDAO.getUserAnswersBySessionId((Integer) sessionId);
+        List userAnswerOptionss = userAnswerOptionsDAO.getUserAnswersBySessionId(sessionId);
 
         // Get Questions
         List<Question> questions = this.quizDAO.getQuizById(quizId).getQuestions();

@@ -27,7 +27,7 @@
             <a class="navbar-brand" href="/start">Quiz System</a>
         </div>
         <div class="nav navbar-nav" style="float: right;">
-            <li class="active"><a href="#">User: ${user.nickname}</a> </li>
+            <li class="active"><a href="#">User: ${pageContext.request.userPrincipal.principal.username}</a> </li>
             <li><a href="#">Logout</a> </li>
         </div>
 
@@ -53,10 +53,9 @@
 
 <form action="/quiz" method="post">
     <input type="hidden" name="quizid" value="${quiz.id}"/>
-    <input type="hidden" name="userid" value="${user.id}"/>
     <input type="hidden" name="qnum" value="${qnum}"/>
     <input type="hidden" name="sessionid" value="${sessionid}"/>
-    <input type="hidden" name="sessionid1" value="${sessionid1}"/>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 <br>
 
     <div class="container">
@@ -107,7 +106,7 @@
         <div class="btn-group-md">
 
         <c:if test="${qnum > 0}">
-            <button class="btn btn-default" style="color: darkcyan" type="submit" formaction="/quiz?userid=${user.id}&quizid=${quiz.id}&questionid=${qnum-1}" name="button" value="prevQuestion">
+            <button class="btn btn-default" style="color: darkcyan" type="submit" formaction="/start/quiz?quizid=${quiz.id}&questionid=${qnum-1}" name="button" value="prevQuestion">
                 <%--<button type="submit" name="questionid" value="${qnum-1}">--%>
                         PREV</button>
             &nbsp;&nbsp;
@@ -115,7 +114,7 @@
 
 
         <c:if test="${qnum < qnums-1}">
-            <button class="btn btn-default" style="color: darkcyan" type="submit" formaction="/quiz?userid=${user.id}&quizid=${quiz.id}&questionid=${qnum+1}" name="button" value="nextQuestion">
+            <button class="btn btn-default" style="color: darkcyan" type="submit" formaction="/start/quiz?quizid=${quiz.id}&questionid=${qnum+1}" name="button" value="nextQuestion">
                 <%--<button type="submit" name="questionid" value="${qnum+1}">--%>
                 NEXT</button>
             &nbsp;&nbsp;

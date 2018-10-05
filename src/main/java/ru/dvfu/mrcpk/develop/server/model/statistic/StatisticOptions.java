@@ -8,8 +8,6 @@ import java.util.Date;
 /**
  * Created by gorynych on 10.04.17.
  */
-@Entity
-@Table(name = "statisticoption")
 public class StatisticOptions implements StatisticOptionsInterface {
 
     @Id

@@ -1,6 +1,5 @@
 package ru.dvfu.mrcpk.develop.server.model.statistic;
 
-import ru.dvfu.mrcpk.develop.server.model.Quiz;
 import ru.dvfu.mrcpk.develop.server.model.QuizInterface;
 import ru.dvfu.mrcpk.develop.server.model.UserInterface;
 
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public interface StatisticQuizIf extends Serializable{
 
-    int getSessionId();
+    String getSessionId();
 
     List<StatisticQuestionsInterface> getStatisticQuestionsList();
 

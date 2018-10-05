@@ -52,5 +52,5 @@ public interface QuizDAOInterface {
     public void removeOption(Number id);
 
     //SHOULD ReMOVE!!!
-    void addStatistic(Number id, int sessionId, User user);
+    void addStatistic(Number id, String sessionId, User user);
 }

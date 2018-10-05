@@ -14,28 +14,28 @@ import ru.dvfu.mrcpk.develop.server.service.UserServiceInterface;
  */
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/admin/users")
 public class UserController {
 
     @Autowired
     @Qualifier("userService")
     private UserServiceInterface userServiceInterface;
 
-    @RequestMapping("list")
+    @RequestMapping
     public String getUserList(ModelMap modelMap){
         modelMap.addAttribute("userlist", userServiceInterface.list());
         return "userlist";
     }
 
     @RequestMapping(value = "{id}")
-    public String getUserById(@PathVariable("id") int userId, ModelMap modelMap){
+    public String getUserById(@PathVariable("id") String userId, ModelMap modelMap){
         modelMap.addAttribute("userattr", userServiceInterface.getById(userId));
         return "user";
     }
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String userAddGet(ModelMap modelMap){
-        modelMap.addAttribute("userattr",new User());
+        modelMap.addAttribute("userattr",new UserAuth());
         return "useradd";
     }
 
@@ -46,27 +46,27 @@ public class UserController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String userAddPost(@ModelAttribute("userattr") User user){
+    public String userAddPost(@ModelAttribute("userattr") UserAuth user){
         userServiceInterface.add(user);
-        return "redirect:/user/list";
+        return "redirect:/admin/users/list";
     }
 
     @RequestMapping(value = "{id}/edit")
-    public String userEditGet(@PathVariable("id") int userId, ModelMap modelMap){
+    public String userEditGet(@PathVariable("id") String userId, ModelMap modelMap){
         modelMap.addAttribute("userattr", userServiceInterface.getById(userId));
         return "useradd";
     }
 
     @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public String userEditPost(@ModelAttribute("userattr") User user){
+    public String userEditPost(@ModelAttribute("userattr") UserAuth user){
         userServiceInterface.update(user);
-        return "redirect:/user/list";
+        return "redirect:/admin/users/list";
     }
 
 
     @RequestMapping(value = "{id}/remove", method = RequestMethod.GET)
-    public String userRemoveById(@PathVariable("id") int userId){
+    public String userRemoveById(@PathVariable("id") String userId){
         userServiceInterface.remove(userId);
-        return "redirect:/user/list";
+        return "redirect:/admin/users/list";
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserAnswerServiceInterface {
     void setAnswer(UserAnswerOptions userAnswerOptions);
-    void removeAnswerByQuestionId(Number questionId, Number sessionId);
-    List<UserAnswerOptions> getByQuestionAndSession(Number questionId, Number sessionId);
-    void updateByQuestionAndSession(Number questionId, Number optionid, Number userId, Number sessionId);
+    void removeAnswerByQuestionId(Number questionId, String sessionId);
+    List<UserAnswerOptions> getByQuestionAndSession(Number questionId, String sessionId);
+    void updateByQuestionAndSession(Number questionId, Number optionid, String user, String sessionId);
 }

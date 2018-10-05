@@ -13,11 +13,11 @@ import java.util.List;
  */
 public interface StatisticQuestionServiceInterface {
 
-    void addStatisticQuestion(int sessionId, StatisticUserQuizSessions suqs, StatisticQuestions statisticQuestion);
+    void addStatisticQuestion(String sessionId, StatisticUserQuizSessions suqs, StatisticQuestions statisticQuestion);
 
-    int getIdByQuestionAndSessionId(int sessionId, int questionId);
+    int getIdByQuestionAndSessionId(String sessionId, int questionId);
 
-    List<Float> getResultsBySessionId(int sessionId);
+    List<Float> getResultsBySessionId(String sessionId);
 
     List<StatisticQuestions> getStatisticQuestionList();
 }

@@ -24,50 +24,49 @@
 
             <c:if test="${not empty user_login}">
                 <li class="active"><a href="/statistic/user">User: ${pageContext.request.userPrincipal.principal.username} </a> </li>
+                <li><a href="/login.jsp?logout">Выйти</a> </li>
             </c:if>
             <c:if test="${empty user_login}">
-                <li class="active"><a href="/startauth">User: ${user_login} </a> </li>
+                <li class="active"><a href="/start/auth"> Login </a> </li>
             </c:if>
-
-            <li><a href="/login.jsp?logout">Выйти</a> </li>
         </div>
     </div>
 </nav>
 
 
-    <form action="/quiz">
+    <form action="/start/quiz">
 
-        <div class="container" style="background-color: darkcyan; color: white;">
-            <h2>Select user: </h2>
+        <%--<div class="container" style="background-color: darkcyan; color: white;">--%>
+            <%--<h2>Select user: </h2>--%>
 
-            <section id="user">
+            <%--<section id="user">--%>
 
-                <div class="container">
-                <div class="radio" style="color: darkcyan;">
+                <%--<div class="container">--%>
+                <%--<div class="radio" style="color: darkcyan;">--%>
 
-                    <div id="select_user" class="input-group-prepend">
-                        <select name="userid">
-                            <c:forEach var="user" items="${users}" varStatus="theCount">
-                                <c:choose>
-                                    <c:when test="${theCount.count ge 2}">
-                                        <option value="${user.id}"><c:out value="${theCount.count}"/>. <c:out value="${user.firstname}"/>&nbsp;<c:out value="${user.lastname}"/></option>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <c:out value="${theCount.count}"/>. <c:out value="${user.firstname}"/>&nbsp;<c:out value="${user.lastname}"/>
-                                        </button>
-                                        <option selected value="${user.id}"><c:out value="${theCount.count}"/>. <c:out value="${user.firstname}"/>&nbsp;<c:out value="${user.lastname}"/></option>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </select>
+                    <%--<div id="select_user" class="input-group-prepend">--%>
+                        <%--<select name="userid">--%>
+                            <%--<c:forEach var="user" items="${users}" varStatus="theCount">--%>
+                                <%--<c:choose>--%>
+                                    <%--<c:when test="${theCount.count ge 2}">--%>
+                                        <%--<option value="${user.id}"><c:out value="${theCount.count}"/>. <c:out value="${user.firstname}"/>&nbsp;<c:out value="${user.lastname}"/></option>--%>
+                                    <%--</c:when>--%>
+                                    <%--<c:otherwise>--%>
+                                        <%--<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--%>
+                                            <%--<c:out value="${theCount.count}"/>. <c:out value="${user.firstname}"/>&nbsp;<c:out value="${user.lastname}"/>--%>
+                                        <%--</button>--%>
+                                        <%--<option selected value="${user.id}"><c:out value="${theCount.count}"/>. <c:out value="${user.firstname}"/>&nbsp;<c:out value="${user.lastname}"/></option>--%>
+                                    <%--</c:otherwise>--%>
+                                <%--</c:choose>--%>
+                            <%--</c:forEach>--%>
+                        <%--</select>--%>
 
-                    </div>
-                </div>
-                </div>
-                <button class="btn btn-info pull-right" type="submit" formaction="/statistic/user">USER STATISTICS</button>
-            </section>
-        </div>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--</div>--%>
+                <%--<button class="btn btn-info pull-right" type="submit" formaction="/statistic/user">USER STATISTICS</button>--%>
+            <%--</section>--%>
+        <%--</div>--%>
 
 
 
@@ -76,7 +75,7 @@
         <div class="container" style="color: darkcyan; ">
         <%--<div class="mainblock">--%>
 
-            <div class="row">
+            <div class="row" style="background-color: darkcyan; color: white;">
                 <div class="col-md-4"><h4>Select quiz:</h4></div>
                 <div class="col-md-4"></div>
                 <div class="col-md-4"></div>

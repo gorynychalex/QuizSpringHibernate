@@ -17,16 +17,13 @@ import java.util.List;
  * Created by gorynych on 25.04.17.
  */
 
-@Entity
-@Table(name = "statisticsuiz")
 public class Statistics implements StatisticsInterface {
 
     /**
      * No need to generate Id, because sessionId is Id!
      */
     @Id
-    @Column(name = "sessionid")
-    private int sessionId;
+    private String sessionId;
 
     //    @Type(type = "date")
     private Date timestart;
@@ -47,7 +44,7 @@ public class Statistics implements StatisticsInterface {
     private User user;
 
     @OneToMany
-    @JoinColumn(name = "sessionid", referencedColumnName = "sessionid")
+    @JoinColumn(name = "session", referencedColumnName = "session")
     private List<squestion> squestion;
 
     /**
@@ -61,18 +58,18 @@ public class Statistics implements StatisticsInterface {
      * @param user
      * @param quiz
      */
-    public Statistics(int sessionId, User user, Quiz quiz) {
+    public Statistics(String sessionId, User user, Quiz quiz) {
         this.sessionId = sessionId;
         this.user = user;
         this.quiz = quiz;
         this.timestart=new Date();
     }
 
-    public int getSessionId() {
+    public String getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(int sessionId) {
+    public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
 
@@ -137,8 +134,6 @@ public class Statistics implements StatisticsInterface {
     /**
      * Inner class for statistic quiestion
      */
-    @Entity
-    @Table(name = "StatisticQuizQuestion")
     public class squestion {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -214,8 +209,6 @@ public class Statistics implements StatisticsInterface {
         /**
          * Inner Inner Class for statistic options
          */
-        @Entity
-        @Table(name = "StatisticQuizQuestionOption")
         public class soption {
 
             @Id
@@ -247,9 +240,6 @@ public class Statistics implements StatisticsInterface {
             public void setOption(Option option) {
                 this.option = option;
             }
-
         }
-
     }
-
 }

@@ -32,8 +32,8 @@ public class UserAnswerOptionsDAO implements UserAnswerOptionsDAOInterface {
         return null;
     }
 
-    public List getUserAnswersBySessionId(int sessionId) {
-        logger.info("getUserAnswersBySessionId(sessionId)");
+    public List getUserAnswersBySessionId(String sessionId) {
+//        logger.info("getUserAnswersBySessionId(sessionId)");
         return sessionFactory.getCurrentSession().createQuery("from UserAnswerOptions as us WHERE us.sessionid = " + sessionId).list();
     }
 
@@ -41,21 +41,21 @@ public class UserAnswerOptionsDAO implements UserAnswerOptionsDAOInterface {
         currentSession().persist(userAnswerOptions);
     }
 
-    public void removeAnswerByQuiestionId(Number questionId, Number sessionId) {
+    public void removeAnswerByQuiestionId(Number questionId, String sessionId) {
         currentSession().createQuery("delete UserAnswerOptions as ua WHERE ua.questionid=" + questionId + " and ua.sessionid=" + sessionId).executeUpdate();
     }
 
-    public List<UserAnswerOptions> getByQuestionAndSession(Number questionId, Number sessionId) {
-        return currentSession().createQuery("from UserAnswerOptions as uao WHERE uao.questionid = " + questionId.intValue() + " and uao.sessionid = " + sessionId.intValue()).list();
+    public List<UserAnswerOptions> getByQuestionAndSession(Number questionId, String sessionId) {
+        return currentSession().createQuery("from UserAnswerOptions as uao WHERE uao.questionid = " + questionId.intValue() + " and uao.sessionid = " + sessionId).list();
     }
 
-    public void updateByQuestionAndSession(Number questionId, Number optionId, Number userId, Number sessionId) {
+
+    public void updateByQuestionAndSession(Number questionId, Number optionId, String userId, String sessionId) {
         currentSession().createQuery(
                 "update UserAnswerOptions as uao "
                         + "SET uao.optionid = " + optionId
                         + " WHERE uao.questionid = " + questionId
                         + " and uao.sessionid = " + sessionId + " and  uao.userid = " + userId ).executeUpdate();
     }
-
 
 }

@@ -7,23 +7,27 @@
 </head>
 <body>
 
-<a href="/user/list">User list</a>
+<a href="/admin/users/list">User list</a>
 <br>
 
-<form:form modelAttribute="userattr" method="post" action="/user/${userattr.id}/edit">
-    
+<form:form modelAttribute="userattr" method="post" action="/admin/users/${userattr.username}/edit">
+    <%----%>
     Firstname: ${userattr.firstname}
     <br>
     Lastname: ${userattr.lastname}
     <br>
     Middlename: ${userattr.middlename}
     <br>
-    Nickname: ${userattr.nickname}
+    Nickname: ${userattr.username}
     <br>
     Password: ${userattr.password}
     <br>
-    UserCategory: ${userattr.usercategory}
-    <br>
+    UserCategory:
+
+    <c:forEach var="auth" items="${userattr.authorities}">
+        <c:out value="${auth.authority}"/>
+    </c:forEach>
+    <br/>
     <input type="submit" value="Edit"/> &nbsp;
     <input type="button" value="Next">
     <br>

@@ -1,9 +1,6 @@
 package ru.dvfu.mrcpk.develop.server.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,7 +24,7 @@ public class UserAuth {
 
     private String phonenumber;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userAuth")
+    @OneToMany(cascade = CascadeType.ALL ,mappedBy = "userAuth")
     private Set<UserAuthorities> authorities = new HashSet<>();
 
 

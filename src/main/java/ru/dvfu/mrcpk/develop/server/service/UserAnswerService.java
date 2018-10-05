@@ -24,17 +24,18 @@ public class UserAnswerService implements UserAnswerServiceInterface {
     }
 
     @Transactional
-    public void removeAnswerByQuestionId(Number questionId, Number sessionId) {
+    public void removeAnswerByQuestionId(Number questionId, String sessionId) {
         this.userAnswerOptionsDAO.removeAnswerByQuiestionId(questionId,sessionId);
     }
 
     @Transactional
-    public List<UserAnswerOptions> getByQuestionAndSession(Number questionId, Number sessionId) {
+    public List<UserAnswerOptions> getByQuestionAndSession(Number questionId, String sessionId) {
         return this.userAnswerOptionsDAO.getByQuestionAndSession(questionId,sessionId);
     }
 
     @Transactional
-    public void updateByQuestionAndSession(Number questionId, Number optionid, Number userId, Number sessionId) {
+    public void updateByQuestionAndSession(Number questionId, Number optionid, String userId, String sessionId) {
         this.userAnswerOptionsDAO.updateByQuestionAndSession(questionId, optionid, userId, sessionId);
     }
+
 }

@@ -8,16 +8,16 @@
     <title>Add new user</title>
 </head>
 <body>
-<c:if test="${not empty userattr.firstname}">
-    <c:url var="urlaction" value="/user/${userattr.id}/edit"/>
+<c:if test="${not empty userattr.username}">
+    <c:url var="urlaction" value="/admin/users/${userattr.username}/edit"/>
     <c:set var="buttonText" value="Edit"/>
 </c:if>
-<c:if test="${empty userattr.firstname}">
-    <c:url var="urlaction" value="/user/add"/>
+<c:if test="${empty userattr.username}">
+    <c:url var="urlaction" value="/admin/users/add"/>
     <c:set var="buttonText" value="Add"/>
 </c:if>
 <form:form modelAttribute="userattr" method="post" action="${urlaction}">
-    <form:hidden path="id"/>
+    <%--<form:hidden path="username"/>--%>
     <%--<form:label path="id">id:</form:label>--%>
     <%--<form:input path="id" />--%>
 
@@ -30,13 +30,13 @@
     <form:label path="middlename">Middlename:</form:label>
     <form:input path="middlename" />
     <br>
-    <form:label path="nickname">Nickname:</form:label>
-    <form:input path="nickname" />
+    <form:label path="username">Nickname:</form:label>
+    <form:input path="username" />
     <br>
     <form:label path="password">Password:</form:label>
     <form:password path="password" />
     <br>
-    <form:select path="usercategory" >
+    <form:select path="authorities" >
         <form:options/>
     </form:select>
     <br>

@@ -19,4 +19,12 @@ public class UserAuthorities {
     public void setAuthority(String authority) {
         this.authority = authority;
     }
+
+    public UserAuth getUserAuth() {
+        return userAuth;
+    }
+
+    public void setUserAuth(UserAuth userAuth) {
+        this.userAuth = userAuth;
+    }
 }

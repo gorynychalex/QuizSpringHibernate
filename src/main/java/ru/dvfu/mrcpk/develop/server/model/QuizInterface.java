@@ -5,13 +5,13 @@ import java.util.List;
 
 public interface QuizInterface extends Serializable {
 
-    String getName();
-
-    void setName(String text);
-
     Number getId();
 
     void setId(int id);
+
+    String getName();
+
+    void setName(String text);
 
     List<Question> getQuestions();
 
@@ -25,5 +25,5 @@ public interface QuizInterface extends Serializable {
 
     void setPicture(String picture);
 
-//    void addUserQuizSession(int sessionId, User user);
+    boolean isEnable();
 }

@@ -31,7 +31,7 @@ public class StatisticController {
     private StatisticOptionServiceInterface statisticOptionService;
 
     @RequestMapping("/quiz")
-    public String getStatisticUserQuiz(@RequestParam("sessionid") int sessionId, ModelMap modelMap){
+    public String getStatisticUserQuiz(@RequestParam("sessionid") String sessionId, ModelMap modelMap){
 
         modelMap.addAttribute("sessionId", sessionId);
 

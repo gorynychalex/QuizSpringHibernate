@@ -133,7 +133,7 @@ public class QuizDAO implements QuizDAOInterface{
 
     //SHOULD REMOVE METHOD!!! STATISTICS -> statistic folder
     @Override
-    public void addStatistic(Number id, int sessionId, User user) {
+    public void addStatistic(Number id, String sessionId, User user) {
         Quiz quiz = currentSession().get(Quiz.class,id.intValue());
 //        quiz.addUserQuizSession(sessionId,user);
 //        currentSession().update(quiz);

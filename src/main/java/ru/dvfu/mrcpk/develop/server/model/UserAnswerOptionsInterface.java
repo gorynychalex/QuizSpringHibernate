@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public interface UserAnswerOptionsInterface extends Serializable{
 
-    void setUserid(int id);
+    void setUserid(String id);
     void setOptionid(int id);
 
 //    void setUser(User user);
