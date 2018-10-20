@@ -1,5 +1,7 @@
 package ru.dvfu.mrcpk.develop.server.model;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,9 +26,15 @@ public class UserAuth {
 
     private String phonenumber;
 
-    @OneToMany(cascade = CascadeType.ALL ,mappedBy = "userAuth")
-    private Set<UserAuthorities> authorities = new HashSet<>();
+//    private Authorities authority;
+//
+//    @OneToMany(cascade = CascadeType.ALL ,mappedBy = "userAuth")
+//    private Set<UserAuthorities> authorities = new HashSet<>();
 
+    @ElementCollection(targetClass = Authorities.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "username"))
+    @Enumerated(EnumType.STRING)
+    private Set<Authorities> authorities;
 
     public UserAuth(){}
 
@@ -100,11 +108,22 @@ public class UserAuth {
         this.phonenumber = phonenumber;
     }
 
-    public Set<UserAuthorities> getAuthorities() {
+    public Set<Authorities> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(Set<UserAuthorities> authorities) {
+    public void setAuthorities(Set<Authorities> authorities) {
         this.authorities = authorities;
+    }
+
+    public enum Authorities implements GrantedAuthority {
+        ROLE_USER,
+        ROLE_TEACHER,
+        ROLE_ADMIN;
+
+        @Override
+        public String getAuthority() {
+            return null;
+        }
     }
 }

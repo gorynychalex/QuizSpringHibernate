@@ -4,10 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.dvfu.mrcpk.develop.server.dao.UserAnswerOptionsDAO;
+import ru.dvfu.mrcpk.develop.server.model.Option;
 import ru.dvfu.mrcpk.develop.server.model.UserAnswerOptions;
 import ru.dvfu.mrcpk.develop.server.model.UserAnswerOptions1;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gorynych on 18.03.17.
@@ -16,7 +20,12 @@ import java.util.List;
 public class UserAnswerService implements UserAnswerServiceInterface {
 
     @Autowired
+    private QuestionServiceInterface questionService;
+
+    @Autowired
     private UserAnswerOptionsDAO userAnswerOptionsDAO;
+
+    private Map<Number, List<Integer>> useranswers = new HashMap<>();
 
     @Transactional
     public void setAnswer(UserAnswerOptions userAnswerOptions) {
@@ -38,4 +47,26 @@ public class UserAnswerService implements UserAnswerServiceInterface {
         this.userAnswerOptionsDAO.updateByQuestionAndSession(questionId, optionid, userId, sessionId);
     }
 
+    @Transactional
+    public void setAnswerSimple(Number questionId, List<Integer> options){
+        useranswers.put(questionId, options);
+    }
+
+    @Transactional
+    public Map<Number, List<Integer>> getUseranswers() {
+        return null;
+    }
+
+    @Transactional
+    public List<Float> getResultList(){
+
+
+        List<Float> result_list = new ArrayList<>();
+
+        for(Map.Entry<Number,List<Integer>> entry: useranswers.entrySet()){
+            result_list.add(this.questionService.getResult(entry.getKey(), entry.getValue()));
+        }
+
+        return result_list;
+    }
 }

@@ -14,7 +14,10 @@
 <p>Create new QUIZ:</p>
 
 <!-- enctype="multipart/form-data" - nessesary!!! for multipart -->
-<form:form modelAttribute="quizattr" method="post" action="/quiz/add" enctype="multipart/form-data">
+<form:form modelAttribute="quizattr" method="post" action="/admin/quiz/add" enctype="multipart/form-data">
+
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
     <form:label path="name">Quiz name:</form:label>
     <form:input id="inputtext" path="name" cssStyle="color: #0f0f0f"/>
     <%--<form:input path="name" />--%>

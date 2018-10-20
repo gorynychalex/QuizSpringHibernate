@@ -9,7 +9,7 @@
 </head>
 <body>
 <c:if test="${not empty userattr.username}">
-    <c:url var="urlaction" value="/admin/users/${userattr.username}/edit"/>
+    <c:url var="urlaction" value="/admin/users/edit"/>
     <c:set var="buttonText" value="Edit"/>
 </c:if>
 <c:if test="${empty userattr.username}">
@@ -36,11 +36,21 @@
     <form:label path="password">Password:</form:label>
     <form:password path="password" />
     <br>
-    <form:select path="authorities" >
-        <form:options/>
-    </form:select>
+
+
+
+    <form:checkboxes path="authorities" items="${userrole}"/>
+
+    <%--<c:forEach items="${userattr.authorities}" var="role">--%>
+    <%--<form:checkbox path="authorities" value="${role}" label="${role}"/>--%>
+<%--</c:forEach>--%>
+
+<%--<form:checkbox path="authorities">--%>
+        <%--<form:options/>--%>
+    <%--</form:checkbox>--%>
     <br>
     <input type="submit" value="${buttonText}"/>
+    <p>
 </form:form>
 </body>
 </html>

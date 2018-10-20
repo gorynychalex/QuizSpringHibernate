@@ -7,6 +7,8 @@
 </head>
 <body>
 
+<c:set var="rootpath" value="/admin/quiz"/>
+
 <div class="container">
 Test: ${quiz.name}
 
@@ -29,23 +31,23 @@ Question numbers: ${quiz.questions.size()}
     <c:forEach var="question" items="${quiz.questions}" varStatus="Count">
         <tr>
             <td>${Count.count}</td>
-            <td><a href="/quiz/${quiz.id}/question/${question.id}/option/list">${question.text}</a></td>
+            <td><a href="${rootpath}/${quiz.id}/question/${question.id}/option/list">${question.text}</a></td>
             <td>${question.options.size()}</td>
             <td>
                 <c:if test="${not empty question.picture}">
                     <img src="/resources/images/thumb/quiz/${quiz.id}/questions/${question.id}/${question.picture}">
                 </c:if>
             </td>
-            <td><a href="/quiz/${quiz.id}/question/${question.id}/edit">Edit</a> </td>
-            <td><a href="/quiz/${quiz.id}/question/${question.id}/delete">x</a></td>
+            <td><a href="${rootpath}/${quiz.id}/question/${question.id}/edit">Edit</a> </td>
+            <td><a href="${rootpath}/${quiz.id}/question/${question.id}/delete">x</a></td>
             <td></td>
         </tr>
     </c:forEach>
 </table>
 <br>
-<form action="/quiz/${quiz.id}/question/add">
+<form action="${rootpath}/${quiz.id}/question/add">
     <button type="submit" name="question" value="add">Add Question</button>&nbsp;&nbsp;
-    <button type="submit" formaction="/quiz/list" value="quizlist">Quiz List</button>
+    <button type="submit" formaction="${rootpath}/list" value="quizlist">Quiz List</button>
 </form>
 </div>
 

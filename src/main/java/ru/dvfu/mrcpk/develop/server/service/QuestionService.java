@@ -56,12 +56,13 @@ public class QuestionService implements QuestionServiceInterface {
 
 //        logger.info("getResult() byQuestionId = " + questionid.intValue());
 
+        // Get options from
         List<Option> options = this.questionDAO.getById(questionid).getOptions();
 
 //        logger.info("getResult() options size: " + options.size());
 
         //mark = КВП/ОКП/(КВН + 1)
-        int sumOptionsTrue=0,sumAnsTrue=0,sunAnsFalse=0;
+        int sumOptionsTrue=0,sumAnsTrue=0,sumAnsFalse=0;
 
         for (Option option : options) {
             if (option.isCorrect()) sumOptionsTrue++;
@@ -73,7 +74,7 @@ public class QuestionService implements QuestionServiceInterface {
                 }
 //                if (!option.isCorrect() & option.getId().equals(userans)) {
                 if (!option.isCorrect() & option.getId() == userans) {
-                    sunAnsFalse++;
+                    sumAnsFalse++;
                 }
             }
         }
@@ -82,7 +83,7 @@ public class QuestionService implements QuestionServiceInterface {
 //        logger.info("sumAnsTrue: " + sumAnsTrue);
 //        logger.info("sumAnsFalse: " + sunAnsFalse);
 
-        float mark = (float)sumAnsTrue/(float)sumOptionsTrue/((float)sunAnsFalse+1);
+        float mark = (float)sumAnsTrue/(float)sumOptionsTrue/((float)sumAnsFalse+1);
 
         return mark;
 

@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<a href="/admin/users/list">User list</a>
+<a href="${pageContext.request.userPrincipal.principal.username}">User list</a>
 <br>
 
 <form:form modelAttribute="userattr" method="post" action="/admin/users/${userattr.username}/edit">
@@ -25,7 +25,7 @@
     UserCategory:
 
     <c:forEach var="auth" items="${userattr.authorities}">
-        <c:out value="${auth.authority}"/>
+        <c:out value="${auth}"/>
     </c:forEach>
     <br/>
     <input type="submit" value="Edit"/> &nbsp;

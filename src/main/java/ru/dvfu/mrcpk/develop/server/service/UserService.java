@@ -62,9 +62,9 @@ public class UserService implements UserServiceInterface, UserDetailsService {
             builder = org.springframework.security.core.userdetails.User.withUsername(userAuth.getUsername());
             builder.disabled(!userAuth.isEnabled());
             builder.password(userAuth.getPassword());
-            String[] authorities = userAuth.getAuthorities()
-                    .stream().map(a -> a.getAuthority()).toArray(String[]::new);
-//            authorities = new String[]{"ROLE_USER"};
+//            String[] authorities = (String[]) userAuth.getAuthorities()
+//                    .stream().map(a -> a.getAuthority()).toArray(String[]::new);
+            String[] authorities = new String[]{"ROLE_USER"};
             builder.authorities(authorities);
         } else {
             throw new UsernameNotFoundException("User not found");

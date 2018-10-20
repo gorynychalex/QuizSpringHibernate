@@ -23,38 +23,47 @@
 <body style="background-color: lightcyan;">
 <nav class="navbar navbar-default">
     <div class="container">
+
         <div class="navbar-header">
             <a class="navbar-brand" href="/start">Quiz System</a>
         </div>
+
         <div class="nav navbar-nav" style="float: right;">
-            <li class="active"><a href="#">User: ${pageContext.request.userPrincipal.principal.username}</a> </li>
-            <li><a href="#">Logout</a> </li>
+            <c:if test="${not empty pageContext.request.userPrincipal.principal.username}">
+                <li class="active"><a href="/statistic/user">User: ${pageContext.request.userPrincipal.principal.username} </a> </li>
+                <li><a href="/login.jsp?logout">Logout</a> </li>
+            </c:if>
+            <c:if test="${empty pageContext.request.userPrincipal.principal.username}">
+                <li class="active"><a href="/start/auth"> Login </a> </li>
+            </c:if>
         </div>
 
     </div>
 </nav>
 
 
-    <div class="container" style="background-color: darkcyan; color: white; border-radius: 10px;">
+    <div class="container" style="background-color: darkcyan; color: #f8f8f8;">
         <div class="row">
             <div class="col-md-4">
                 <div class="container-fluid"><h2>Quiz <span class="label label-info"> ${quiz.name}</span></h2></div>
             </div>
 
             <div class="col-md-4 col-md-offset-4">
-                <div  class="container-fluid" style="background: white; border-radius: 10px;">
+                <div  class="container-fluid" style="border-radius: 10px;">
                     <c:if test="${not empty quiz.picture}">
-                        <img src="/resources/images/thumb/quiz/${quiz.id}/${quiz.picture}" width="50">
+                        <a href="/resources/images/thumb/quiz/${quiz.id}/${quiz.picture}">
+                            <img src="/resources/images/thumb/quiz/${quiz.id}/${quiz.picture}" width="50">
+                        </a>
                     </c:if>
                 </div>
             </div>
         </div>
     </div>
 
-<form action="/quiz" method="post">
+<form action="/start/quiz" method="post">
     <input type="hidden" name="quizid" value="${quiz.id}"/>
     <input type="hidden" name="qnum" value="${qnum}"/>
-    <input type="hidden" name="sessionid" value="${sessionid}"/>
+    <%--<input type="hidden" name="sessionid" value="${sessionid}"/>--%>
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 <br>
 
@@ -75,6 +84,7 @@
             <div class="container-fluid" >
                 <c:if test="${not empty question.picture}">
                     <a class="thumbnail" href="/resources/images/quiz/${quiz.id}/questions/${question.id}/${question.picture}">
+                        <img class="tooltiptext" src="/resources/images/thumb/quiz/${quiz.id}/questions/${question.id}/${question.picture}"/>
                         <img style="border-radius: 10px;" src="/resources/images/thumb/quiz/${quiz.id}/questions/${question.id}/${question.picture}">
                     </a>
                 </c:if>

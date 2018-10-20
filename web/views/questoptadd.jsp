@@ -2,6 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<c:set var="rootpath" value="/admin/quiz"/>
+
+
 <html>
 <head>
     <title>Add Option for Question</title>
@@ -17,11 +21,11 @@
 
 
 <c:if test="${not empty optionattr.text}">
-    <c:url var="urlaction" value="/quiz/${quiz.id}/question/${question.id}/option/edit"/>
+    <c:url var="urlaction" value="${rootpath}/${quiz.id}/question/${question.id}/option/edit"/>
     <c:set var="buttonText" value="Edit"/>
 </c:if>
 <c:if test="${empty optionattr.text}">
-    <c:url var="urlaction" value="/quiz/${quiz.id}/question/${question.id}/option/add"/>
+    <c:url var="urlaction" value="${rootpath}/${quiz.id}/question/${question.id}/option/add"/>
     <c:set var="buttonText" value="Add"/>
 </c:if>
 

@@ -26,6 +26,7 @@
     <!--<http/>-->
     <http auto-config="true" use-expressions="false">
 
+        <intercept-url pattern="/admin**" access="ROLE_ADMIN"/>
         <intercept-url pattern="/res" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/user/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/quiz/**" access="ROLE_ADMIN,ROLE_USER"/>
@@ -35,7 +36,7 @@
         <intercept-url pattern="/templates/**" access="ROLE_USER,ROLE_ADMIN"/>
         <intercept-url pattern="/startvue" access="ROLE_USER,ROLE_ADMIN"/>
 
-        <csrf />
+        <csrf disabled="true"/>
 
         <form-login login-page="/login.jsp"
                     default-target-url="/"

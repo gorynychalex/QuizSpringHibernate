@@ -4,23 +4,16 @@ package ru.dvfu.mrcpk.develop.server.controller;
  * Question Controller for start Main process
  */
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.log4j.Logger;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
 import ru.dvfu.mrcpk.develop.server.model.*;
-import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticOptions;
-import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticQuestions;
-import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticUserQuizSessions;
 import ru.dvfu.mrcpk.develop.server.service.*;
 import ru.dvfu.mrcpk.develop.server.service.statistics.StQuizService;
 import ru.dvfu.mrcpk.develop.server.service.statistics.StatisticOptionServiceInterface;
@@ -30,9 +23,7 @@ import ru.dvfu.mrcpk.develop.server.service.statistics.StatisticUserQuizSessionS
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Controller
 @RequestMapping("/start")
@@ -68,6 +59,10 @@ public class QuestionController {
     @Autowired
     private StQuizService stQuizService;
 
+    // User answers by questions
+    // Initialize by start question at getQuestionByNumber() on action=startQuiz
+    Map<Number, List<Integer>> useranswers;
+
     @RequestMapping("/index")
     public String listUsers(Map<String, Object> map){
         map.put("user", new User());
@@ -84,7 +79,7 @@ public class QuestionController {
 
         modelMap.addAttribute("question", questionService.getById(id));
 
-        return "question";
+        return "startquestion";
     }
 
     @RequestMapping(value = "/loginds", method = RequestMethod.GET)
@@ -95,9 +90,9 @@ public class QuestionController {
         return "hellos " + name;
     }
 
-    // START QUIZ
+    // START QUIZ FIRST PAGE !!!!!!
     @GetMapping
-    public String listQuiz(@RequestParam(value = "sessionid", defaultValue = "0") long sessionid, ModelMap modelMap){
+    public String listQuiz(ModelMap modelMap){
 
         logger.info("isAuth: " + SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
 
@@ -105,13 +100,12 @@ public class QuestionController {
 
         modelMap.addAttribute("quizs", quizService.list());
 
-        if(sessionid != 0)
-            modelMap.addAttribute("user", statisticUserQuizSessionService.getUser());
+            //modelMap.addAttribute("user", statisticUserQuizSessionService.getUser());
 
-        return "quizselect";
+        return "startquizselect";
     }
 
-    // START QUIZ
+    // START QUIZ WITH AUTH
     @RequestMapping("auth")
     public String startAuth(
             HttpSession session,
@@ -129,7 +123,7 @@ public class QuestionController {
             modelMap.addAttribute("user",
                     statisticUserQuizSessionService.getUser());
 
-        return "quizselect";
+        return "startquizselect";
     }
 
     /**
@@ -140,10 +134,11 @@ public class QuestionController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "quiz", method = RequestMethod.GET)
+    @GetMapping("quiz")
     public String getQuestionByNumber(
             @RequestParam("quizid") int quizid,
             @RequestParam(value = "qnum",defaultValue = "0") int qnum,
+            @RequestParam(value = "action", defaultValue = "continue") String action,
             HttpSession session,
             ModelMap modelMap)
     {
@@ -152,6 +147,13 @@ public class QuestionController {
             return "redirect:/start";
         }
 
+        // Verify start quiz for initialize useranswers
+        if(action.equals("startQuiz")){
+            logger.info("Initialize array UserAnswer");
+            useranswers = new HashMap<>();
+        }
+
+        //// Record statistic
         if(SecurityContextHolder.getContext().getAuthentication().getName() != null){
             // Add UserId and QuizId to statistics by user, quiz, session
 //            statisticUserQuizSessionService.addUserQuizSession(
@@ -170,6 +172,8 @@ public class QuestionController {
             }
         }
 
+
+
 //        else {
 //            //User by id
 //            modelMap.addAttribute("user", statisticUserQuizSessionService.getUser());
@@ -178,10 +182,11 @@ public class QuestionController {
 
 
         // Pass attribute to question form
-        modelMap.addAttribute("sessionid1",session.getId());
+//        modelMap.addAttribute("sessionid1",session.getId());
 
         //Number of questions
-        modelMap.addAttribute("qnums", quizService.getByIdLazy(quizid).getQnums());
+        QuizInterface quiz = quizService.getByIdLazy(quizid);
+        modelMap.addAttribute("qnums", quiz.getQnums());
 
         //User by id
         modelMap.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
@@ -199,10 +204,10 @@ public class QuestionController {
         // Statistic QUESTION
 //        statisticQuestionService.addStatisticQuestion(Integer.parseInt(session.getId()), (StatisticUserQuizSessions) statisticUserQuizSessionService.getBySessionId(sessionId), new StatisticQuestions(quizService.getById(quizid).getQuestions().get(qnum)));
 
-        return "question";
+        return "startquestion";
     }
 
-    // POST REQUEST FROM question.jsp
+    // POST REQUEST FROM startquestion.jsp
     @RequestMapping(value = "/quiz",method = RequestMethod.POST)
     public String getQuiz(HttpServletRequest request){
 
@@ -222,19 +227,41 @@ public class QuestionController {
         if((option = request.getParameter("option")) != null)
             opt = Integer.parseInt(option);
 
-        //Current question mark
-//        List<Integer> useranswers = new ArrayList<Integer>();
-//        useranswers.add(opt);
+        //Current question set answer
+        List<Integer> useranswersone = new ArrayList<Integer>();
+        useranswersone.add(opt);
+
+        // Put answers one question
+        useranswers.put(quizService.getById(quizid).getQuestions().get(qnum).getId(), useranswersone);
+        // Clone put answer one question
+        userAnswerService.setAnswerSimple(quizService.getById(quizid).getQuestions().get(qnum).getId(), useranswersone);
+
 //        mark = questionService.getResult(quizService.getById(quizid).getQuestions().get(qnum).getId(), useranswers);
 
 
-        stQuizService.addQuestion(quizid, (Question) questionService.getById(questionid));
+        // Add question in statistic quiz
+//        stQuizService.addQuestion(quizid, (Question) questionService.getById(questionid));
 
         // IF press the button 'PREV'
         if(request.getParameter("button").equals("prevQuestion")){
             qnum--;
 //            questionid = quizService.getById(quizid).getQuestions().get(qnum).getId();
 //            userAnswerService.removeAnswerByQuestionId(questionid,sessionid);
+        }
+
+
+        // IF press the button 'FINISH'
+        if(request.getParameter("button").equals("finish")) {
+
+//            userAnswerService.setAnswer(new UserAnswerOptions(sessionid, userid, questionid.intValue(), opt));
+//
+//            statisticOptionService.addStatisticOption(
+//                    statisticQuestionService.getIdByQuestionAndSessionId(sessionid,questionid.intValue()),new StatisticOptions((Option) optionService.getById(opt.intValue())));
+
+//            return "redirect:/statistic/quiz?sessionid=" + request.getRequestedSessionId() + "&userid=" + user + "&quizid=" + quizid;
+
+            return "redirect:/start/result/quiz/" + quizid;
+
         }
 
         // IF press the button 'NEXT'
@@ -252,19 +279,10 @@ public class QuestionController {
 //                                questionid),
 //                        new StatisticOptions((Option) optionService.getById(opt)));
 //            }
-            qnum++;
+
+                qnum++;
         }
 
-        // IF press the button 'FINISH'
-        if(request.getParameter("button").equals("finish")) {
-
-//            userAnswerService.setAnswer(new UserAnswerOptions(sessionid, userid, questionid.intValue(), opt));
-//
-//            statisticOptionService.addStatisticOption(
-//                    statisticQuestionService.getIdByQuestionAndSessionId(sessionid,questionid.intValue()),new StatisticOptions((Option) optionService.getById(opt.intValue())));
-
-            return "redirect:/statistic/quiz?sessionid=" + request.getRequestedSessionId() + "&userid=" + user + "&quizid=" + quizid;
-        }
 
         // REDIRECT to quiz
         return "redirect:/start/quiz?" + "quizid=" + quizid + "&qnum=" + qnum + "&opt=" + opt;
@@ -288,21 +306,24 @@ public class QuestionController {
     }
 
     // RESULTS
-    @RequestMapping("/quizresults")
+    @RequestMapping("/result/quiz/{quizid}")
     public String getResult(
-            @RequestParam(value = "userid") int userid,
-            @RequestParam(value = "sessionid") int sessionId,
-            @RequestParam("quizid") int quizid,
+            @PathVariable("quizid") int quizid,
             HttpSession session,
             ModelMap modelMap)
     {
+
         modelMap.addAttribute("quizId",quizid);
-        modelMap.addAttribute("userId",userid);
+//        modelMap.addAttribute("userId",userid);
 
 
-        List<Float> marks = statisticQuestionService.getResultsBySessionId(session.getId());
+//        List<Float> marks = statisticQuestionService.getResultsBySessionId(session.getId());
 //
 //        List<Float> marks = quizService.getResultByQuizId(quizid,sessionId);
+
+        List<Float> marks = userAnswerService.getResultList();
+
+
 
         float summarks = 0;
         for(Float mark: marks) {

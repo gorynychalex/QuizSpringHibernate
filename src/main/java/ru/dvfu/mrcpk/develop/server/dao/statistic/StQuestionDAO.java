@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.dvfu.mrcpk.develop.server.model.Question;
 import ru.dvfu.mrcpk.develop.server.model.Quiz;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StQuestion;
+import ru.dvfu.mrcpk.develop.server.model.statistic.StQuiz;
 
 @Repository
 public class StQuestionDAO {
@@ -35,13 +36,11 @@ public class StQuestionDAO {
     public void add(int quizId, Question question){
         currentSession().save(new StQuestion(question));
 
-        Quiz currentQuiz = currentSession().get(Quiz.class, quizId);
+        StQuiz currentStQuiz = currentSession().get(StQuiz.class, quizId);
 
-        currentQuiz.getQuestions().add((Question) question);
+        currentStQuiz.getQuiz().getQuestions().add((Question) question);
 
-        currentQuiz.setQnums(currentQuiz.getQuestions().size());
-
-        currentSession().save(currentQuiz);
+        currentSession().save(currentStQuiz);
     }
 
 

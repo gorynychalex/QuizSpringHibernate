@@ -1,6 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<c:set var="rootpath" value="/admin/quiz"/>
+
 <html>
 <head>
     <title>SHOW QUESTION</title>
@@ -10,7 +13,7 @@
 <body>
 
 <div class="container">
-<p><a href="/quiz/${quiz.id}/question/list"> Quiz:${quiz.name} </a> </p>
+<p>Quiz:<a href="${rootpath}/${quiz.id}/question/list">&nbsp;${quiz.name} </a> </p>
 <p>${question.text}</p>
 
 <table border="1">
@@ -29,28 +32,28 @@
             <td>${option.text}</td>
             <td>${option.correct}</td>
             <td><img src="/resources/images/thumb/quiz/${quiz.id}/questions/${question.id}/options/${option.id}/${option.picture}"/></td>
-            <td><a href="/quiz/${quiz.id}/question/${question.id}/option/${option.id}/edit">Edit</a></td>
-            <td><a href="/quiz/${quiz.id}/question/${question.id}/option/${option.id}/delete">x</a></td>
+            <td><a href="${rootpath}/${quiz.id}/question/${question.id}/option/${option.id}/edit">Edit</a></td>
+            <td><a href="${rootpath}/${quiz.id}/question/${question.id}/option/${option.id}/delete">x</a></td>
             <td></td>
         </tr>
     </c:forEach>
 </table>
 
 <br>
-<form action="/quiz/${quiz.id}/question/${question.id}/option/add">
+<form action="${rootpath}/${quiz.id}/question/${question.id}/option/add">
 
     <button type="submit" name="option" value="new">Add Option</button>
     &nbsp;&nbsp;
-    <button type="submit" formaction="/quiz/list" value="quizlist">Quiz List</button>
+    <button type="submit" formaction="${rootpath}/list" value="quizlist">Quiz List</button>
     &nbsp;&nbsp;
-    <button type="submit" formaction="/quiz/${quiz.id}/question/list">Question list of ${quiz.name}</button>
+    <button type="submit" formaction="${rootpath}/${quiz.id}/question/list">Question list of ${quiz.name}</button>
     &nbsp;&nbsp;
 </form>
 
     <br>
-    <a href="/quiz/${quiz.id}/question/${question.id}/edit">Edit</a>
+    <a href="${rootpath}/${quiz.id}/question/${question.id}/edit">Edit</a>
     &nbsp;&nbsp;
-    <a href="/quiz/${quiz.id}/question/${question.id}/delete">Delete</a>
+    <a href="${rootpath}/${quiz.id}/question/${question.id}/delete">Delete</a>
     &nbsp;&nbsp;
 
 </div>

@@ -3,6 +3,7 @@ package ru.dvfu.mrcpk.develop.server.controller;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +28,12 @@ import java.util.Base64;
  */
 
 @Controller
-@RequestMapping("/quiz")
+@RequestMapping("${pathadminquiz}")
 public class QuizController {
 
     public static final Logger logger = Logger.getLogger(QuizController.class);
+
+    public static final String PATHROOT = "/admin/quiz";
 
     @Autowired @Qualifier("quizService")
     private QuizServiceInterface quizService;
@@ -41,7 +44,7 @@ public class QuizController {
     @Autowired @Qualifier("optionService")
     private OptionServiceInterface optionService;
 
-    @RequestMapping("list")
+    @GetMapping(value = {"","list"})
     public String quizList(ModelMap modelMap){
         modelMap.addAttribute("quizlist", quizService.list());
         return "quizlist";
@@ -92,7 +95,7 @@ public class QuizController {
 
 
         quizService.addQuiz(quiz);
-        return "redirect:/quiz/list";
+        return "redirect:" + PATHROOT + "/list";
     }
 
 
@@ -133,7 +136,7 @@ public class QuizController {
                     httpServletRequest);
         }
 
-        return "redirect:/quiz/list";
+        return "redirect:" + PATHROOT + "/list";
     }
 
     @RequestMapping(value = "{id}/remove", method = RequestMethod.GET)
@@ -142,7 +145,7 @@ public class QuizController {
         return "redirect:/quiz/list";
     }
 
-    @RequestMapping(value = "{id}/question/list")
+    @RequestMapping(value = {"{id}/question/list","{id}/questions"})
     public String getQuizById(@PathVariable("id") int id,
                               ModelMap modelMap){
         modelMap.addAttribute("quiz", quizService.getById(id));
@@ -192,7 +195,7 @@ public class QuizController {
         }
 
 
-        return "redirect:/quiz/" + id + "/question/list";
+        return "redirect:" + PATHROOT + "/" + id + "/question/list";
     }
 
     @RequestMapping(value = "{id}/question/add1", method = RequestMethod.POST)
@@ -233,7 +236,7 @@ public class QuizController {
 
         questionService.add(quizId, question);
 
-        return "redirect:/quiz/" + id + "/question/list";
+        return "redirect:" + PATHROOT + "/" + id + "/question/list";
     }
 
     @RequestMapping("{quizid}/question/{questionId}/edit")
@@ -249,7 +252,7 @@ public class QuizController {
     public String questionEditPost(@PathVariable("quizId") int quizId,
                                    @ModelAttribute("questionattr") Question question){
         questionService.update(question);
-        return "redirect:/quiz/questions/" + quizId;
+        return "redirect:" + PATHROOT + "/" + quizId;
     }
 
 
@@ -257,7 +260,7 @@ public class QuizController {
     public String questionRemoveById(@PathVariable("quizId") int quizId,
                                      @PathVariable("questionid") int questionId){
         questionService.remove(questionId);
-        return "redirect:/quiz/" + quizId + "/question/list";
+        return "redirect:" + PATHROOT + "/" + quizId + "/question/list";
     }
 
     @RequestMapping("{quizId}/question/{questionId}/option/list")
@@ -313,7 +316,7 @@ public class QuizController {
             fileUploadController.uploadFileBase64(base64thumb,option.getPicture(),"thumb/" + "quiz/" + quizId + "/" + "questions/" + questionId + "/options/" + option.getId(),httpServletRequest);
         }
 
-        return "redirect:/questoptlist?quizid=" + quizId + "&questionid=" + questionId;
+        return "redirect:" + PATHROOT + "/" + quizId + "/question/" + questionId + "/option/list";
     }
 
     @RequestMapping("{quizId}/question/{questionId}/option/{optionId}/edit")
@@ -333,7 +336,7 @@ public class QuizController {
                                  @PathVariable("questionId") int questionId,
                                  @ModelAttribute("optionattr") Option option){
         optionService.update(option);
-        return "redirect:/questoptlist?quizid=" + quizId + "&questionid=" + questionId;
+        return "redirect:" + PATHROOT + "/" + quizId + "/question/" + questionId + "/option/list";
     }
 
 
@@ -342,7 +345,7 @@ public class QuizController {
                                    @PathVariable("questionId") int questionId,
                                    @PathVariable("optionId") int optionId){
         optionService.remove(optionId);
-        return "redirect:/questoptlist?quizid=" + quizId + "&questionid=" + questionId;
+        return "redirect:" + PATHROOT + "/" + quizId + "/question/" + questionId + "/option/list";
     }
 
 }

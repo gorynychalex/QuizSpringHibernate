@@ -1,6 +1,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
+<c:set var="rootpath" value="/admin/quiz"/>
+
 <html>
 <head>
     <title>Add the question</title>
@@ -13,6 +17,7 @@
 
 <body>
 
+
 <div class="header">
     <div class="wrapper">
         <p>Test: ${quiz.name}</p>
@@ -21,11 +26,11 @@
 </div>
 
 <c:if test="${not empty questionattr.text}">
-    <c:url var="urlaction" value="/quiz/${quiz.id}/question/edit"/>
+    <c:url var="urlaction" value="${rootpath}/${quiz.id}/question/edit"/>
     <c:set var="buttonText" value="Edit"/>
 </c:if>
 <c:if test="${empty questionattr.text}">
-    <c:url var="urlaction" value="/quiz/${quiz.id}/question/add"/>
+    <c:url var="urlaction" value="${rootpath}/${quiz.id}/question/add"/>
     <c:set var="buttonText" value="Add"/>
 </c:if>
 
@@ -37,7 +42,7 @@
 
     <div class="question">
     <div class="itemform">
-        <form:form id="formadd" modelAttribute="questionattr" method="post" action="${urlaction}" enctype="multipart/form-data">
+    <form:form id="formadd" modelAttribute="questionattr" method="post" action="${urlaction}" enctype="multipart/form-data">
             <form:hidden path="id"/>
             <br>
             <form:label path="text">Question Text:</form:label>

@@ -24,7 +24,7 @@
         <td>Group</td>
         <td>Picture</td>
         <td><a href="/admin/users/${user.username}/edit">Edit</a></td>
-        <td><a href="/admin/users/${user.username}/delete">x</a></td>
+        <td><a href="/admin/users/${user.username}/remove">x</a></td>
     </tr>
     </c:forEach>
 </table>

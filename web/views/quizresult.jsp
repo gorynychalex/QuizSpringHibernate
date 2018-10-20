@@ -12,28 +12,59 @@
 <html>
 <head>
     <title>Result of quiz</title>
-    <spring:url value="/resources/theme1/css/bootstrap.min.css" var="maincss"/>
-    <link href="<c:url value="${maincss}"/>" rel=stylesheet >
+
+    <spring:url value="/resources/theme1/css/bootstrap.min.css" var="bootstrapcss"/>
+    <link href="<c:url value="${bootstrapcss}"/>" rel=stylesheet >
+
 
 </head>
 <body>
 
-<p>RESULTS:</p>
+<nav class="navbar navbar-default">
+    <div class="container">
 
-<c:forEach var="mark" items="${marks}" varStatus="count">
-    ${count.count}) ${mark}<br>
-</c:forEach>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/start">Quiz System</a>
+        </div>
 
-<p>Entirely: ${markfull}</p>
+        <div class="nav navbar-nav" style="float: right;">
+            <c:if test="${not empty pageContext.request.userPrincipal.principal.username}">
+                <li class="active"><a href="/statistic/user">User: ${pageContext.request.userPrincipal.principal.username} </a> </li>
+                <li><a href="/login.jsp?logout">Logout</a> </li>
+            </c:if>
+            <c:if test="${empty pageContext.request.userPrincipal.principal.username}">
+                <li class="active"><a href="/start/auth"> Login </a> </li>
+            </c:if>
+        </div>
 
-<br>
-<form action="/quiz">
-    <input type="hidden" name="quizid" value="${quizId}"/>
-    <input type="hidden" name="userid" value="${userId}"/>
-    <button type="submit" >AGAIN THIS TEST</button>
-    &nbsp;&nbsp;
-    <button type="submit" name="quizlist" formaction="/start">START</button>
-</form>
+    </div>
+</nav>
+
+    <div class="container">
+        Dear &nbsp;
+        <c:if test="${not empty pageContext.request.userPrincipal.principal.username}">
+             ${pageContext.request.userPrincipal.principal.username},
+        </c:if>
+        <c:if test="${empty pageContext.request.userPrincipal.principal.username}">
+            noname,
+        </c:if>
+
+        <p>you result:</p>
+
+        <c:forEach var="mark" items="${marks}" varStatus="count">
+            ${count.count}) ${mark}<br>
+        </c:forEach>
+
+        <p>Entirely: ${markfull}</p>
+
+        <br>
+        <form action="/start/quiz">
+            <input type="hidden" name="quizid" value="${quizId}"/>
+            <button type="submit" >Restart Test</button>
+            &nbsp;&nbsp;
+            <button type="submit" name="quizlist" formaction="/start">START</button>
+        </form>
+    </div>
 
 </body>
 </html>

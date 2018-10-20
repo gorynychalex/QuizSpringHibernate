@@ -16,6 +16,8 @@
 
     <context:component-scan base-package="ru.dvfu.mrcpk.develop.server"/>
 
+    <!--<context:property-placeholder location="classpath:application.properties"/>-->
+
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
             <value>/views/</value>
@@ -27,6 +29,14 @@
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="10000000"/>
+    </bean>
+
+
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <value>classpath:application.properties</value>
+        </property>
     </bean>
 
     <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
@@ -74,8 +84,8 @@
         </property>
         <property name="hibernateProperties">
             <props>
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>-->
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.SQLiteDialect</prop>-->
+                <!--&lt;!&ndash;<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>&ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hibernate.dialect">org.hibernate.dialect.SQLiteDialect</prop>&ndash;&gt;-->
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL94Dialect</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.show_sql">true</prop>
