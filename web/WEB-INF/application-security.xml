@@ -45,7 +45,7 @@
                     authentication-failure-url="/login.jsp?error=true"/>
 
         <!--https://www.mkyong.com/spring-security/spring-security-hibernate-xml-example/-->
-        <logout logout-url="login.jsp?logout" logout-success-url="/startauth" delete-cookies="JSESSIONID"/>
+        <logout logout-url="login.jsp?logout" logout-success-url="/start/auth" delete-cookies="JSESSIONID"/>
 
         <remember-me user-service-ref="userAuthDetailsService"/>
 

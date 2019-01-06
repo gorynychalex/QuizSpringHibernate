@@ -13,6 +13,8 @@ import ru.dvfu.mrcpk.develop.server.controller.QuestionController;
 import ru.dvfu.mrcpk.develop.server.dao.UserAuthDao;
 import ru.dvfu.mrcpk.develop.server.model.UserAuth;
 
+import java.util.List;
+
 
 //https://www.baeldung.com/spring-security-authentication-with-a-database
 
@@ -24,6 +26,11 @@ public class UserAuthDetailsService implements UserDetailsService {
 
     @Autowired
     private UserAuthDao userAuthDao;
+
+    @Transactional
+    public UserAuth findUserByUsername(String id) {
+        return this.userAuthDao.findUserByUsername(id);
+    }
 
     @Transactional(readOnly = true)
     @Override

@@ -7,14 +7,14 @@ import ru.dvfu.mrcpk.develop.server.dao.statistic.StQuestionDAO;
 import ru.dvfu.mrcpk.develop.server.dao.statistic.StQuizDao;
 import ru.dvfu.mrcpk.develop.server.model.Question;
 import ru.dvfu.mrcpk.develop.server.model.Quiz;
-import ru.dvfu.mrcpk.develop.server.model.statistic.StQuiz;
+import ru.dvfu.mrcpk.develop.server.model.UserAuth;
+import ru.dvfu.mrcpk.develop.server.model.dto.QuizResultDTO;
 
 @Service
 public class StQuizService {
 
     @Autowired
     private StQuizDao stQuizDao;
-
 
     @Autowired
     private StQuestionDAO stQuestionDao;
@@ -25,7 +25,7 @@ public class StQuizService {
     }
 
     @Transactional
-    public void addQuiz(String session, String user, Quiz quiz) {
+    public void addQuiz(String session, UserAuth user, Quiz quiz) {
         stQuizDao.addQuiz(session, user, quiz);
     }
 
@@ -37,5 +37,11 @@ public class StQuizService {
     @Transactional
     public void addQuestion(Quiz quiz, Question question){
         stQuestionDao.add(quiz, question);
+    }
+
+    // Transfer QuizResultDTO - Dto
+    @Transactional
+    public void addQuizResult(QuizResultDTO quizResultDTO){
+        stQuizDao.addQuizResult(quizResultDTO);
     }
 }

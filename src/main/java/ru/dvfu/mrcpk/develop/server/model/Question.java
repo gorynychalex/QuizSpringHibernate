@@ -1,6 +1,8 @@
 package ru.dvfu.mrcpk.develop.server.model;
 
 import org.hibernate.annotations.ManyToAny;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 import org.springframework.http.MediaType;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticQuestions;
@@ -30,6 +32,7 @@ public class Question implements QuestionInterface {
     private String picture;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "questionid")
     private List<Option> options;
 //

@@ -147,7 +147,7 @@ public class StatisticUserQuizSessions implements StatisticUserQuizSessionsInter
      */
 
     /*
-    public List<Float> getResult(){
+    public List<Float> getResultMark(){
 
         // Create List of Marks of every Questions
         List<Float> marks = new ArrayList<Float>();

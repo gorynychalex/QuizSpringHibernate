@@ -54,25 +54,34 @@ public class QuestionService implements QuestionServiceInterface {
     @Transactional
     public float getResult(Number questionid, List<Integer> userAnswers) {
 
-//        logger.info("getResult() byQuestionId = " + questionid.intValue());
+//        logger.info("getResultMark() byQuestionId = " + questionid.intValue());
 
         // Get options from
         List<Option> options = this.questionDAO.getById(questionid).getOptions();
 
-//        logger.info("getResult() options size: " + options.size());
+//        logger.info("getResultMark() options size: " + options.size());
 
         //mark = КВП/ОКП/(КВН + 1)
         int sumOptionsTrue=0,sumAnsTrue=0,sumAnsFalse=0;
 
+
         for (Option option : options) {
+
+            // Sum Options True
             if (option.isCorrect()) sumOptionsTrue++;
+
+            // ForEach userAnswer
             for(Integer userans: userAnswers) {
 //                logger.info("i = " + option.getId() + "; userans = " + userans);
 //                if (option.isCorrect() & option.getId().equals(userans)) {
+
+                // Sum Answers True
                 if (option.isCorrect() & option.getId() == userans) {
                     sumAnsTrue++;
                 }
 //                if (!option.isCorrect() & option.getId().equals(userans)) {
+
+                // Sum Answers False
                 if (!option.isCorrect() & option.getId() == userans) {
                     sumAnsFalse++;
                 }

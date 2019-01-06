@@ -4,7 +4,6 @@ package ru.dvfu.mrcpk.develop.server.controller;
  * Question Controller for start Main process
  */
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,6 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.dvfu.mrcpk.develop.server.model.*;
+import ru.dvfu.mrcpk.develop.server.model.dto.QuestionResult;
+import ru.dvfu.mrcpk.develop.server.model.dto.QuizResultDTO;
+import ru.dvfu.mrcpk.develop.server.model.statistic.StQuiz;
 import ru.dvfu.mrcpk.develop.server.service.*;
 import ru.dvfu.mrcpk.develop.server.service.statistics.StQuizService;
 import ru.dvfu.mrcpk.develop.server.service.statistics.StatisticOptionServiceInterface;
@@ -34,6 +36,9 @@ public class QuestionController {
 
     @Autowired @Qualifier("userService")
     private UserServiceInterface userService;
+//
+//    @Autowired @Qualifier("userAuthDetailsService")
+//    private UserAuthDetailsService userAuthDetailsService;
 
     @Autowired @Qualifier("quizService")
     private QuizServiceInterface quizService;
@@ -58,10 +63,6 @@ public class QuestionController {
 
     @Autowired
     private StQuizService stQuizService;
-
-    // User answers by questions
-    // Initialize by start question at getQuestionByNumber() on action=startQuiz
-    Map<Number, List<Integer>> useranswers;
 
     @RequestMapping("/index")
     public String listUsers(Map<String, Object> map){
@@ -96,11 +97,7 @@ public class QuestionController {
 
         logger.info("isAuth: " + SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
 
-        modelMap.addAttribute("users", userService.list());
-
         modelMap.addAttribute("quizs", quizService.list());
-
-            //modelMap.addAttribute("user", statisticUserQuizSessionService.getUser());
 
         return "startquizselect";
     }
@@ -116,7 +113,6 @@ public class QuestionController {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
 
         modelMap.addAttribute("user_login", name);
-        modelMap.addAttribute("users", userService.list());
         modelMap.addAttribute("quizs", quizService.list());
 
         if(!session.getId().isEmpty())
@@ -132,6 +128,7 @@ public class QuestionController {
      * @param qnum
      * @param modelMap
      * @param session
+     * @param request - only getRemoteAddr()!!! ???
      * @return
      */
     @GetMapping("quiz")
@@ -140,69 +137,58 @@ public class QuestionController {
             @RequestParam(value = "qnum",defaultValue = "0") int qnum,
             @RequestParam(value = "action", defaultValue = "continue") String action,
             HttpSession session,
+            HttpServletRequest request,
             ModelMap modelMap)
     {
+        //Number of questions
+        QuizInterface quiz = quizService.getByIdLazy(quizid);
+        int qnums = quiz.getQnums();
+
         // If QUIZ is empty - return to page Quiz Select
-        if(quizService.getByIdLazy(quizid).getQnums() == 0) {
+        if(qnums == 0) {
             return "redirect:/start";
         }
 
-        // Verify start quiz for initialize useranswers
+        // Initialize useranswers by "startQuiz" param
         if(action.equals("startQuiz")){
-            logger.info("Initialize array UserAnswer");
-            useranswers = new HashMap<>();
-        }
 
-        //// Record statistic
-        if(SecurityContextHolder.getContext().getAuthentication().getName() != null){
-            // Add UserId and QuizId to statistics by user, quiz, session
-//            statisticUserQuizSessionService.addUserQuizSession(
-//                    Integer.parseInt(session.getId()),
-//                    userAuthDetailsService.loadUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()),
-//                    (Quiz) quizService.getByIdLazy(quizid));
+            // Initialize DTO QuizResultDTO and QuestionResultList
+            userAnswerService.setQuizResultDTO(new QuizResultDTO(session.getId(), (Quiz) quizService.getById(quizid), StQuiz.Mode.TEST,new Date()));
 
-//            //User by id
-//            modelMap.addAttribute("user", userService.getById(userid));
-//            logger.info("QuestionController.class: getQuestionId: userService.getById(userid): " + userService.getById(userid));
-
-            if(!stQuizService.isExistSession(session.getId())) {
-                stQuizService.addQuiz(session.getId(),
-                        SecurityContextHolder.getContext().getAuthentication().getName(),
-                        (Quiz) quizService.getByIdLazy(quizid));
+            // Set USER if not null
+            if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {
+                userAnswerService.getQuizResultDTO().setUsr(userService.getById(SecurityContextHolder.getContext().getAuthentication().getName()));
+//                logger.info("userAnswerService.getQuizResultDTO().getUsr(): " + userAnswerService.getQuizResultDTO().getUsr().toString());
             }
+
+            // Set new List<QuestionResult>
+            userAnswerService.setQuestionResults(new ArrayList<>());
+
+            // Set List Questions by quizId
+            userAnswerService.setQuestions(quizService.getById(quizid).getQuestions());
+
+            userAnswerService.getQuizResultDTO().setUserip(request.getRemoteAddr());
         }
 
+        // Initialize question in User Answer Service. And add Start Time
+        userAnswerService.getQuestionResults().add(
+                new QuestionResult(quizService.getById(quizid).getQuestions().get(qnum)));
 
-
-//        else {
-//            //User by id
-//            modelMap.addAttribute("user", statisticUserQuizSessionService.getUser());
-//            logger.info("QuestionController.class: getQuestionId: statisticUserQuizSessionService.getUser(): " + statisticUserQuizSessionService.getUser());
-//        }
-
-
-        // Pass attribute to question form
-//        modelMap.addAttribute("sessionid1",session.getId());
-
-        //Number of questions
-        QuizInterface quiz = quizService.getByIdLazy(quizid);
-        modelMap.addAttribute("qnums", quiz.getQnums());
-
-        //User by id
+        // User by id
         modelMap.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 //        logger.info("QuestionController.class: getQuestionId: userService.getById(userid): " + userService.getById(userid));
 
-        //Quiz id, name
+        // Quiz id, name
         modelMap.addAttribute("quiz", quizService.getByIdLazy(quizid));
 
-        //Id of question
+        // Number of questions
+        modelMap.addAttribute("qnums", qnums);
+
+        // Id of question
         modelMap.addAttribute("qnum",qnum);
 
-        //QUESTION
+        // QUESTION
         modelMap.addAttribute("question", quizService.getById(quizid).getQuestions().get(qnum));
-
-        // Statistic QUESTION
-//        statisticQuestionService.addStatisticQuestion(Integer.parseInt(session.getId()), (StatisticUserQuizSessions) statisticUserQuizSessionService.getBySessionId(sessionId), new StatisticQuestions(quizService.getById(quizid).getQuestions().get(qnum)));
 
         return "startquestion";
     }
@@ -222,22 +208,30 @@ public class QuestionController {
         // Question id
         int questionid = (int) quizService.getById(quizid).getQuestions().get(qnum).getId();
 
+        // One option!!! SHOULD REFACTOR
         String option = null;
         int opt = 0;
         if((option = request.getParameter("option")) != null)
             opt = Integer.parseInt(option);
 
         //Current question set answer
+
         List<Integer> useranswersone = new ArrayList<Integer>();
         useranswersone.add(opt);
 
-        // Put answers one question
-        useranswers.put(quizService.getById(quizid).getQuestions().get(qnum).getId(), useranswersone);
         // Clone put answer one question
-        userAnswerService.setAnswerSimple(quizService.getById(quizid).getQuestions().get(qnum).getId(), useranswersone);
+//        userAnswerService.setAnswerSimple(quizService.getById(quizid).getQuestions().get(qnum).getId(), useranswersone);
 
-//        mark = questionService.getResult(quizService.getById(quizid).getQuestions().get(qnum).getId(), useranswers);
+        // Form DTO
+        userAnswerService.getQuestionResults().get(qnum).setTimestop(new Date());
 
+        userAnswerService.getQuestionResults().get(qnum).setOptions(useranswersone);
+
+        userAnswerService.getResultQuestion(qnum);
+
+//        userAnswerService.setAnswerMap(quizService.getById(quizid).getQuestions().get(qnum), useranswersone);
+
+//        mark = questionService.getResultMark(quizService.getById(quizid).getQuestions().get(qnum).getId(), useranswers);
 
         // Add question in statistic quiz
 //        stQuizService.addQuestion(quizid, (Question) questionService.getById(questionid));
@@ -249,7 +243,6 @@ public class QuestionController {
 //            userAnswerService.removeAnswerByQuestionId(questionid,sessionid);
         }
 
-
         // IF press the button 'FINISH'
         if(request.getParameter("button").equals("finish")) {
 
@@ -259,6 +252,10 @@ public class QuestionController {
 //                    statisticQuestionService.getIdByQuestionAndSessionId(sessionid,questionid.intValue()),new StatisticOptions((Option) optionService.getById(opt.intValue())));
 
 //            return "redirect:/statistic/quiz?sessionid=" + request.getRequestedSessionId() + "&userid=" + user + "&quizid=" + quizid;
+
+            userAnswerService.getQuizResultDTO().setTimeStop(new Date());
+
+            userAnswerService.getResultDTO();
 
             return "redirect:/start/result/quiz/" + quizid;
 
@@ -288,7 +285,6 @@ public class QuestionController {
         return "redirect:/start/quiz?" + "quizid=" + quizid + "&qnum=" + qnum + "&opt=" + opt;
     }
 
-
     // Show QUESTION by id from QUIZ by id
     @RequestMapping("/questoptlist")
     public String editQuizByQuestion(
@@ -313,29 +309,19 @@ public class QuestionController {
             ModelMap modelMap)
     {
 
-        modelMap.addAttribute("quizId",quizid);
+//        modelMap.addAttribute("quizId",quizid);
 //        modelMap.addAttribute("userId",userid);
 
-
 //        List<Float> marks = statisticQuestionService.getResultsBySessionId(session.getId());
-//
+
 //        List<Float> marks = quizService.getResultByQuizId(quizid,sessionId);
 
-        List<Float> marks = userAnswerService.getResultList();
-
-
-
-        float summarks = 0;
-        for(Float mark: marks) {
-            if(mark != Float.NaN || mark != Double.NaN) { summarks += mark; }
-        }
-        float markfull = summarks/marks.size();
-
-        modelMap.addAttribute("marks",marks);
-        modelMap.addAttribute("markfull", markfull);
+//        modelMap.addAttribute("marks",userAnswerService.getResultMarkList());
+//        modelMap.addAttribute("marksmap", userAnswerService.getListMarks());
+//        modelMap.addAttribute("markfull", userAnswerService.getResultMark());
+        modelMap.addAttribute("quizresult", userAnswerService.getQuizResultDTO());
 
         return "quizresult";
     }
-
 
 }

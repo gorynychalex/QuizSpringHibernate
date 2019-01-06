@@ -6,6 +6,8 @@ package ru.dvfu.mrcpk.develop.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.org.glassfish.external.statistics.Statistic;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticUserQuizSessions;
 import ru.dvfu.mrcpk.develop.server.model.statistic.StatisticUserQuizSessionsInterface;
@@ -55,6 +57,7 @@ public class Quiz implements QuizInterface {
      * Connect One Quiz to Many Questions
      */
     @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany
     @JoinColumn(name = "quizid")
     private List<Question> questions;

@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>List of quiz</title>
@@ -11,8 +12,11 @@
 
 </head>
 
+<!-- Quiz choices -->
 <body style="background-color: lightcyan;">
-
+<c:if test="${not empty pageContext.request.userPrincipal.principal.username}">
+    <c:set var="userlogin" value="${pageContext.request.userPrincipal.principal.username}"/>
+</c:if>
 <nav class="navbar navbar-default navbar-expand">
     <div class="container">
         <div class="navbar-header">
@@ -22,11 +26,11 @@
 
             <%--<li>${pageContext.request.userPrincipal}</li>--%>
 
-            <c:if test="${not empty user_login}">
-                <li class="active"><a href="/statistic/user">User: ${pageContext.request.userPrincipal.principal.username} </a> </li>
+            <c:if test="${not empty userlogin}">
+                <li class="active"><a href="/statistic/user">User: ${userlogin} </a> </li>
                 <li><a href="/login.jsp?logout">Выйти</a> </li>
             </c:if>
-            <c:if test="${empty user_login}">
+            <c:if test="${empty userlogin}">
                 <li class="active"><a href="/start/auth"> Login </a> </li>
             </c:if>
         </div>
@@ -85,8 +89,10 @@
             <div id="select_quiz" class="radio">
 
             <div class="container">
+                <div class="input-group">
                 <c:forEach var="quiz" items="${quizs}" varStatus="theCount1">
                     <%--<c:out value="${theCount1.count}"/>--%>
+
                     <c:choose>
                         <c:when test="${theCount1.count ge 2}">
                             <input type="radio" name="quizid" value=${quiz.id}>
@@ -99,6 +105,7 @@
                     </c:choose>
 
                 </c:forEach>
+                </div>
             </div>
             </div>
         </div>

@@ -64,7 +64,7 @@ public class StatisticUserQuizSessionDAO implements StatisticUserQuizSessionDAOI
 
     @Override
     public List<Float> getResult(String sessionId) {
-//        return currentSession().get(StatisticUserQuizSessions.class,sessionId).getResult();
+//        return currentSession().get(StatisticUserQuizSessions.class,sessionId).getResultMark();
         return new ArrayList<>();
     }
 

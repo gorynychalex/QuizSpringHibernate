@@ -1,6 +1,8 @@
 package ru.dvfu.mrcpk.develop.server.model.statistic;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.dvfu.mrcpk.develop.server.model.Question;
 
 import javax.persistence.*;
@@ -13,9 +15,12 @@ public class StQuestion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
-    private float mark;
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToOne
+    @JoinColumn(name = "questionid",referencedColumnName = "id")
+    private Question question;
 
     private Date timestart;
 
@@ -25,13 +30,23 @@ public class StQuestion {
     @JoinColumn(name = "squestionid")
     private List<StOption> stOptionList;
 
-    @OneToOne
-    @JoinColumn(name = "questionid",referencedColumnName = "id")
-    private Question question;
+//    @ManyToOne
+//    @JoinColumn(name = "stquiz", referencedColumnName = "session")
+//    private StQuiz stQuiz;
 
-    @ManyToOne
-    @JoinColumn(name = "stquiz", referencedColumnName = "session")
-    private StQuiz stQuiz;
+    private int score;
+
+    private int optionsTrue;
+
+    private int ansTrue;
+
+    private int ansFalse;
+
+    private float mark;
+
+    private boolean answered;
+
+    public StQuestion(){}
 
     public StQuestion(Question question) {
         this.question = question;

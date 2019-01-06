@@ -76,8 +76,8 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="jumbotron" style="background: white; border-radius: 10px; color: darkcyan;">
-                <h2>${question.text}</h2>
+            <div style="background: white; border-radius: 10px; color: darkcyan;">
+                <h3>${question.text}</h3>
             </div>
         </div>
         <div class="col-xs-6 col-md-4">

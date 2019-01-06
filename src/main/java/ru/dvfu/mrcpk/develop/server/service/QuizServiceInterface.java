@@ -14,4 +14,5 @@ public interface QuizServiceInterface extends Serializable{
     void removeById(Number id);
     List<Float> getResultByQuizId(Number quizId, String sessionId);
     void addStatistic(Number id, String sessionId, User user);
+
 }

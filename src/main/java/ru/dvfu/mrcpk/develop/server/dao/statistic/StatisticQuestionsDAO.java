@@ -95,7 +95,7 @@ public class StatisticQuestionsDAO implements StatisticQuestionsDAOInterface{
         List<StatisticQuestionsInterface> statisticQuestionsList = currentSession().createQuery("from StatisticQuestions").list();
 
         for(StatisticQuestionsInterface squestion : statisticQuestionsList){
-//            marks.add(squestion.getResult());
+//            marks.add(squestion.getResultMark());
         }
 
         return marks;

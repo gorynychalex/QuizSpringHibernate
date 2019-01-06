@@ -41,7 +41,7 @@ public class StatisticController {
 
         modelMap.addAttribute("squestions",statisticUserQuizService.getStatisticQuestionsBySessionId(sessionId));
 
-//        modelMap.addAttribute("resultByQuiz", statisticUserQuizService.getResult(sessionId));
+//        modelMap.addAttribute("resultByQuiz", statisticUserQuizService.getResultMark(sessionId));
 
         modelMap.addAttribute("resultByQuiz", statisticUserQuizService.getResultBySessionId(sessionId));
 
@@ -69,4 +69,6 @@ public class StatisticController {
 
         return "statisticsbyuser";
     }
+
+
 }
